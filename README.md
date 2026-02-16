@@ -1,0 +1,2 @@
+# Minishell
+A small shell
