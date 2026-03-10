@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/10 15:45:51 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:05:03 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@
 # include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+void	free_things(char *line);
+void	built_in_cmd(char *line);
 
 #endif

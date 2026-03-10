@@ -12,7 +12,9 @@
 
 NAME  = minishell
 
-SRCS = minishell.c
+SRCS += minishell.c
+SRCS += free.c
+SRCS += built_in.c
 
 OBJ = $(SRCS:.c=.o)
 

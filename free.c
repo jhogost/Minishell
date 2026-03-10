@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 14:51:10 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/10 14:51:10 by hhervieu         ###   ########.fr       */
+/*   Created: 2026/03/10 16:55:52 by hhervieu          #+#    #+#             */
+/*   Updated: 2026/03/10 16:55:52 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	free_things(char *line)
 {
-	char	*line;
-
-	while (1)
-	{
-		line = readline("chocolat shell: ");
-		if (!line || strcmp(line, "exit") == 0)
-			break ;
-		built_in_cmd(line);
-		add_history(line);
+	if (line)
 		free(line);
-	}
-	return (free_things(line), 0);
+	rl_clear_history();
 }
-//TODO change strcmp into ft_strcmp  | built in commands | struct for every var
+//TODO update whenever the struct is ready to free everything
