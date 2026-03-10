@@ -1,6 +1,6 @@
 *This project has been created as part of the 42 curriculum by Hhervieu, Jbayet.*
 
-[![jbayet's 42 stats](https://42badge.vercel.app/api/v2/cmmevnk9g0006n286hxhjp6au/stats?cursusId=21&coalitionId=piscine)](https://42badge.vercel.app)
+[![jbayet's 42 stats](https://42cv.dev/api/badge/cmmevnk9g0006n286hxhjp6au/stats?cursusId=21&coalitionId=piscine)](https://42cv.dev)
 [![hhervieu's 42 stats](https://42cv.dev/api/badge/cmmkqicmn0000pkpd0wgzlibp/stats?cursusId=21&coalitionId=48)](https://42cv.dev)
 
 # Minishell
