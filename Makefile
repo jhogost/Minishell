@@ -14,12 +14,18 @@ NAME  = minishell
 
 SRCS += minishell.c
 SRCS += free.c
-SRCS += built_in.c
+
+SRCS += builtin/built_in.c
+SRCS += builtin/pwd.c
+
+SRCS += utils/ft_strcmp.c
+SRCS += utils/ft_strlen.c
+SRCS += utils/ft_split.c
 
 OBJ = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = -Wall -Wextra -Werror -I includes
 CLIBS = -lreadline
 
 all: $(NAME)

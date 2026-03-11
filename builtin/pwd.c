@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 16:55:52 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/10 16:55:52 by hhervieu         ###   ########.fr       */
+/*   Created: 2026/03/11 13:36:04 by hhervieu          #+#    #+#             */
+/*   Updated: 2026/03/11 13:36:04 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_line(char **line)
+int	builtin_pwd(void)
 {
-	int	i;
+	char	str[PATH_MAX];
 
-	i = 0;
-	while (line[i] != NULL)
-	{
-		free(line[i]);
-		i++;
-	}
-	free(line);
+	if (getcwd(str, sizeof(str)) == NULL)
+		return (-42);
+	printf("%s\n", str);
+	return (0);
 }
-
-void	free_things(void)
-{
-	rl_clear_history();
-}
-//TODO update whenever the struct is ready to free everything

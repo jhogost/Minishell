@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 16:55:52 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/10 16:55:52 by hhervieu         ###   ########.fr       */
+/*   Created: 2026/03/11 11:15:47 by hhervieu          #+#    #+#             */
+/*   Updated: 2026/03/11 11:15:47 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_line(char **line)
+int	ft_strlen(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
-	while (line[i] != NULL)
-	{
-		free(line[i]);
+	while (str[i] != '\0')
 		i++;
-	}
-	free(line);
+	return (i);
 }
-
-void	free_things(void)
-{
-	rl_clear_history();
-}
-//TODO update whenever the struct is ready to free everything

@@ -14,17 +14,18 @@
 
 int	main(void)
 {
-	char	*line;
+	char	**line;
 
 	while (1)
 	{
-		line = readline("chocolat shell: ");
-		if (!line || strcmp(line, "exit") == 0)
+		line = ft_split(readline("chocolat shell: "), " ");
+		if (!line || (ft_strcmp(*line, "exit") == 0 && ft_strlen(*line) == 4))
 			break ;
-		built_in_cmd(line);
-		add_history(line);
-		free(line);
+		builtin_cmd_or_else(*line);
+		add_history(*line);
+		free_line(line);
 	}
-	return (free_things(line), 0);
+	return (free_things(), free_line(line), 0);
 }
-//TODO change strcmp into ft_strcmp  | built in commands | struct for every var
+//TODO built in commands | struct for every var | chained list to get the
+//order of what to do for each lines
