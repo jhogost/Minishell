@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_line(char **line)
+void	free_line(char **line, t_shell **lexer)
 {
 	int	i;
 
@@ -23,10 +23,18 @@ void	free_line(char **line)
 		i++;
 	}
 	free(line);
+	while (*lexer)
+	{
+		t_shell *temp = *lexer;
+		*lexer = (*lexer)->next;
+		free(temp);
+	}
+	free(*lexer);
 }
 
 void	free_things(void)
 {
 	rl_clear_history();
+	
 }
 //TODO update whenever the struct is ready to free everything

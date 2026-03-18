@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/11 17:01:37 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:46:06 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@
 # include <readline/history.h>
 # include <limits.h>
 
+# define CONTROL 0
+# define PIPE 1
+# define REDIRECTION 2
+# define ARGUMENT 3
+# define COMMAND 4
+
 typedef	struct s_shell
 {
 	int				whatisit;
@@ -39,14 +45,17 @@ typedef	struct s_shell
 //lexer that will be used to split the line into commands and flags etc...
 
 void	free_things(void);
-void	free_line(char **line);
+void	free_line(char **line, t_shell **lexer);
 
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 int		ft_strlen(char *str);
 char	**ft_split(char *str, char *charset);
+int		ft_strchri(const char *s, int c);
 
 int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
+
+char	**lexical(char *line, t_shell **lexer);
 
 #endif

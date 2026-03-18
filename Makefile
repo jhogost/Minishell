@@ -21,6 +21,9 @@ SRCS += builtin/pwd.c
 SRCS += utils/ft_strcmp.c
 SRCS += utils/ft_strlen.c
 SRCS += utils/ft_split.c
+SRCS += utils/ft_strchri.c
+
+SRCS += lexer/lexer.c
 
 OBJ = $(SRCS:.c=.o)
 

@@ -15,17 +15,18 @@
 int	main(void)
 {
 	char	**line;
+	t_shell	*lexer;
 
 	while (1)
 	{
-		line = ft_split(readline("chocolat shell: "), " ");
+		line = lexical(readline("chocolat shell: "), &lexer);
 		if (!line || (ft_strcmp(*line, "exit") == 0 && ft_strlen(*line) == 4))
 			break ;
 		builtin_cmd_or_else(*line);
 		add_history(*line);
-		free_line(line);
+		free_line(line, &lexer);
 	}
-	return (free_things(), free_line(line), 0);
+	return (free_things(), free_line(line, &lexer), 0);
 }
 //TODO built in commands | struct for every var | chained list to get the
 //order of what to do for each lines
