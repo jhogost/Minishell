@@ -6,16 +6,16 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 16:06:51 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:22:01 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	whatisword(char *word, t_shell *prev)
+int	whatisword(char *word, t_lexer *prev)
 {
 	if (!word)
-		return (-42);
+		return (-1);
 	if (ft_strcmp(word, "&&") == 0 || (ft_strcmp(word, "||") == 0
 			&& ft_countchar(word, '|') == 2))
 		return (CONTROL);
@@ -31,11 +31,11 @@ int	whatisword(char *word, t_shell *prev)
 	return (ARGUMENT);
 }
 
-t_shell	*ft_new_node(char *word, char *whole_line)
+t_lexer	*ft_new_node(char *word, char *whole_line)
 {
-	t_shell	*new;
+	t_lexer	*new;
 
-	new = malloc(sizeof(t_shell));
+	new = malloc(sizeof(t_lexer));
 	if (!new)
 		return (NULL);
 	new->prev = NULL;
@@ -44,17 +44,17 @@ t_shell	*ft_new_node(char *word, char *whole_line)
 	if (!new->word)
 		return (free(new), NULL);
 	new->whatisit = whatisword(word, new->prev);
-	if (new->whatisit == -42)
-		return (free(new), NULL);
+	if (new->whatisit == -1)
+		return (free(new), free(new->word), NULL);
 	new->whole_line = ft_strdup(whole_line);
 	if (!new->whole_line)
 		return (free(new->word), free(new), NULL);
 	return (new);
 }
 
-void	ft_add_back(t_shell **lexer, t_shell *new)
+void	ft_add_back(t_lexer **lexer, t_lexer *new)
 {
-	t_shell	*tmp;
+	t_lexer	*tmp;
 
 	if (!*lexer)
 	{
@@ -68,11 +68,11 @@ void	ft_add_back(t_shell **lexer, t_shell *new)
 	new->prev = tmp;
 }
 
-int	lexical(char *line, t_shell **lexer)
+int	lexical(char *line, t_lexer **lexer)
 {
 	char	**splitted;
 	int		i;
-	t_shell	*new_node;
+	t_lexer	*new_node;
 	char	*temp;
 
 	i = 0;
@@ -84,12 +84,11 @@ int	lexical(char *line, t_shell **lexer)
 	{
 		new_node = ft_new_node(splitted[i], temp);
 		if (!new_node)
-			return (-42);
+			return (free_splitted(splitted), -42);
 		ft_add_back(lexer, new_node);
 		i++;
 	}
-	free_splitted(splitted);
-	return (0);
+	return (free_splitted(splitted), 0);
 }
 // TODO put the entire line in the lexer / structure
 // 0 operateur de controle -> || &&

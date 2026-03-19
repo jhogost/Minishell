@@ -27,10 +27,10 @@ void	free_splitted(char **splitted)
 	free(splitted);
 }
 
-void	free_line(char *line, t_shell **lexer)
+void	free_line(char *line, t_lexer **lexer)
 {
-	t_shell	*tmp;
-	t_shell	*next;
+	t_lexer	*tmp;
+	t_lexer	*next;
 
 	if (line)
 		free(line);

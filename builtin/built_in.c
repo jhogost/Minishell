@@ -12,26 +12,28 @@
 
 #include "minishell.h"
 
-int	is_built_in(char *line, int len)
+int	is_built_in(char *word, int len)
 {
-	if (ft_strncmp(line, "echo", len) == 0 && len == 4)
+	if (ft_strncmp(word, "echo", len) == 0 && len == 4)
 		return (0);
-	if (ft_strncmp(line, "cd", len) == 0 && len == 2)
+	if (ft_strncmp(word, "cd", len) == 0 && len == 2)
 		return (0);
-	if (ft_strncmp(line, "pwd", len) == 0 && len == 3)
+	if (ft_strncmp(word, "pwd", len) == 0 && len == 3)
 		return (builtin_pwd());
-	if (ft_strncmp(line, "export", len) == 0 && len == 6)
+	if (ft_strncmp(word, "export", len) == 0 && len == 6)
 		return (0);
-	if (ft_strncmp(line, "unset", len) == 0 && len == 5)
+	if (ft_strncmp(word, "unset", len) == 0 && len == 5)
 		return (0);
-	if (ft_strncmp(line, "env", len) == 0 && len == 3)
+	if (ft_strncmp(word, "env", len) == 0 && len == 3)
 		return (0);
 	return (-42);
 }
 
-void	builtin_cmd_or_else(char *line)
+void	builtin_cmd_or_else(char *word)
 {
-	if (is_built_in(line, ft_strlen(line)) != 0)
+	if (!word)
+		return ;
+	if (is_built_in(word, ft_strlen(word)) != 0)
 		return ;
 }
 //check if it's one of the built-in cmd of shell besides exit

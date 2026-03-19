@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 16:07:46 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:18:44 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,23 @@ enum e_what
 };
 // Enumeration, starts at 0, so CONTROL = 0, and increments by 1 at each line
 
-typedef struct s_shell
+typedef struct s_lexer
 {
 	int				whatisit;
 	char			*word;
 	char			*whole_line;
-	struct s_shell	*next;
-	struct s_shell	*prev;
-}	t_shell;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
+}	t_lexer;
 // Lexer that will be used to split the line into commands and flags etc...
+
+typedef struct s_shell
+{
+}	t_shell;
 
 // Free functions
 void	free_things(void);
-void	free_line(char *line, t_shell **lexer);
+void	free_line(char *line, t_lexer **lexer);
 void	free_splitted(char **splitted);
 
 // Utils functions
@@ -68,6 +72,7 @@ int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
 
 // Lxer functions
-int		lexical(char *line, t_shell **lexer);
+int		lexical(char *line, t_lexer **lexer);
+int		count_tokens(char *word);
 
 #endif

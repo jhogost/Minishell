@@ -25,6 +25,7 @@ SRCS += utils/ft_strchri.c
 SRCS += utils/ft_strdup.c
 
 SRCS += lexer/lexer.c
+SRCS += lexer/parsing.c
 
 OBJ = $(SRCS:.c=.o)
 

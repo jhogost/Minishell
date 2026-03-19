@@ -15,7 +15,7 @@
 int	main(void)
 {
 	char	*line;
-	t_shell	*lexer;
+	t_lexer	*lexer;
 
 	while (1)
 	{
@@ -29,7 +29,8 @@ int	main(void)
 			break ;
 		if (lexical(line, &lexer) == -42)
 			return (free_line(line, &lexer), free_things(), 1);
-		builtin_cmd_or_else(lexer->word);
+		if (lexer)
+			builtin_cmd_or_else(lexer->word);
 		free_line(line, &lexer);
 	}
 	return (free_things(), free_line(line, &lexer), 0);
