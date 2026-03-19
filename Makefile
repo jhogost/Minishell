@@ -28,7 +28,7 @@ SRCS += lexer/lexer.c
 OBJ = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I includes
+CFLAGS = -Wall -Wextra -Werror -I includes -g
 CLIBS = -lreadline
 
 all: $(NAME)
