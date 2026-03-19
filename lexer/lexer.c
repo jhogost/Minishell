@@ -6,20 +6,24 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 10:09:29 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 10:56:26 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int whatisword(char *line)
+int	whatisword(char *line)
 {
-    if (ft_strcmp(line, "|") == 0)
-        return (PIPE);
-    if (ft_strcmp(line, ">") == 0 || ft_strcmp(line, ">>") == 0 ||
-        ft_strcmp(line, "<") == 0 || ft_strcmp(line, "<<") == 0)
-        return (REDIRECTION);
-    return (ARGUMENT);
+	if (!line)
+		return (-1);
+	if (ft_strcmp(line, "&&") == 0 || ft_strcmp(line, "||") == 0)
+		return (CONTROL);
+	if (ft_strcmp(line, "|") == 0)
+		return (PIPE);
+	if (ft_strcmp(line, ">") == 0 || ft_strcmp(line, ">>") == 0
+		|| ft_strcmp(line, "<") == 0 || ft_strcmp(line, "<<") == 0)
+		return (REDIRECTION);
+	return (COMMAND);
 }
 
 t_shell	*ft_new_node(char *word)
@@ -29,8 +33,10 @@ t_shell	*ft_new_node(char *word)
 	new = malloc(sizeof(t_shell));
 	if (!new)
 		return (NULL);
-	new->word = strdup(word); 
+	new->word = strdup(word);
 	new->whatisit = whatisword(word);
+	if (new->whatisit == -1)
+		return (free(new), NULL);
 	new->next = NULL;
 	return (new);
 }
@@ -65,17 +71,17 @@ char	**lexical(char *line, t_shell **lexer)
 	{
 		new_node = ft_new_node(splitted[i]);
 		if (!new_node)
-			return (NULL); 
+			return (NULL);
 		ft_add_back(lexer, new_node);
 		i++;
 	}
 	return (splitted);
 }
-//TODO put the entire line in the lexer / structure
-//0 operateur de controle -> || &&
-//1 pipe -> |
-//2 redirection -> > < >> <<
-//3 argument/flag -> -la test.txt
-//4 command/builtin -> ls echo cat exit pwd
-//TODO after lexer, detect simple and double quotes ($ for double quotes)
-//and detect them as one word
+// TODO put the entire line in the lexer / structure
+// 0 operateur de controle -> || &&
+// 1 pipe -> |
+// 2 redirection -> > < >> <<
+// 3 argument/flag -> -la test.txt
+// 4 command/builtin -> ls echo cat exit pwd
+// TODO after lexer, detect simple and double quotes ($ for double quotes)
+// and detect them as one word

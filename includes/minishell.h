@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/18 16:46:06 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 10:58:32 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define ARGUMENT 3
 # define COMMAND 4
 
-typedef	struct s_shell
+typedef struct s_shell
 {
 	int				whatisit;
 	char			*word;

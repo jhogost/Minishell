@@ -14,7 +14,8 @@
 
 void	free_line(char **line, t_shell **lexer)
 {
-	int	i;
+	int		i;
+	t_shell	*temp;
 
 	i = 0;
 	while (line[i] != NULL)
@@ -25,7 +26,7 @@ void	free_line(char **line, t_shell **lexer)
 	free(line);
 	while (*lexer)
 	{
-		t_shell *temp = *lexer;
+		temp = *lexer;
 		*lexer = (*lexer)->next;
 		free(temp->word);
 		free(temp);
