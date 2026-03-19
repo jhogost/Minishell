@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 12:08:47 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:05:05 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_shell	*ft_new_node(char *word, char *whole_line)
 	new->whole_line = ft_strdup(whole_line);
 	if (!new->whole_line)
 		return (free(new->word), free(new), NULL);
+	new->prev = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -59,6 +60,7 @@ void	ft_add_back(t_shell **lexer, t_shell *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+	new->prev = tmp;
 }
 
 int	lexical(char *line, t_shell **lexer)

@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 12:09:05 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:04:25 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_shell
 	char			*word;
 	char			*whole_line;
 	struct s_shell	*next;
+	struct s_shell	*prev;
 }	t_shell;
 
 //lexer that will be used to split the line into commands and flags etc...
