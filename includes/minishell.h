@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 10:58:32 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:09:05 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,30 @@ typedef struct s_shell
 {
 	int				whatisit;
 	char			*word;
+	char			*whole_line;
 	struct s_shell	*next;
 }	t_shell;
 
 //lexer that will be used to split the line into commands and flags etc...
 
+//free functions
 void	free_things(void);
-void	free_line(char **line, t_shell **lexer);
+void	free_line(char *line, t_shell **lexer);
+void	free_splitted(char **splitted);
 
+//utils functions
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 int		ft_strlen(char *str);
 char	**ft_split(char *str, char *charset);
 int		ft_strchri(const char *s, int c);
+char	*ft_strdup(char *s);
 
+//built in commands
 int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
 
-char	**lexical(char *line, t_shell **lexer);
+//lexer functions
+int		lexical(char *line, t_shell **lexer);
 
 #endif

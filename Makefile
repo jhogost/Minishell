@@ -22,6 +22,7 @@ SRCS += utils/ft_strcmp.c
 SRCS += utils/ft_strlen.c
 SRCS += utils/ft_split.c
 SRCS += utils/ft_strchri.c
+SRCS += utils/ft_strdup.c
 
 SRCS += lexer/lexer.c
 

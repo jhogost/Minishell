@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:21:56 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/11 12:58:03 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 11:48:50 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	**ft_split(char *str, char *charset)
 				i++;
 		}
 	}
-	free(str);
 	arr[j] = (NULL);
 	return (arr);
 }

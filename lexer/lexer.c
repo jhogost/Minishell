@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 10:56:26 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:08:47 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,22 @@ int	whatisword(char *line)
 	return (COMMAND);
 }
 
-t_shell	*ft_new_node(char *word)
+t_shell	*ft_new_node(char *word, char *whole_line)
 {
 	t_shell	*new;
 
 	new = malloc(sizeof(t_shell));
 	if (!new)
 		return (NULL);
-	new->word = strdup(word);
+	new->word = ft_strdup(word);
+	if (!new->word)
+		return (free(new), NULL);
 	new->whatisit = whatisword(word);
 	if (new->whatisit == -1)
 		return (free(new), NULL);
+	new->whole_line = ft_strdup(whole_line);
+	if (!new->whole_line)
+		return (free(new->word), free(new), NULL);
 	new->next = NULL;
 	return (new);
 }
@@ -56,26 +61,28 @@ void	ft_add_back(t_shell **lexer, t_shell *new)
 	tmp->next = new;
 }
 
-char	**lexical(char *line, t_shell **lexer)
+int	lexical(char *line, t_shell **lexer)
 {
 	char	**splitted;
 	int		i;
 	t_shell	*new_node;
+	char	*temp;
 
 	i = 0;
+	temp = line;
 	splitted = ft_split(line, " ");
 	if (!splitted)
-		return (NULL);
-	*lexer = NULL;
+		return (-42);
 	while (splitted[i])
 	{
-		new_node = ft_new_node(splitted[i]);
+		new_node = ft_new_node(splitted[i], temp);
 		if (!new_node)
-			return (NULL);
+			return (-42);
 		ft_add_back(lexer, new_node);
 		i++;
 	}
-	return (splitted);
+	free_splitted(splitted);
+	return (0);
 }
 // TODO put the entire line in the lexer / structure
 // 0 operateur de controle -> || &&

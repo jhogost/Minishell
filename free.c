@@ -5,31 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/10 16:55:52 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/10 16:55:52 by hhervieu         ###   ########.fr       */
+/*   Created: 2026/03/19 12:28:53 by hhervieu          #+#    #+#             */
+/*   Updated: 2026/03/19 12:28:53 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_line(char **line, t_shell **lexer)
+void	free_splitted(char **splitted)
 {
-	int		i;
-	t_shell	*temp;
+	int	i;
 
+	if (!splitted)
+		return ;
 	i = 0;
-	while (line[i] != NULL)
+	while (splitted[i])
 	{
-		free(line[i]);
+		free(splitted[i]);
 		i++;
 	}
-	free(line);
-	while (*lexer)
+	free(splitted);
+}
+
+void	free_line(char *line, t_shell **lexer)
+{
+	t_shell	*tmp;
+	t_shell	*next;
+
+	if (line)
+		free(line);
+	if (lexer && *lexer)
 	{
-		temp = *lexer;
-		*lexer = (*lexer)->next;
-		free(temp->word);
-		free(temp);
+		tmp = *lexer;
+		while (tmp)
+		{
+			next = tmp->next;
+			free(tmp->word);
+			free(tmp->whole_line);
+			free(tmp);
+			tmp = next;
+		}
+		*lexer = NULL;
 	}
 }
 
@@ -37,4 +53,4 @@ void	free_things(void)
 {
 	rl_clear_history();
 }
-//TODO update whenever the struct is ready to free everything
+// TODO update whenever the struct is ready to free everything
