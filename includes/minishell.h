@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 15:04:25 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:07:46 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@
 # include <readline/history.h>
 # include <limits.h>
 
-# define CONTROL 0
-# define PIPE 1
-# define REDIRECTION 2
-# define ARGUMENT 3
-# define COMMAND 4
+enum e_what
+{
+	CONTROL,
+	PIPE,
+	REDIRECTION,
+	ARGUMENT,
+	COMMAND
+};
+// Enumeration, starts at 0, so CONTROL = 0, and increments by 1 at each line
 
 typedef struct s_shell
 {
@@ -43,27 +47,27 @@ typedef struct s_shell
 	struct s_shell	*next;
 	struct s_shell	*prev;
 }	t_shell;
+// Lexer that will be used to split the line into commands and flags etc...
 
-//lexer that will be used to split the line into commands and flags etc...
-
-//free functions
+// Free functions
 void	free_things(void);
 void	free_line(char *line, t_shell **lexer);
 void	free_splitted(char **splitted);
 
-//utils functions
+// Utils functions
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 int		ft_strlen(char *str);
 char	**ft_split(char *str, char *charset);
 int		ft_strchri(const char *s, int c);
 char	*ft_strdup(char *s);
+int		ft_countchar(char *str, char c);
 
-//built in commands
+// Built in commands
 int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
 
-//lexer functions
+// Lxer functions
 int		lexical(char *line, t_shell **lexer);
 
 #endif

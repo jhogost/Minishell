@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+int	ft_countchar(char *str, char c)
+{
+	int	i;
+	int	count;
+
+	if (!str)
+		return (0);
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
 	unsigned int	i;

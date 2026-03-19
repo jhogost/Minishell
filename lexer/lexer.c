@@ -6,24 +6,29 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 15:05:05 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:06:51 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	whatisword(char *line)
+int	whatisword(char *word, t_shell *prev)
 {
-	if (!line)
-		return (-1);
-	if (ft_strcmp(line, "&&") == 0 || ft_strcmp(line, "||") == 0)
+	if (!word)
+		return (-42);
+	if (ft_strcmp(word, "&&") == 0 || (ft_strcmp(word, "||") == 0
+			&& ft_countchar(word, '|') == 2))
 		return (CONTROL);
-	if (ft_strcmp(line, "|") == 0)
+	if (ft_strcmp(word, "|") == 0 && ft_countchar(word, '|') == 1)
 		return (PIPE);
-	if (ft_strcmp(line, ">") == 0 || ft_strcmp(line, ">>") == 0
-		|| ft_strcmp(line, "<") == 0 || ft_strcmp(line, "<<") == 0)
+	if (ft_strcmp(word, ">") == 0 || ft_strcmp(word, ">>") == 0
+		|| ft_strcmp(word, "<") == 0 || ft_strcmp(word, "<<") == 0)
 		return (REDIRECTION);
-	return (COMMAND);
+	if (!prev)
+		return (COMMAND);
+	else if (prev->whatisit == PIPE || prev->whatisit == CONTROL)
+		return (COMMAND);
+	return (ARGUMENT);
 }
 
 t_shell	*ft_new_node(char *word, char *whole_line)
@@ -33,17 +38,17 @@ t_shell	*ft_new_node(char *word, char *whole_line)
 	new = malloc(sizeof(t_shell));
 	if (!new)
 		return (NULL);
+	new->prev = NULL;
+	new->next = NULL;
 	new->word = ft_strdup(word);
 	if (!new->word)
 		return (free(new), NULL);
-	new->whatisit = whatisword(word);
-	if (new->whatisit == -1)
+	new->whatisit = whatisword(word, new->prev);
+	if (new->whatisit == -42)
 		return (free(new), NULL);
 	new->whole_line = ft_strdup(whole_line);
 	if (!new->whole_line)
 		return (free(new->word), free(new), NULL);
-	new->prev = NULL;
-	new->next = NULL;
 	return (new);
 }
 
