@@ -12,10 +12,35 @@
 
 #include "minishell.h"
 
+void	print_lexer(t_token *lexer)
+{
+	while (lexer)
+	{
+		if (lexer->type == 0)
+			printf("Type: WORD ");
+		if (lexer->type == 1)
+			printf("Type: PIPE ");
+		if (lexer->type == 2)
+			printf("Type: OR ");
+		if (lexer->type == 3)
+			printf("Type: REDIR_IN ");
+		if (lexer->type == 4)
+			printf("Type: REDIR_OUT ");
+		if (lexer->type == 5)
+			printf("Type: APPEND ");
+		if (lexer->type == 6)
+			printf("Type: HEREDOC ");
+		if (lexer->type == 7)
+			printf("Type: AND ");
+		printf("word: [%s]\n", lexer->word);
+		lexer = lexer->next;
+	}
+}
+
 int	main(void)
 {
 	char	*line;
-	t_lexer	*lexer;
+	t_token	*lexer;
 
 	while (1)
 	{
@@ -27,10 +52,12 @@ int	main(void)
 			add_history(line);
 		if ((ft_strcmp(line, "exit") == 0 && ft_strlen(line) == 4))
 			break ;
-		if (lexical(line, &lexer) == -42)
-			return (free_line(line, &lexer), free_things(), 1);
+		lexer = build_lexer(line); //  <-- TODO: gerer les retours d'erreur + protection quotes impaires
 		if (lexer)
 			builtin_cmd_or_else(lexer->word);
+
+		print_lexer(lexer);
+
 		free_line(line, &lexer);
 	}
 	return (free_things(), free_line(line, &lexer), 0);
