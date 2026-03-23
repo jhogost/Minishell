@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 14:30:04 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 17:30:26 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@
 
 typedef enum e_token_type
 {
-	WORD,		// command, text, file... On identifie plus tard
-	PIPE,		// |
-	OR,			// ||
-	REDIR_IN,	// <
-	REDIR_OUT,	// >
-	APPEND,		// >>
-	HEREDOC,	// <<
-	AND			// &&
+	WORD,
+	PIPE,
+	OR,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC,
+	AND
 }	t_token_type;
 // Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
 
@@ -93,5 +93,9 @@ t_token	*handle_redir_out(char *s, int *i);
 /* --handle_text_and_quote-- */
 char	*handle_quote(char *s, int *i, char *res);
 char	*handle_plain_text(char *s, int *i, char *res);
+
+/* --signal-- */
+void	handle_sigint(int sig);
+void	setup_signals(void);
 
 #endif

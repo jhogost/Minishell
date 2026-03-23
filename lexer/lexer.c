@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 14:35:04 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:51:20 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_token	*build_lexer(char *input, t_token *lexer)
 }
 
 // TODO put the entire line in the lexer / structure
-// 0 operateur de controle -> || &&  !!! PAS BESOIN DE LE GERER A PRIORI !!!
+// 0 operateur de controle
 // 1 pipe -> |
 // 2 redirection -> > < >> <<
 // 3 argument/flag -> -la test.txt
