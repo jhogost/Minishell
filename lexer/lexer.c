@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/19 17:22:01 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/20 19:42:55 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	whatisword(char *word, t_lexer *prev)
+/*
+int	whatisword(char *word, t_token *prev)
 {
 	if (!word)
 		return (-1);
@@ -26,35 +27,29 @@ int	whatisword(char *word, t_lexer *prev)
 		return (REDIRECTION);
 	if (!prev)
 		return (COMMAND);
-	else if (prev->whatisit == PIPE || prev->whatisit == CONTROL)
+	else if (prev->type == PIPE || prev->type == CONTROL)
 		return (COMMAND);
 	return (ARGUMENT);
 }
+*/
 
-t_lexer	*ft_new_node(char *word, char *whole_line)
+t_token	*new_token(t_token_type type, char *word)
 {
-	t_lexer	*new;
+	t_token	*tok;
 
-	new = malloc(sizeof(t_lexer));
-	if (!new)
+	tok = malloc(sizeof(t_token));
+	if (!tok)
 		return (NULL);
-	new->prev = NULL;
-	new->next = NULL;
-	new->word = ft_strdup(word);
-	if (!new->word)
-		return (free(new), NULL);
-	new->whatisit = whatisword(word, new->prev);
-	if (new->whatisit == -1)
-		return (free(new), free(new->word), NULL);
-	new->whole_line = ft_strdup(whole_line);
-	if (!new->whole_line)
-		return (free(new->word), free(new), NULL);
-	return (new);
+	tok->type = type;
+	tok->word = word;
+	tok->next = NULL;
+	tok->prev = NULL;
+	return (tok);
 }
 
-void	ft_add_back(t_lexer **lexer, t_lexer *new)
+void	add_token(t_token **lexer, t_token *new)
 {
-	t_lexer	*tmp;
+	t_token	*tmp;
 
 	if (!*lexer)
 	{
@@ -68,30 +63,67 @@ void	ft_add_back(t_lexer **lexer, t_lexer *new)
 	new->prev = tmp;
 }
 
-int	lexical(char *line, t_lexer **lexer)
+t_token	*extract_operator(char *s, int *i)
 {
-	char	**splitted;
-	int		i;
-	t_lexer	*new_node;
-	char	*temp;
+	t_token	*tok;
 
-	i = 0;
-	temp = line;
-	splitted = ft_split(line, " ");
-	if (!splitted)
-		return (-42);
-	while (splitted[i])
-	{
-		new_node = ft_new_node(splitted[i], temp);
-		if (!new_node)
-			return (free_splitted(splitted), -42);
-		ft_add_back(lexer, new_node);
-		i++;
-	}
-	return (free_splitted(splitted), 0);
+	tok = handle_and(s, i);
+	if (tok)
+		return (tok);
+	tok = handle_pipe_or(s, i);
+	if (tok)
+		return (tok);
+	tok = handle_redir_in(s, i);
+	if (tok)
+		return (tok);
+	tok = handle_redir_out(s, i);
+	return (tok);
 }
+
+char	*extract_word(char *s, int *i)
+{
+	char	*res;
+
+	res = NULL;
+	while (s[*i] && !is_space(s[*i]) && !is_operator(s[*i]))
+	{
+		if (s[*i] == '\'' || s[*i] == '"')
+		{
+			res = handle_quote(s, i, res);
+			if (!res)
+				return (NULL);
+		}
+		else
+		{
+			res = handle_plain_text(s, i, res);
+			if (!res)
+				return (NULL);
+		}
+	}
+	return (res);
+}
+
+t_token	*build_lexer(char *input)
+{
+	t_token	*lexer;
+	int		i;
+
+	lexer = NULL;
+	i = 0;
+	while (input[i])
+	{
+		if (is_space(input[i]))
+			i++;
+		else if (is_operator(input[i]))
+			add_token(&lexer, extract_operator(input, &i));
+		else
+			add_token(&lexer, new_token(WORD, extract_word(input, &i)));
+	}
+	return (lexer);
+}
+
 // TODO put the entire line in the lexer / structure
-// 0 operateur de controle -> || &&
+// 0 operateur de controle -> || &&  !!! PAS BESOIN DE LE GERER A PRIORI !!!
 // 1 pipe -> |
 // 2 redirection -> > < >> <<
 // 3 argument/flag -> -la test.txt

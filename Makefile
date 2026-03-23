@@ -18,12 +18,17 @@ SRCS += free.c
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c
 
-SRCS += utils/ft_strcmp.c
-SRCS += utils/ft_strlen.c
-SRCS += utils/ft_split.c
 SRCS += utils/ft_strchri.c
+SRCS += utils/ft_strcmp.c
 SRCS += utils/ft_strdup.c
+SRCS += utils/ft_strlen.c
+SRCS += utils/ft_substr.c
+SRCS += utils/is_operator.c
+SRCS += utils/is_space.c
+SRCS += utils/strjoin_free.c
 
+SRCS += lexer/handle_operator.c
+SRCS += lexer/handle_text_and_quote.c
 SRCS += lexer/lexer.c
 SRCS += lexer/parsing.c
 

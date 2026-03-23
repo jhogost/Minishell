@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   is_space.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/20 15:32:36 by jbayet           ###   ########.fr       */
+/*   Created: 2026/03/20 17:39:58 by jbayet            #+#    #+#             */
+/*   Updated: 2026/03/20 17:40:10 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_tokens(char *word)
+int	is_space(char c)
 {
-	if (!word)
-		return (0);
-	if (ft_countchar(word, '|') > 2)
-		return (-1);
-	if (ft_countchar(word, '>') > 2)
-		return (-1);
-	if (ft_countchar(word, '&') > 2)
-		return (-1);
-	if (ft_countchar(word, '<') > 2)
-		return (-1);
-	return (0);
+	return (c == ' ' || c == '\t' || c == '\n');
 }

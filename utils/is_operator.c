@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   is_operator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/20 15:32:36 by jbayet           ###   ########.fr       */
+/*   Created: 2026/03/20 17:40:34 by jbayet            #+#    #+#             */
+/*   Updated: 2026/03/20 19:43:55 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_tokens(char *word)
+int	is_operator(char c)
 {
-	if (!word)
-		return (0);
-	if (ft_countchar(word, '|') > 2)
-		return (-1);
-	if (ft_countchar(word, '>') > 2)
-		return (-1);
-	if (ft_countchar(word, '&') > 2)
-		return (-1);
-	if (ft_countchar(word, '<') > 2)
-		return (-1);
-	return (0);
+	return (c == '|' || c == '<' || c == '>' || c == '&');
 }
