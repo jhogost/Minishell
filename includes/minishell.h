@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 17:38:55 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 18:06:45 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_shell
 /* --Free functions-- */
 void	free_things(void);
 void	free_line(char *line, t_token **lexer);
-void	free_splitted(char **splitted);
 
 /* --Utils functions-- */
 int		ft_strchri(const char *s, int c);
@@ -73,7 +72,9 @@ char	*ft_substr(char *s, int start, size_t len);
 int		is_operator(char c);
 int		is_space(char c);
 char	*strjoin_free(char *s1, char *s2);
-int		init_struct(t_shell *shell);
+
+/* --parsing-- */
+int		quote_closed(char *s);
 int		verify_line(char *line);
 int		count_tokens(char *word);
 

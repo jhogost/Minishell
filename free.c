@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-void	free_splitted(char **splitted)
-{
-	int	i;
-
-	if (!splitted)
-		return ;
-	i = 0;
-	while (splitted[i])
-	{
-		free(splitted[i]);
-		i++;
-	}
-	free(splitted);
-}
-
 void	free_line(char *line, t_token **lexer)
 {
 	t_token	*tmp;

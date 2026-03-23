@@ -17,21 +17,21 @@ void	print_lexer(t_token *lexer)
 	while (lexer)
 	{
 		if (lexer->type == 0)
-			printf("Type: WORD ");
+			printf("Type: WORD \t");
 		if (lexer->type == 1)
-			printf("Type: PIPE ");
+			printf("Type: PIPE \t");
 		if (lexer->type == 2)
-			printf("Type: OR ");
+			printf("Type: OR \t");
 		if (lexer->type == 3)
-			printf("Type: REDIR_IN ");
+			printf("Type: REDIR_IN \t");
 		if (lexer->type == 4)
 			printf("Type: REDIR_OUT ");
 		if (lexer->type == 5)
-			printf("Type: APPEND ");
+			printf("Type: APPEND \t");
 		if (lexer->type == 6)
-			printf("Type: HEREDOC ");
+			printf("Type: HEREDOC \t");
 		if (lexer->type == 7)
-			printf("Type: AND ");
+			printf("Type: AND \t");
 		printf("word: [%s]\n", lexer->word);
 		lexer = lexer->next;
 	}
@@ -44,6 +44,7 @@ int	main(void)
 
 	while (1)
 	{
+		setup_signals();
 		lexer = NULL;
 		line = (readline("chocolat shell: "));
 		if (!line)
