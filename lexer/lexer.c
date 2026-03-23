@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/20 19:42:55 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 12:38:11 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_token	*new_token(t_token_type type, char *word)
 {
 	t_token	*tok;
 
+	if (!word)
+		return (NULL);
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:27:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/20 19:28:55 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 12:28:41 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 t_token	*handle_and(char *s, int *i)
 {
-	if (s[*i] == '&' && s[*i + 1] == '&')
+	if (s[*i + 1])
 	{
-		(*i) += 2;
-		return (new_token(AND, ft_strdup("&&")));
+		if (s[*i] == '&' && s[*i + 1] == '&')
+		{
+			(*i) += 2;
+			return (new_token(AND, ft_strdup("&&")));
+		}
 	}
 	return (NULL);
 }
 
 t_token	*handle_pipe_or(char *s, int *i)
 {
-	if (s[*i] == '|' && s[*i + 1] == '|')
+	if (s[*i + 1])
 	{
-		(*i) += 2;
-		return (new_token(OR, ft_strdup("||")));
+		if (s[*i] == '|' && s[*i + 1] == '|')
+		{
+			(*i) += 2;
+			return (new_token(OR, ft_strdup("||")));
+		}
 	}
 	if (s[*i] == '|')
 	{
@@ -39,10 +45,13 @@ t_token	*handle_pipe_or(char *s, int *i)
 
 t_token	*handle_redir_in(char *s, int *i)
 {
-	if (s[*i] == '<' && s[*i + 1] == '<')
+	if (s[*i + 1])
 	{
-		(*i) += 2;
-		return (new_token(HEREDOC, ft_strdup("<<")));
+		if (s[*i] == '<' && s[*i + 1] == '<')
+		{
+			(*i) += 2;
+			return (new_token(HEREDOC, ft_strdup("<<")));
+		}
 	}
 	if (s[*i] == '<')
 	{
@@ -54,10 +63,13 @@ t_token	*handle_redir_in(char *s, int *i)
 
 t_token	*handle_redir_out(char *s, int *i)
 {
-	if (s[*i] == '>' && s[*i + 1] == '>')
+	if (s[*i + 1])
 	{
-		(*i) += 2;
-		return (new_token(APPEND, ft_strdup(">>")));
+		if (s[*i] == '>' && s[*i + 1] == '>')
+		{
+			(*i) += 2;
+			return (new_token(APPEND, ft_strdup(">>")));
+		}
 	}
 	if (s[*i] == '>')
 	{
