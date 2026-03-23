@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 17:30:26 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 17:38:55 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-// token is the element identified and extracted from the input string (commands and flags etc...)
+// token is the element identified and extracted from the input string
+// (commands and flags etc...)
 
 typedef struct s_shell
 {
@@ -72,13 +73,16 @@ char	*ft_substr(char *s, int start, size_t len);
 int		is_operator(char c);
 int		is_space(char c);
 char	*strjoin_free(char *s1, char *s2);
+int		init_struct(t_shell *shell);
+int		verify_line(char *line);
+int		count_tokens(char *word);
 
 /* --Built in commands-- */
 int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
 
 /* --Lexer-- */
-t_token	*new_token(t_token_type type, char *word);
+t_token	*new_token(int type, char *word);
 void	add_token(t_token **lexer, t_token *new);
 t_token	*extract_operator(char *s, int *i);
 char	*extract_word(char *s, int *i);

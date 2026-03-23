@@ -15,6 +15,7 @@ NAME  = minishell
 SRCS += minishell.c
 SRCS += free.c
 SRCS += signal.c
+SRCS += init_struct.c
 
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c
