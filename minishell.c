@@ -50,6 +50,8 @@ int	main(void)
 			break ;
 		if (*line)
 			add_history(line);
+		if (verify_line(line) == -1)
+			continue ;
 		if ((ft_strcmp(line, "exit") == 0 && ft_strlen(line) == 4))
 			break ;
 		lexer = build_lexer(line, lexer);
@@ -57,9 +59,7 @@ int	main(void)
 			return (free_things(), free_line(line, &lexer), 1);
 		if (lexer)
 			builtin_cmd_or_else(lexer->word);
-
 		print_lexer(lexer);
-
 		free_line(line, &lexer);
 	}
 	return (free_things(), free_line(line, &lexer), 0);

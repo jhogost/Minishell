@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 14:30:04 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:54:11 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@
 
 typedef enum e_token_type
 {
-	WORD,		// command, text, file... On identifie plus tard
-	PIPE,		// |
-	OR,			// ||
-	REDIR_IN,	// <
-	REDIR_OUT,	// >
-	APPEND,		// >>
-	HEREDOC,	// <<
-	AND			// &&
+	WORD,
+	PIPE,
+	OR,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC,
+	AND
 }	t_token_type;
 // Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
 
@@ -49,7 +49,8 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-// token is the element identified and extracted from the input string (commands and flags etc...)
+// token is the element identified and extracted from the input string
+// (commands and flags etc...)
 
 typedef struct s_shell
 {
@@ -72,13 +73,16 @@ char	*ft_substr(char *s, int start, size_t len);
 int		is_operator(char c);
 int		is_space(char c);
 char	*strjoin_free(char *s1, char *s2);
+int		init_struct(t_shell *shell);
+int		verify_line(char *line);
+int		count_tokens(char *word);
 
 /* --Built in commands-- */
 int		builtin_pwd(void);
 void	builtin_cmd_or_else(char *line);
 
 /* --Lexer-- */
-t_token	*new_token(t_token_type type, char *word);
+t_token	*new_token(int type, char *word);
 void	add_token(t_token **lexer, t_token *new);
 t_token	*extract_operator(char *s, int *i);
 char	*extract_word(char *s, int *i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 14:35:04 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:37:52 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	whatisword(char *word, t_token *prev)
 }
 */
 
-t_token	*new_token(t_token_type type, char *word)
+t_token	*new_token(int type, char *word)
 {
 	t_token	*tok;
 
@@ -70,15 +70,12 @@ t_token	*extract_operator(char *s, int *i)
 	t_token	*tok;
 
 	tok = handle_and(s, i);
-	if (tok)
-		return (tok);
-	tok = handle_pipe_or(s, i);
-	if (tok)
-		return (tok);
-	tok = handle_redir_in(s, i);
-	if (tok)
-		return (tok);
-	tok = handle_redir_out(s, i);
+	if (!tok)
+		tok = handle_pipe_or(s, i);
+	if (!tok)
+		tok = handle_redir_in(s, i);
+	if (!tok)
+		tok = handle_redir_out(s, i);
 	return (tok);
 }
 
