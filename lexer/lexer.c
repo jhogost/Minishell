@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 12:38:11 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 14:35:04 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ char	*extract_word(char *s, int *i)
 	return (res);
 }
 
-t_token	*build_lexer(char *input)
+t_token	*build_lexer(char *input, t_token *lexer)
 {
-	t_token	*lexer;
+	t_token	*token;
 	int		i;
 
 	lexer = NULL;
@@ -117,9 +117,19 @@ t_token	*build_lexer(char *input)
 		if (is_space(input[i]))
 			i++;
 		else if (is_operator(input[i]))
-			add_token(&lexer, extract_operator(input, &i));
+		{
+			token = extract_operator(input, &i);
+			if (!token)
+				return (NULL);
+			add_token(&lexer, token);
+		}
 		else
-			add_token(&lexer, new_token(WORD, extract_word(input, &i)));
+		{
+			token = new_token(WORD, extract_word(input, &i));
+			if (!token)
+				return (NULL);
+			add_token(&lexer, token);
+		}
 	}
 	return (lexer);
 }

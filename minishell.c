@@ -52,7 +52,9 @@ int	main(void)
 			add_history(line);
 		if ((ft_strcmp(line, "exit") == 0 && ft_strlen(line) == 4))
 			break ;
-		lexer = build_lexer(line); //  <-- TODO: gerer les retours d'erreur + protection quotes impaires
+		lexer = build_lexer(line, lexer);
+		if (!lexer)
+			return (free_things(), free_line(line, &lexer), 1);
 		if (lexer)
 			builtin_cmd_or_else(lexer->word);
 

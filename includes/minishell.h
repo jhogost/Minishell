@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/20 20:00:26 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/23 14:30:04 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_token	*new_token(t_token_type type, char *word);
 void	add_token(t_token **lexer, t_token *new);
 t_token	*extract_operator(char *s, int *i);
 char	*extract_word(char *s, int *i);
-t_token	*build_lexer(char *input);
+t_token	*build_lexer(char *input, t_token *lexer);
 
 /* --handle_operator-- */
 t_token	*handle_and(char *s, int *i);
