@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 17:30:34 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:20:42 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,39 @@ int	verify_line(char *line)
 {
 	if (!line)
 		return (-1);
-	if (count_tokens(line) == -1)
-		return (free(line), printf("Syntax error: too many operators\n"), -1);
+	if (count_tokens(line) == -42)
+		return (printf("Syntax error: too many operators\n"), -42);
 	if (line[0] == '|' || line[0] == '&')
-		return (printf("Syntax error: unexpected token `%c'\n", line[0]),
-			free(line), -1);
+		return (printf("Syntax error: unexpected token `%c'\n", line[0]), -42);
 	if (quote_closed(line) == 0)
-		return (free(line), printf("Syntax error: unclosed quote\n"), -1);
+		return (printf("Syntax error: unclosed quote\n"), -42);
+	return (0);
+}
+
+int	loop_count_tokens(char *word, int *i, int *count, char *operator)
+{
+	*count = 0;
+	if (word[*i] == '\'' || word[*i] == '"')
+	{
+		*operator = word[*i];
+		*i += 1;
+		while (word[*i] && word[*i] != *operator)
+			*i += 1;
+	}
+	else if (is_operator(word[*i]))
+	{
+		*operator = word[*i];
+		*count += 1;
+		while (is_operator(word[*i]) && word[*i] == *operator)
+		{
+			*count += 1;
+			*i += 1;
+		}
+		if (*count > 3)
+			return (-42);
+	}
+	else
+		*i += 1;
 	return (0);
 }
 
@@ -63,21 +89,8 @@ int	count_tokens(char *word)
 	count = 0;
 	while (word[i])
 	{
-		count = 0;
-		if (is_operator(word[i]))
-		{
-			operator = word[i];
-			count++;
-			while (is_operator(word[i]) && word[i] == operator)
-			{
-				count++;
-				i++;
-			}
-			if (count > 3)
-				return (-1);
-		}
-		else
-			i++;
+		if (loop_count_tokens(word, &i, &count, &operator) == -42)
+			return (-42);
 	}
 	return (0);
 }

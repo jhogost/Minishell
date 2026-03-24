@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/23 18:06:45 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/24 15:07:36 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,17 @@ typedef struct s_token
 
 typedef struct s_shell
 {
+	int		exit_code;
 	char	*input;
+	char	*path;
+	char	**envp;
 }	t_shell;
 
 /* --Free functions-- */
 void	free_things(void);
 void	free_line(char *line, t_token **lexer);
+void	free_env(t_shell *shell);
+void	free_everything(t_shell *shell, char *line, t_token **lexer);
 
 /* --Utils functions-- */
 int		ft_strchri(const char *s, int c);
@@ -102,5 +107,11 @@ char	*handle_plain_text(char *s, int *i, char *res);
 /* --signal-- */
 void	handle_sigint(int sig);
 void	setup_signals(void);
+
+/* --env-- */
+int		get_env(char **envp, t_shell *shell);
+
+/* --struct-- */
+int		init_struct(t_shell *shell, char **envp);
 
 #endif
