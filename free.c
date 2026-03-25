@@ -12,17 +12,19 @@
 
 #include "minishell.h"
 
-void	free_everything(t_shell *shell, char *line, t_token **lexer)
+void	free_everything(t_shell *shell)
 {
 	free_things();
-	free_line(line, lexer);
+	free_interactive(shell);
 	free_env(shell);
+	free_path(shell);
 }
 
 void	free_env(t_shell *shell)
 {
 	int	i;
-
+	if (!shell->envp)
+		return;
 	if (shell->envp)
 	{
 		i = 0;
@@ -36,16 +38,34 @@ void	free_env(t_shell *shell)
 	}
 }
 
-void	free_line(char *line, t_token **lexer)
+void	free_path(t_shell *shell)
+{
+	int	i;
+	if (!shell->paths)
+		return;
+	if (shell->paths)
+	{
+		i = 0;
+		while (shell->paths[i])
+		{
+			free(shell->paths[i]);
+			i++;
+		}
+		free(shell->paths);
+		shell->paths = NULL;
+	}
+}
+
+void	free_interactive(t_shell *shell)
 {
 	t_token	*tmp;
 	t_token	*next;
 
-	if (line)
-		free(line);
-	if (lexer && *lexer)
+	if (shell->input)
+		free(shell->input);
+	if (shell->lexer)
 	{
-		tmp = *lexer;
+		tmp = shell->lexer;
 		while (tmp)
 		{
 			next = tmp->next;
@@ -53,7 +73,7 @@ void	free_line(char *line, t_token **lexer)
 			free(tmp);
 			tmp = next;
 		}
-		*lexer = NULL;
+		shell->lexer = NULL;
 	}
 }
 

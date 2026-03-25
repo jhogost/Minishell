@@ -18,8 +18,8 @@ int	init_struct(t_shell *shell, char **envp)
 	shell->exit_code = 0;
 	if (get_env(envp, shell) == -42)
 		return (-42);
-	shell->path = getenv("PATH");
-	if (!shell->path)
-		shell->path = NULL;
+	shell->paths = ft_split(getenv("PATH"), ":"); //J'ai split ici directement le path comme ça on pourra tester chaque chemin plus facilement après
+	if (!shell->paths)
+		return (-42);
 	return (0);
 }

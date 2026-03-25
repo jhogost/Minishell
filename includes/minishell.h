@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/24 15:07:36 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/25 21:16:54 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ typedef enum e_token_type
 }	t_token_type;
 // Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
 
+typedef enum e_redir_type
+{
+	R_IN,
+	R_OUT,
+	R_APPEND,
+	R_HEREDOC
+}	t_redir_type;
+
 typedef struct s_token
 {
 	int				type;
@@ -52,21 +60,37 @@ typedef struct s_token
 // token is the element identified and extracted from the input string
 // (commands and flags etc...)
 
+typedef struct s_cmd
+{
+	char			**argv;
+	int				pipe_in;
+	int				pipe_out;
+	t_redir_type	type;
+	char			*content_redir;
+	pid_t			pid;
+	struct s_cmd	*next;
+}	t_cmd;
+// cmd is the logic command extracted from the list of token
+
 typedef struct s_shell
 {
 	int		exit_code;
 	char	*input;
-	char	*path;
 	char	**envp;
+	char	**paths; //char *path devient char **paths
+	t_token	*lexer;
+	t_cmd	*cmds;
 }	t_shell;
 
 /* --Free functions-- */
 void	free_things(void);
-void	free_line(char *line, t_token **lexer);
+void	free_interactive(t_shell *shell);
 void	free_env(t_shell *shell);
-void	free_everything(t_shell *shell, char *line, t_token **lexer);
+void	free_path(t_shell *shell);
+void	free_everything(t_shell *shell);
 
 /* --Utils functions-- */
+char	**ft_split(char *str, char *charset);
 int		ft_strchri(const char *s, int c);
 int		ft_countchar(char *str, char c);
 int		ft_strcmp(char *s1, char *s2);
@@ -110,6 +134,10 @@ void	setup_signals(void);
 
 /* --env-- */
 int		get_env(char **envp, t_shell *shell);
+
+/* --path-- */
+char	*join_path(char *dir, char *cmd);
+char	*find_path(char **paths, char *cmd);
 
 /* --struct-- */
 int		init_struct(t_shell *shell, char **envp);

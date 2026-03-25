@@ -17,10 +17,13 @@ SRCS += free.c
 SRCS += signal.c
 SRCS += env.c
 SRCS += init_struct.c
+SRCS += path.c
+SRCS += command.c
 
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c
 
+SRCS += utils/ft_split.c
 SRCS += utils/ft_strchri.c
 SRCS += utils/ft_strcmp.c
 SRCS += utils/ft_strdup.c
