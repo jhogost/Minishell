@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/26 13:43:00 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/26 17:44:05 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,6 @@ typedef enum e_token_type
 }	t_token_type;
 // Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
 
-typedef enum e_redir_type
-{
-	R_IN,
-	R_OUT,
-	R_APPEND,
-	R_HEREDOC
-}	t_redir_type;
-
 typedef struct s_token
 {
 	int				type;
@@ -62,10 +54,10 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**argv;
+	char			**command;
 	int				pipe_in;
 	int				pipe_out;
-	t_redir_type	type;
+	t_token_type	redir_type;
 	char			*content_redir;
 	pid_t			pid;
 	struct s_cmd	*next;
