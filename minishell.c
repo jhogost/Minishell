@@ -39,39 +39,46 @@ void	print_lexer(t_token *lexer)
 
 int	run_interactive(t_shell *shell)
 {
-	while (1)
-	{
-		shell->lexer = NULL;
-		shell->cmds = NULL;
-		shell->input = (readline("chocolat shell: "));
-		if (!shell->input)
-			return (-42);
-		if (*shell->input)
-			add_history(shell->input);
-		if (verify_line(shell->input) == -42)
-			return (0);
-		if ((ft_strcmp(shell->input, "exit") == 0 && ft_strlen(shell->input) == 4))
-			return (0);
-		shell->lexer = build_lexer(shell->input, shell->lexer);
-		if (!shell->lexer)
-			return (-42);
-		builtin_cmd_or_else((shell->lexer)->word);
-		print_lexer(shell->lexer);
-		free_interactive(shell);
-	}
+	shell->lexer = NULL;
+	shell->cmds = NULL;
+	shell->input = (readline("chocolat shell: "));
+	if (!shell->input)
+		return (-42);
+	if (*shell->input)
+		add_history(shell->input);
+	if (verify_line(shell->input) == -42)
+		return (free_interactive(shell), 1);
+	if ((ft_strcmp(shell->input, "exit") == 0 && ft_strlen(shell->input) == 4))
+		return (0);
+	shell->lexer = build_lexer(shell->input, shell->lexer);
+	if (!shell->lexer)
+		return (-42);
+	builtin_cmd_or_else((shell->lexer)->word);
+	print_lexer(shell->lexer);
+	free_interactive(shell);
+	return (1);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
+	int		loop_value;
 
 	if (argc != 1)
 		return (printf("Usage: ./minishell\n"), argv++, 1);
 	if (init_struct(&shell, envp) == -42)
 		return (free_everything(&shell), 1);
 	setup_signals();
-	if (run_interactive(&shell) == -42)
-		return (free_everything(&shell), 1);
+	while (1)
+	{
+		loop_value = run_interactive(&shell);
+		if (loop_value == -42)
+			return (free_everything(&shell), 1);
+		if (loop_value == 1)
+			continue ;
+		else
+			break ;
+	}
 	return (free_everything(&shell), 0);
 }
 // TODO built in commands | struct for every var | chained list to get the
