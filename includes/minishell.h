@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/25 21:16:54 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/26 13:43:00 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_shell
 void	free_things(void);
 void	free_interactive(t_shell *shell);
 void	free_env(t_shell *shell);
-void	free_path(t_shell *shell);
+void	free_paths(t_shell *shell);
 void	free_everything(t_shell *shell);
 
 /* --Utils functions-- */

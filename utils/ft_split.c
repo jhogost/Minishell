@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 16:13:35 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/25 16:13:51 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/26 13:26:44 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char	**ft_split(char *str, char *charset)
 	result[j] = NULL;
 	return (result);
 }
+
 /*
 int	main(int argc, char **argv)
 {

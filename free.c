@@ -17,14 +17,13 @@ void	free_everything(t_shell *shell)
 	free_things();
 	free_interactive(shell);
 	free_env(shell);
-	free_path(shell);
+	free_paths(shell);
 }
 
 void	free_env(t_shell *shell)
 {
 	int	i;
-	if (!shell->envp)
-		return;
+
 	if (shell->envp)
 	{
 		i = 0;
@@ -38,11 +37,10 @@ void	free_env(t_shell *shell)
 	}
 }
 
-void	free_path(t_shell *shell)
+void	free_paths(t_shell *shell)
 {
 	int	i;
-	if (!shell->paths)
-		return;
+
 	if (shell->paths)
 	{
 		i = 0;

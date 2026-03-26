@@ -42,7 +42,7 @@ int	run_interactive(t_shell *shell)
 	while (1)
 	{
 		shell->lexer = NULL;
-		shell->paths = NULL;
+		shell->cmds = NULL;
 		shell->input = (readline("chocolat shell: "));
 		if (!shell->input)
 			return (-42);
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (printf("Usage: ./minishell\n"), argv++, 1);
 	if (init_struct(&shell, envp) == -42)
-		return (1);
+		return (free_everything(&shell), 1);
 	setup_signals();
 	if (run_interactive(&shell) == -42)
 		return (free_everything(&shell), 1);
