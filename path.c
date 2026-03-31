@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 20:41:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/25 20:41:18 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/31 14:34:48 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ char	*find_path(char **paths, char *cmd)
 	int		i;
 	char	*full;
 
+	if (!cmd)
+		return (NULL);
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		full = join_path(paths[i], cmd);
 		if (full && access(full, X_OK) == 0)
@@ -38,5 +42,5 @@ char	*find_path(char **paths, char *cmd)
 		free(full);
 		i++;
 	}
-	return (free(full), NULL);
+	return (NULL);
 }

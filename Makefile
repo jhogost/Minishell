@@ -19,6 +19,7 @@ SRCS += env.c
 SRCS += init_struct.c
 SRCS += path.c
 SRCS += command.c
+SRCS += execution.c
 
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c
@@ -32,6 +33,8 @@ SRCS += utils/ft_substr.c
 SRCS += utils/is_operator.c
 SRCS += utils/is_space.c
 SRCS += utils/strjoin_free.c
+SRCS += utils/ft_putchar_fd.c
+SRCS += utils/ft_putstr_fd.c
 
 SRCS += lexer/handle_operator.c
 SRCS += lexer/handle_text_and_quote.c

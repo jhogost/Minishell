@@ -53,6 +53,10 @@ int	run_interactive(t_shell *shell)
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);
+	if (create_cmds(shell) == -42)
+		return (-42);
+	execute_pipeline(shell);
+	free_cmds(shell);
 	builtin_cmd_or_else((shell->lexer)->word);
 	print_lexer(shell->lexer);
 	free_interactive(shell);

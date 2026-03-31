@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+t_cmd	*init_cmd_struct(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->argv = NULL;
+	cmd->fd_in = STDIN_FILENO;
+	cmd->fd_out = STDOUT_FILENO;
+	cmd->pid = -1;
+	cmd->next = NULL;
+	return (cmd);
+}
+
 int	init_struct(t_shell *shell, char **envp)
 {
 	char	*path;

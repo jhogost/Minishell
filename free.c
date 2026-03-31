@@ -14,7 +14,7 @@
 
 void	free_everything(t_shell *shell)
 {
-	free_things();
+	rl_clear_history();
 	free_interactive(shell);
 	free_env(shell);
 	free_paths(shell);
@@ -75,8 +75,25 @@ void	free_interactive(t_shell *shell)
 	}
 }
 
-void	free_things(void)
+void	free_cmds(t_shell *shell)
 {
-	rl_clear_history();
+	t_cmd	*tmp;
+	int		i;
+
+	if (!shell->cmds)
+		return ;
+	while (shell->cmds)
+	{
+		tmp = shell->cmds->next;
+		i = 0;
+		if (shell->cmds->argv)
+		{
+			while (shell->cmds->argv[i])
+				free(shell->cmds->argv[i++]);
+			free(shell->cmds->argv);
+		}
+		free(shell->cmds);
+		shell->cmds = tmp;
+	}
+	shell->cmds = NULL;
 }
-// TODO update whenever the struct is ready to free everything

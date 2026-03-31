@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/26 13:43:00 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/03/31 14:47:29 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,6 @@ typedef enum e_token_type
 }	t_token_type;
 // Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
 
-typedef enum e_redir_type
-{
-	R_IN,
-	R_OUT,
-	R_APPEND,
-	R_HEREDOC
-}	t_redir_type;
-
 typedef struct s_token
 {
 	int				type;
@@ -65,8 +57,9 @@ typedef struct s_cmd
 	char			**argv;
 	int				pipe_in;
 	int				pipe_out;
-	t_redir_type	type;
-	char			*content_redir;
+	int				fd_in;
+	int				fd_out;
+	t_token_type	type;
 	pid_t			pid;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -77,17 +70,17 @@ typedef struct s_shell
 	int		exit_code;
 	char	*input;
 	char	**envp;
-	char	**paths; //char *path devient char **paths
+	char	**paths;
 	t_token	*lexer;
 	t_cmd	*cmds;
 }	t_shell;
 
 /* --Free functions-- */
-void	free_things(void);
 void	free_interactive(t_shell *shell);
 void	free_env(t_shell *shell);
 void	free_paths(t_shell *shell);
 void	free_everything(t_shell *shell);
+void	free_cmds(t_shell *shell);
 
 /* --Utils functions-- */
 char	**ft_split(char *str, char *charset);
@@ -101,6 +94,10 @@ char	*ft_substr(char *s, int start, size_t len);
 int		is_operator(char c);
 int		is_space(char c);
 char	*strjoin_free(char *s1, char *s2);
+int		create_cmds(t_shell *shell);
+void	execute_pipeline(t_shell *shell);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
 
 /* --parsing-- */
 int		quote_closed(char *s);
@@ -123,6 +120,7 @@ t_token	*handle_and(char *s, int *i);
 t_token	*handle_pipe_or(char *s, int *i);
 t_token	*handle_redir_in(char *s, int *i);
 t_token	*handle_redir_out(char *s, int *i);
+int		handle_heredoc(char *delimiter);
 
 /* --handle_text_and_quote-- */
 char	*handle_quote(char *s, int *i, char *res);
@@ -141,5 +139,6 @@ char	*find_path(char **paths, char *cmd);
 
 /* --struct-- */
 int		init_struct(t_shell *shell, char **envp);
+t_cmd	*init_cmd_struct(void);
 
 #endif
