@@ -39,7 +39,7 @@ static void	wait_all(t_cmd *cmds, t_shell *shell)
 	}
 }
 
-static void	execute_child(t_shell *shell, t_cmd *cmd, int p[2], int prev)
+static void	execute_child(t_shell *shell, t_cmd *cmd, int prev)
 {
 	char	*path;
 
@@ -50,9 +50,9 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int p[2], int prev)
 	}
 	if (cmd->next)
 	{
-		dup2(p[1], STDOUT_FILENO);
-		close(p[0]);
-		close(p[1]);
+		dup2(cmd->pipe[1], STDOUT_FILENO);
+		close(cmd->pipe[0]);
+		close(cmd->pipe[1]);
 	}
 	path = find_path(shell->paths, cmd->argv[0]);
 	if (!path || execve(path, cmd->argv, shell->envp) == -1)
@@ -62,7 +62,6 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int p[2], int prev)
 void	execute_pipeline(t_shell *shell)
 {
 	t_cmd	*curr;
-	int		p[2];
 	int		prev_fd;
 
 	curr = shell->cmds;
@@ -70,17 +69,18 @@ void	execute_pipeline(t_shell *shell)
 	while (curr)
 	{
 		if (curr->next)
-			pipe(p);
+			pipe(curr->pipe);
 		curr->pid = fork();
 		if (curr->pid == 0)
-			execute_child(shell, curr, p, prev_fd);
+			execute_child(shell, curr, prev_fd);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (curr->next)
 		{
-			close(p[1]);
-			prev_fd = p[0];
+			close(curr->pipe[1]);
+			prev_fd = curr->pipe[0];
 		}
+		print_cmd(curr);
 		curr = curr->next;
 	}
 	wait_all(shell->cmds, shell);

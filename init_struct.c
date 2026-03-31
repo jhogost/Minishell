@@ -20,12 +20,32 @@ t_cmd	*init_cmd_struct(void)
 	if (!cmd)
 		return (NULL);
 	cmd->argv = NULL;
-	cmd->fd_in = STDIN_FILENO;
-	cmd->fd_out = STDOUT_FILENO;
+	cmd->pipe[0] = -1;
+	cmd->pipe[1] = -1;
+	cmd->type = WORD;
+	cmd->content_redir = NULL;
 	cmd->pid = -1;
 	cmd->next = NULL;
 	return (cmd);
 }
+
+t_cmd	*init_cmd(t_token *tok)
+{
+	t_cmd	*cmd;
+	int		nb_args;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	nb_args = count_args(tok);
+	cmd->argv = malloc(sizeof(char *) * (nb_args + 1));
+	if (!cmd->argv)
+		return (free(cmd), NULL);
+	cmd->pid = -1;
+	cmd->next = NULL;
+	return (cmd);
+}
+//initialize a command structure with the number of arguments until pipe or end
 
 int	init_struct(t_shell *shell, char **envp)
 {

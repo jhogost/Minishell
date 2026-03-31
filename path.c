@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 20:41:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/31 14:34:48 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:04:31 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ char	*find_path(char **paths, char *cmd)
 		free(full);
 		i++;
 	}
+	if (full)
+		free(full);
 	return (NULL);
 }

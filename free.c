@@ -73,6 +73,7 @@ void	free_interactive(t_shell *shell)
 		}
 		shell->lexer = NULL;
 	}
+	free_cmds(shell);
 }
 
 void	free_cmds(t_shell *shell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/31 14:47:29 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:06:36 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char			**argv;
-	int				pipe_in;
-	int				pipe_out;
-	int				fd_in;
-	int				fd_out;
+	int				pipe[2];
 	t_token_type	type;
+	char			*content_redir;
 	pid_t			pid;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -76,10 +74,10 @@ typedef struct s_shell
 }	t_shell;
 
 /* --Free functions-- */
-void	free_interactive(t_shell *shell);
+void	free_everything(t_shell *shell);
 void	free_env(t_shell *shell);
 void	free_paths(t_shell *shell);
-void	free_everything(t_shell *shell);
+void	free_interactive(t_shell *shell);
 void	free_cmds(t_shell *shell);
 
 /* --Utils functions-- */
@@ -137,8 +135,21 @@ int		get_env(char **envp, t_shell *shell);
 char	*join_path(char *dir, char *cmd);
 char	*find_path(char **paths, char *cmd);
 
-/* --struct-- */
+/* --command-- */
+int		count_args(t_token *tok);
+t_cmd	*new_cmd(t_token **lexer);
+void	add_cmd_back(t_cmd **cmds, t_cmd *new);
+int		create_cmds(t_shell *shell);
+int		fill_cmds(t_shell *shell);
+
+/* --init struct-- */
 int		init_struct(t_shell *shell, char **envp);
+t_cmd	*init_cmd(t_token *tok);
 t_cmd	*init_cmd_struct(void);
+
+/* --main-- */
+void	print_lexer(t_token *lexer);
+void	print_cmd(t_cmd *cmd);
+int		run_interactive(t_shell *shell);
 
 #endif

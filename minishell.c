@@ -14,6 +14,7 @@
 
 void	print_lexer(t_token *lexer)
 {
+	printf("LEXER :\n");
 	while (lexer)
 	{
 		if (lexer->type == 0)
@@ -35,6 +36,25 @@ void	print_lexer(t_token *lexer)
 		printf("word: [%s]\n", lexer->word);
 		lexer = lexer->next;
 	}
+	printf("\n");
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	printf("CMD :\n");
+	while (cmd->argv[i])
+	{
+		printf("%s\n", cmd->argv[i]);
+		i++;
+	}
+	printf("pipe in: %d\n", cmd->pipe[0]);
+	printf("pipe out %d\n", cmd->pipe[1]);
+	printf("redir type: %d\n", cmd->type);
+	printf("redir content: %s\n", cmd->content_redir);
+	printf("\n");
 }
 
 int	run_interactive(t_shell *shell)
@@ -53,12 +73,11 @@ int	run_interactive(t_shell *shell)
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);
+	print_lexer(shell->lexer);
 	if (create_cmds(shell) == -42)
 		return (-42);
 	execute_pipeline(shell);
-	free_cmds(shell);
-	builtin_cmd_or_else((shell->lexer)->word);
-	print_lexer(shell->lexer);
+	//builtin_cmd_or_else((shell->lexer)->word);
 	free_interactive(shell);
 	return (1);
 }
