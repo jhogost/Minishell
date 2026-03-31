@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void	print_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->command[i])
+		{
+			printf("%s\n", cmd->command[i]);
+			i++;
+		}
+		printf("\npipe in: %d\n", cmd->pipe_in);
+		printf("pipe out %d\n", cmd->pipe_out);
+		printf("redir type: %d\n", cmd->redir_type);
+		printf("redir content: %s\n", cmd->content_redir);
+		cmd = cmd->next;
+	}
+}
+
 void	print_lexer(t_token *lexer)
 {
 	while (lexer)
@@ -50,7 +70,8 @@ int	run_interactive(t_shell *shell)
 			add_history(shell->input);
 		if (verify_line(shell->input) == -42)
 			return (0);
-		if ((ft_strcmp(shell->input, "exit") == 0 && ft_strlen(shell->input) == 4))
+		if ((ft_strcmp(shell->input, "exit") == 0
+				&& ft_strlen(shell->input) == 4))
 			return (0);
 		shell->lexer = build_lexer(shell->input, shell->lexer);
 		if (!shell->lexer)
