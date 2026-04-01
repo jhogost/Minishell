@@ -20,18 +20,20 @@ void	print_lexer(t_token *lexer)
 		if (lexer->type == 0)
 			printf("Type: WORD \t");
 		if (lexer->type == 1)
-			printf("Type: PIPE \t");
+			printf("Type: BUILTIN \t");
 		if (lexer->type == 2)
-			printf("Type: OR \t");
+			printf("Type: PIPE \t");
 		if (lexer->type == 3)
-			printf("Type: REDIR_IN \t");
+			printf("Type: OR \t");
 		if (lexer->type == 4)
-			printf("Type: REDIR_OUT ");
+			printf("Type: REDIR_IN \t");
 		if (lexer->type == 5)
-			printf("Type: APPEND \t");
+			printf("Type: REDIR_OUT \t");
 		if (lexer->type == 6)
-			printf("Type: HEREDOC \t");
+			printf("Type: APPEND \t");
 		if (lexer->type == 7)
+			printf("Type: HEREDOC \t");
+		if (lexer->type == 8)
 			printf("Type: AND \t");
 		printf("word: [%s]\n", lexer->word);
 		lexer = lexer->next;
@@ -77,7 +79,6 @@ int	run_interactive(t_shell *shell)
 	if (create_cmds(shell) == -42)
 		return (-42);
 	execute_pipeline(shell);
-	//builtin_cmd_or_else((shell->lexer)->word);
 	free_interactive(shell);
 	return (1);
 }

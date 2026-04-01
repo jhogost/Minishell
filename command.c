@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 17:45:47 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/31 16:28:44 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/01 10:52:49 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_args(t_token *tok)
 	i = 0;
 	while (tok && tok->type != PIPE)
 	{
-		if (tok->type == WORD)
+		if (tok->type == WORD || tok->type == BUILTIN)
 			i++;
 		tok = tok->next;
 	}
@@ -41,7 +41,7 @@ t_cmd	*new_cmd(t_token **lexer)
 	i = 0;
 	while (*lexer && (*lexer)->type != PIPE)
 	{
-		if ((*lexer)->type == WORD)
+		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
 			cmd->argv[i++] = ft_strdup((*lexer)->word);
 		*lexer = (*lexer)->next;
 	}

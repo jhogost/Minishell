@@ -15,7 +15,11 @@
 static void	child_error(t_shell *shell, char *cmd, char *path)
 {
 	if (!path)
-		printf("minishell: command not found: %s\n", cmd);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	else
 		perror("minishell");
 	free(path);
@@ -39,14 +43,12 @@ static void	wait_all(t_cmd *cmds, t_shell *shell)
 	}
 }
 
-static void	execute_child(t_shell *shell, t_cmd *cmd, int prev)
+static void	handle_child_redir(t_cmd *cmd, int prev_fd)
 {
-	char	*path;
-
-	if (prev != STDIN_FILENO)
+	if (prev_fd != STDIN_FILENO)
 	{
-		dup2(prev, STDIN_FILENO);
-		close(prev);
+		dup2(prev_fd, STDIN_FILENO);
+		close(prev_fd);
 	}
 	if (cmd->next)
 	{
@@ -54,9 +56,36 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev)
 		close(cmd->pipe[0]);
 		close(cmd->pipe[1]);
 	}
+}
+
+static void	handle_parent_fds(int *prev_fd, t_cmd *curr)
+{
+	if (*prev_fd != STDIN_FILENO)
+		close(*prev_fd);
+	if (curr->next)
+	{
+		close(curr->pipe[1]);
+		*prev_fd = curr->pipe[0];
+	}
+}
+
+static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
+{
+	char	*path;
+	int		res;
+
+	handle_child_redir(cmd, prev_fd);
+	if (isbuiltin(cmd->argv[0]) == 0)
+	{
+		res = built_in(cmd, shell);
+		free_cmds(shell);
+		free_everything(shell);
+		exit(res);
+	}
 	path = find_path(shell->paths, cmd->argv[0]);
-	if (!path || execve(path, cmd->argv, shell->envp) == -1)
+	if (path && execve(path, cmd->argv, shell->envp) == -1)
 		child_error(shell, cmd->argv[0], path);
+	child_error(shell, cmd->argv[0], path);
 }
 
 void	execute_pipeline(t_shell *shell)
@@ -65,6 +94,13 @@ void	execute_pipeline(t_shell *shell)
 	int		prev_fd;
 
 	curr = shell->cmds;
+	if (!curr)
+		return ;
+	if (!curr->next && isbuiltin(curr->argv[0]) == 0)
+	{
+		shell->exit_code = built_in(curr, shell);
+		return ;
+	}
 	prev_fd = STDIN_FILENO;
 	while (curr)
 	{
@@ -73,14 +109,7 @@ void	execute_pipeline(t_shell *shell)
 		curr->pid = fork();
 		if (curr->pid == 0)
 			execute_child(shell, curr, prev_fd);
-		if (prev_fd != STDIN_FILENO)
-			close(prev_fd);
-		if (curr->next)
-		{
-			close(curr->pipe[1]);
-			prev_fd = curr->pipe[0];
-		}
-		print_cmd(curr);
+		handle_parent_fds(&prev_fd, curr);
 		curr = curr->next;
 	}
 	wait_all(shell->cmds, shell);

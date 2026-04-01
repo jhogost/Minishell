@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/31 19:06:36 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/01 16:08:04 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	BUILTIN,
 	PIPE,
 	OR,
 	REDIR_IN,
@@ -96,6 +97,7 @@ int		create_cmds(t_shell *shell);
 void	execute_pipeline(t_shell *shell);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
+char	*ft_strchr(const char *s, int c);
 
 /* --parsing-- */
 int		quote_closed(char *s);
@@ -103,8 +105,15 @@ int		verify_line(char *line);
 int		count_tokens(char *word);
 
 /* --Built in commands-- */
+int		isbuiltin(char *word);
+int		built_in(t_cmd *cmd, t_shell *shell);
+void	exiting_minishell(t_shell *shell);
+int		builtin_unset(char **argv, t_shell *shell);
+int		builtin_env(char **envp);
+int		builtin_cd(char **argv);
+int		builtin_echo(char **argv);
+int		builtin_export(char **argv, t_shell *shell);
 int		builtin_pwd(void);
-void	builtin_cmd_or_else(char *line);
 
 /* --Lexer-- */
 t_token	*new_token(int type, char *word);
@@ -140,7 +149,6 @@ int		count_args(t_token *tok);
 t_cmd	*new_cmd(t_token **lexer);
 void	add_cmd_back(t_cmd **cmds, t_cmd *new);
 int		create_cmds(t_shell *shell);
-int		fill_cmds(t_shell *shell);
 
 /* --init struct-- */
 int		init_struct(t_shell *shell, char **envp);

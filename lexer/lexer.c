@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/24 16:32:12 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/01 15:58:29 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ t_token	*new_token(int type, char *word)
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
-	tok->type = type;
+	if (isbuiltin(word) == 0)
+		tok->type = BUILTIN;
+	else
+		tok->type = type;
 	tok->word = word;
 	tok->next = NULL;
 	tok->prev = NULL;
