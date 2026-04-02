@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/01 16:08:04 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/02 14:40:21 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	execute_pipeline(t_shell *shell);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 char	*ft_strchr(const char *s, int c);
+char	*ft_itoa(int n);
+int		ft_atoi(const char *nptr);
 
 /* --parsing-- */
 int		quote_closed(char *s);
@@ -159,5 +161,8 @@ t_cmd	*init_cmd_struct(void);
 void	print_lexer(t_token *lexer);
 void	print_cmd(t_cmd *cmd);
 int		run_interactive(t_shell *shell);
+
+/* --error-- */
+void	child_error(t_shell *shell, char *cmd, char *path);
 
 #endif

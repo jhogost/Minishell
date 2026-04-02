@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-static void	child_error(t_shell *shell, char *cmd, char *path)
-{
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
-	else
-		perror("minishell");
-	free(path);
-	free_cmds(shell);
-	free_everything(shell);
-	exit(127);
-}
-
 static void	wait_all(t_cmd *cmds, t_shell *shell)
 {
 	t_cmd	*tmp;
