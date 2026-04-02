@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/02 14:40:21 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/02 18:21:03 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ char	*find_path(char **paths, char *cmd);
 
 /* --command-- */
 int		count_args(t_token *tok);
+t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd);
 t_cmd	*new_cmd(t_token **lexer);
 void	add_cmd_back(t_cmd **cmds, t_cmd *new);
 int		create_cmds(t_shell *shell);

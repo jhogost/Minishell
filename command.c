@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 17:45:47 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/01 10:52:49 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/02 19:08:24 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,61 @@
 
 int	count_args(t_token *tok)
 {
-	int	i;
+	int	count;
 
-	i = 0;
+	count = 0;
 	while (tok && tok->type != PIPE)
 	{
+		if (tok->type == REDIR_IN || tok->type == REDIR_OUT
+			|| tok->type == APPEND || tok->type == HEREDOC)
+		{
+			if (!tok->next)
+				return (-1);
+			tok = tok->next;
+			if (tok->type != WORD && tok->type != BUILTIN)
+				return (-1);
+			tok = tok->next;
+			continue ;
+		}
 		if (tok->type == WORD || tok->type == BUILTIN)
-			i++;
+			count++;
 		tok = tok->next;
 	}
-	return (i);
+	return (count);
 }
 //count number of args until pipe or the end
+
+t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd)
+{
+	int		i;
+
+	i = 0;
+	while (*lexer && (*lexer)->type != PIPE)
+	{
+		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
+			cmd->argv[i++] = ft_strdup((*lexer)->word);
+		else if ((*lexer)->type == REDIR_IN || (*lexer)->type == REDIR_OUT ||
+				(*lexer)->type == APPEND || (*lexer)->type == HEREDOC)
+		{
+			cmd->type = (*lexer)->type;
+			if (!(*lexer)->next)
+				return (NULL);
+			*lexer = (*lexer)->next;
+			if ((*lexer)->type != WORD && (*lexer)->type != BUILTIN)
+				return (NULL);
+			cmd->content_redir = ft_strdup((*lexer)->word);
+		}
+		*lexer = (*lexer)->next;
+	}
+	cmd->argv[i] = NULL;
+	if (*lexer && (*lexer)->type == PIPE)
+		*lexer = (*lexer)->next;
+	return (cmd);
+}
 
 t_cmd	*new_cmd(t_token **lexer)
 {
 	t_cmd	*cmd;
-	int		i;
 	int		args_count;
 
 	cmd = init_cmd_struct();
@@ -38,16 +76,9 @@ t_cmd	*new_cmd(t_token **lexer)
 		return (NULL);
 	args_count = count_args(*lexer);
 	cmd->argv = malloc(sizeof(char *) * (args_count + 1));
-	i = 0;
-	while (*lexer && (*lexer)->type != PIPE)
-	{
-		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
-			cmd->argv[i++] = ft_strdup((*lexer)->word);
-		*lexer = (*lexer)->next;
-	}
-	cmd->argv[i] = NULL;
-	if (*lexer && (*lexer)->type == PIPE)
-		*lexer = (*lexer)->next;
+	if (!cmd->argv)
+		return (free(cmd), NULL);
+	cmd = fill_cmd(lexer, cmd);
 	return (cmd);
 }
 //create a new command and initialize everything until pipe or the end
