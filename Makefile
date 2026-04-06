@@ -12,15 +12,17 @@
 
 NAME  = minishell
 
-SRCS += minishell.c
-SRCS += free.c
-SRCS += signal.c
-SRCS += env.c
-SRCS += init_struct.c
-SRCS += path.c
-SRCS += command.c
-SRCS += execution.c
-SRCS += error.c
+SRCS += srcs/minishell.c
+SRCS += srcs/free.c
+SRCS += srcs/free2.c
+SRCS += srcs/redir.c
+SRCS += srcs/signal.c
+SRCS += srcs/env.c
+SRCS += srcs/init_struct.c
+SRCS += srcs/path.c
+SRCS += srcs/command.c
+SRCS += srcs/execution.c
+SRCS += srcs/error.c
 
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c
@@ -34,6 +36,7 @@ SRCS += builtin/unset.c
 SRCS += utils/ft_split.c
 SRCS += utils/ft_strchri.c
 SRCS += utils/ft_strcmp.c
+SRCS += utils/ft_strdup_no_quotes.c
 SRCS += utils/ft_strdup.c
 SRCS += utils/ft_strlen.c
 SRCS += utils/ft_substr.c

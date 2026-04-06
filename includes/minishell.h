@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/02 18:21:03 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/06 19:24:48 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,20 @@ typedef struct s_token
 // token is the element identified and extracted from the input string
 // (commands and flags etc...)
 
+typedef struct s_redir
+{
+	t_token_type		type;
+	char				*file;
+	char				*heredoc_content;
+	int					quoted;
+	struct s_redir		*next;
+}	t_redir;
+
 typedef struct s_cmd
 {
 	char			**argv;
 	int				pipe[2];
-	t_token_type	type;
-	char			*content_redir;
+	t_redir			*redir;
 	pid_t			pid;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -74,12 +82,15 @@ typedef struct s_shell
 	t_cmd	*cmds;
 }	t_shell;
 
-/* --Free functions-- */
+/* --Free-- */
 void	free_everything(t_shell *shell);
 void	free_env(t_shell *shell);
 void	free_paths(t_shell *shell);
 void	free_interactive(t_shell *shell);
 void	free_cmds(t_shell *shell);
+
+/* --Free 2-- */
+void	free_redir(t_redir *redir);
 
 /* --Utils functions-- */
 char	**ft_split(char *str, char *charset);
@@ -87,6 +98,7 @@ int		ft_strchri(const char *s, int c);
 int		ft_countchar(char *str, char c);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
+char	*ft_strdup_no_quotes(char *s);
 char	*ft_strdup(char *s);
 int		ft_strlen(char *str);
 char	*ft_substr(char *s, int start, size_t len);
@@ -153,10 +165,16 @@ t_cmd	*new_cmd(t_token **lexer);
 void	add_cmd_back(t_cmd **cmds, t_cmd *new);
 int		create_cmds(t_shell *shell);
 
+/* --redir-- */
+void	add_redir_back(t_redir **redirs, t_redir *new);
+t_redir	*new_redir(t_token **lexer);
+void	apply_redirections(t_cmd *cmd);
+
 /* --init struct-- */
-int		init_struct(t_shell *shell, char **envp);
-t_cmd	*init_cmd(t_token *tok);
+t_redir	*init_redir_struct(void);
 t_cmd	*init_cmd_struct(void);
+t_cmd	*init_cmd(t_token *tok);
+int		init_struct(t_shell *shell, char **envp);
 
 /* --main-- */
 void	print_lexer(t_token *lexer);
