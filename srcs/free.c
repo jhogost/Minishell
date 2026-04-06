@@ -93,7 +93,8 @@ void	free_cmds(t_shell *shell)
 				free(shell->cmds->argv[i++]);
 			free(shell->cmds->argv);
 		}
-		free(shell->cmds->content_redir);
+		if (shell->cmds->redir)
+			free_redir(shell->cmds->redir);
 		free(shell->cmds);
 		shell->cmds = tmp;
 	}

@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+t_redir	*init_redir_struct(void)
+{
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->file = NULL;
+	redir->heredoc_content = NULL;
+	redir->quoted = 0;
+	redir->type = WORD;
+	redir->next = NULL;
+	return (redir);
+}
+
 t_cmd	*init_cmd_struct(void)
 {
 	t_cmd	*cmd;
@@ -22,8 +37,7 @@ t_cmd	*init_cmd_struct(void)
 	cmd->argv = NULL;
 	cmd->pipe[0] = -1;
 	cmd->pipe[1] = -1;
-	cmd->type = WORD;
-	cmd->content_redir = NULL;
+	cmd->redir = NULL;
 	cmd->pid = -1;
 	cmd->next = NULL;
 	return (cmd);

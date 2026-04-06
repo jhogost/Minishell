@@ -18,23 +18,23 @@ void	print_lexer(t_token *lexer)
 	while (lexer)
 	{
 		if (lexer->type == 0)
-			printf("Type: WORD \t");
+			printf("Type: WORD \t\t");
 		if (lexer->type == 1)
-			printf("Type: BUILTIN \t");
+			printf("Type: BUILTIN \t\t");
 		if (lexer->type == 2)
-			printf("Type: PIPE \t");
+			printf("Type: PIPE \t\t");
 		if (lexer->type == 3)
-			printf("Type: OR \t");
+			printf("Type: OR \t\t");
 		if (lexer->type == 4)
-			printf("Type: REDIR_IN \t");
+			printf("Type: REDIR_IN \t\t");
 		if (lexer->type == 5)
 			printf("Type: REDIR_OUT \t");
 		if (lexer->type == 6)
-			printf("Type: APPEND \t");
+			printf("Type: APPEND \t\t");
 		if (lexer->type == 7)
-			printf("Type: HEREDOC \t");
+			printf("Type: HEREDOC \t\t");
 		if (lexer->type == 8)
-			printf("Type: AND \t");
+			printf("Type: AND \t\t");
 		printf("word: [%s]\n", lexer->word);
 		lexer = lexer->next;
 	}
@@ -43,7 +43,8 @@ void	print_lexer(t_token *lexer)
 
 void	print_cmd(t_cmd *cmd)
 {
-	int	i;
+	int		i;
+	t_redir *redir_tmp;
 
 	i = 0;
 	printf("CMD :\n");
@@ -54,8 +55,18 @@ void	print_cmd(t_cmd *cmd)
 	}
 	printf("pipe in: %d\n", cmd->pipe[0]);
 	printf("pipe out %d\n", cmd->pipe[1]);
-	printf("redir type: %d\n", cmd->type);
-	printf("redir content: %s\n", cmd->content_redir);
+	redir_tmp = cmd->redir;
+	while (redir_tmp)
+	{
+		printf("REDIR\n");
+		if (redir_tmp->type)
+			printf("\tredir type: %d\n", redir_tmp->type);
+		if (redir_tmp->file)
+			printf("\tfile content: %s\n", redir_tmp->file);
+		if (redir_tmp->heredoc_content)
+			printf("\theredoc content: %s\n", redir_tmp->heredoc_content);
+		redir_tmp = redir_tmp->next;
+	}
 	printf("\n");
 }
 

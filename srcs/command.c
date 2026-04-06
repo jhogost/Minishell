@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 17:45:47 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/02 19:08:24 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/06 16:10:52 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,21 @@ int	count_args(t_token *tok)
 t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd)
 {
 	int		i;
+	t_redir	*redir;
 
 	i = 0;
 	while (*lexer && (*lexer)->type != PIPE)
 	{
 		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
 			cmd->argv[i++] = ft_strdup((*lexer)->word);
-		else if ((*lexer)->type == REDIR_IN || (*lexer)->type == REDIR_OUT ||
-				(*lexer)->type == APPEND || (*lexer)->type == HEREDOC)
+		else if ((*lexer)->type == REDIR_IN || (*lexer)->type == REDIR_OUT
+			|| (*lexer)->type == APPEND || (*lexer)->type == HEREDOC)
 		{
-			cmd->type = (*lexer)->type;
-			if (!(*lexer)->next)
+			redir = new_redir(lexer);
+			if (!redir)
 				return (NULL);
+			add_redir_back(&cmd->redir, redir);
 			*lexer = (*lexer)->next;
-			if ((*lexer)->type != WORD && (*lexer)->type != BUILTIN)
-				return (NULL);
-			cmd->content_redir = ft_strdup((*lexer)->word);
 		}
 		*lexer = (*lexer)->next;
 	}
