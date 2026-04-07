@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/06 19:24:48 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/07 20:40:05 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,14 @@ int		is_operator(char c);
 int		is_space(char c);
 char	*strjoin_free(char *s1, char *s2);
 int		create_cmds(t_shell *shell);
-void	execute_pipeline(t_shell *shell);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 char	*ft_strchr(const char *s, int c);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
+
+/* --execution-- */
+void	execute_pipeline(t_shell *shell);
 
 /* --parsing-- */
 int		quote_closed(char *s);
@@ -165,10 +167,19 @@ t_cmd	*new_cmd(t_token **lexer);
 void	add_cmd_back(t_cmd **cmds, t_cmd *new);
 int		create_cmds(t_shell *shell);
 
-/* --redir-- */
+/* --create_redir-- */
 void	add_redir_back(t_redir **redirs, t_redir *new);
 t_redir	*new_redir(t_token **lexer);
-void	apply_redirections(t_cmd *cmd);
+
+/* --apply_redir-- */
+void	apply_redir_out(t_redir *redir);
+void	apply_redir_append(t_redir *redir);
+void	apply_redir_in(t_redir *redir);
+void	apply_redir_heredoc(t_redir *redir);
+int		apply_redirections(t_cmd *cmd);
+
+/* --heredoc-- */
+char	*read_heredoc(t_redir *redir);
 
 /* --init struct-- */
 t_redir	*init_redir_struct(void);

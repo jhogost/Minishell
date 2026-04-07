@@ -15,7 +15,6 @@ NAME  = minishell
 SRCS += srcs/minishell.c
 SRCS += srcs/free.c
 SRCS += srcs/free2.c
-SRCS += srcs/redir.c
 SRCS += srcs/signal.c
 SRCS += srcs/env.c
 SRCS += srcs/init_struct.c
@@ -23,6 +22,10 @@ SRCS += srcs/path.c
 SRCS += srcs/command.c
 SRCS += srcs/execution.c
 SRCS += srcs/error.c
+
+SRCS += srcs/redir/apply_redir.c
+SRCS += srcs/redir/create_redir.c
+SRCS += srcs/redir/heredoc.c
 
 SRCS += builtin/built_in.c
 SRCS += builtin/pwd.c

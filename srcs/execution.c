@@ -61,7 +61,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	int		res;
 
 	handle_child_redir(cmd, prev_fd);
-	apply_redirections(cmd);
+	apply_redirections(cmd);			//TODO return error
 	if (isbuiltin(cmd->argv[0]) == 0)
 	{
 		res = built_in(cmd, shell);
@@ -70,10 +70,33 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 		exit(res);
 	}
 	path = find_path(shell->paths, cmd->argv[0]);
-	print_cmd(cmd);
 	if (path && execve(path, cmd->argv, shell->envp) == -1)
 		child_error(shell, cmd->argv[0], path);
 	child_error(shell, cmd->argv[0], path);
+}
+
+int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
+{
+	int	saved_stdin;
+	int	saved_stdout;
+	int	status;
+
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	if (saved_stdin < 0 || saved_stdout < 0)
+		return (perror("dup"), 1);
+	if (apply_redirections(cmd) == -1)
+	{
+		close(saved_stdin);
+		close(saved_stdout);
+		return (1);
+	}
+	status = built_in(cmd, shell);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+	return (status);
 }
 
 void	execute_pipeline(t_shell *shell)
@@ -86,7 +109,7 @@ void	execute_pipeline(t_shell *shell)
 		return ;
 	if (!curr->next && isbuiltin(curr->argv[0]) == 0)
 	{
-		shell->exit_code = built_in(curr, shell);
+		shell->exit_code = run_builtin_parent(curr, shell);
 		return ;
 	}
 	prev_fd = STDIN_FILENO;
