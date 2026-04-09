@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/07 20:12:48 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 18:10:36 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*read_heredoc(t_redir *redir)
 
 	content = NULL;
 	content = ft_strdup("");
-	while(1)
+	while (1)
 	{
 		line = readline("> ");
 		if (!line)

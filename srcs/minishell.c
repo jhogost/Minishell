@@ -35,7 +35,7 @@ void	print_lexer(t_token *lexer)
 			printf("Type: HEREDOC \t\t");
 		if (lexer->type == 8)
 			printf("Type: AND \t\t");
-		printf("word: [%s]\n", lexer->word);
+		printf("word: [%s]\n", lexer->word->str);
 		lexer = lexer->next;
 	}
 	printf("\n");
@@ -44,7 +44,7 @@ void	print_lexer(t_token *lexer)
 void	print_cmd(t_cmd *cmd)
 {
 	int		i;
-	t_redir *redir_tmp;
+	t_redir	*redir_tmp;
 
 	i = 0;
 	printf("CMD :\n");
@@ -81,13 +81,14 @@ int	run_interactive(t_shell *shell)
 		return (free_interactive(shell), 1);
 	if (*shell->input)
 		add_history(shell->input);
-	if (verify_line(shell->input) == -42)
+	if (verify_line(shell->input, shell) == -42)
 		return (free_interactive(shell), 1);
 	if ((ft_strcmp(shell->input, "exit") == 0 && ft_strlen(shell->input) == 4))
 		return (0);
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);
+	expand_lexer(shell, shell->lexer);
 	//print_lexer(shell->lexer);
 	if (create_cmds(shell) == -42)
 		return (-42);

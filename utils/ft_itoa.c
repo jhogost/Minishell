@@ -66,7 +66,7 @@ char	*ft_itoa(int n)
 	long	nb;
 
 	nb = n;
-	str = malloc(sizeof(char) * how_malloc(nb) + 1);
+	str = malloc(sizeof(char) * (how_malloc(nb) + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

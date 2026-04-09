@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/07 20:40:05 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:12:08 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,28 @@ typedef enum e_token_type
 	HEREDOC,
 	AND
 }	t_token_type;
-// Enumeration, starts at 0, so WORD = 0, and increments by 1 at each line
+
+typedef struct s_word
+{
+	char	*str;
+	int		expand;
+}	t_word;
 
 typedef struct s_token
 {
 	int				type;
-	char			*word;
+	t_word			*word;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-// token is the element identified and extracted from the input string
-// (commands and flags etc...)
 
 typedef struct s_redir
 {
-	t_token_type		type;
-	char				*file;
-	char				*heredoc_content;
-	int					quoted;
-	struct s_redir		*next;
+	t_token_type	type;
+	char			*file;
+	char			*heredoc_content;
+	int				quoted;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_cmd
@@ -91,6 +94,7 @@ void	free_cmds(t_shell *shell);
 
 /* --Free 2-- */
 void	free_redir(t_redir *redir);
+void	wait_all(t_cmd *cmds, t_shell *shell);
 
 /* --Utils functions-- */
 char	**ft_split(char *str, char *charset);
@@ -111,13 +115,14 @@ void	ft_putchar_fd(char c, int fd);
 char	*ft_strchr(const char *s, int c);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
+int		ft_isalnum(int c);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
 
 /* --parsing-- */
 int		quote_closed(char *s);
-int		verify_line(char *line);
+int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 
 /* --Built in commands-- */
@@ -132,11 +137,21 @@ int		builtin_export(char **argv, t_shell *shell);
 int		builtin_pwd(void);
 
 /* --Lexer-- */
-t_token	*new_token(int type, char *word);
+t_token	*new_token(int type, t_word *word);
 void	add_token(t_token **lexer, t_token *new);
 t_token	*extract_operator(char *s, int *i);
-char	*extract_word(char *s, int *i);
+t_word	*extract_word(char *s, int *i);
 t_token	*build_lexer(char *input, t_token *lexer);
+
+/* --expand_token-- */
+char	*extract_key(char *str, int i, int *end);
+char	*get_env_value(char **envp, char *key);
+char	*build_expanded(char *str, int i, int end, char *value);
+char	*expand_token(t_shell *shell, char *str);
+char	*get_value(t_shell *shell, char *key);
+
+/* --expand_lexer-- */
+void	expand_lexer(t_shell *shell, t_token *lexer);
 
 /* --handle_operator-- */
 t_token	*handle_and(char *s, int *i);
@@ -172,16 +187,17 @@ void	add_redir_back(t_redir **redirs, t_redir *new);
 t_redir	*new_redir(t_token **lexer);
 
 /* --apply_redir-- */
-void	apply_redir_out(t_redir *redir);
-void	apply_redir_append(t_redir *redir);
-void	apply_redir_in(t_redir *redir);
-void	apply_redir_heredoc(t_redir *redir);
+int		apply_redir_out(t_redir *redir);
+int		apply_redir_append(t_redir *redir);
+int		apply_redir_in(t_redir *redir);
+int		apply_redir_heredoc(t_redir *redir);
 int		apply_redirections(t_cmd *cmd);
 
 /* --heredoc-- */
 char	*read_heredoc(t_redir *redir);
 
 /* --init struct-- */
+t_word	*init_word(void);
 t_redir	*init_redir_struct(void);
 t_cmd	*init_cmd_struct(void);
 t_cmd	*init_cmd(t_token *tok);

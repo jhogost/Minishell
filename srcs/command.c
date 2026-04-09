@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 17:45:47 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/06 16:10:52 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 14:41:32 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd)
 	while (*lexer && (*lexer)->type != PIPE)
 	{
 		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
-			cmd->argv[i++] = ft_strdup((*lexer)->word);
+			cmd->argv[i++] = ft_strdup((*lexer)->word->str);
 		else if ((*lexer)->type == REDIR_IN || (*lexer)->type == REDIR_OUT
 			|| (*lexer)->type == APPEND || (*lexer)->type == HEREDOC)
 		{
@@ -113,4 +113,3 @@ int	create_cmds(t_shell *shell)
 	}
 	return (0);
 }
-//create the list of commands from the lexer

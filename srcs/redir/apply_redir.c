@@ -6,13 +6,13 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:36:31 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/07 20:30:50 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 18:51:39 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	apply_redir_out(t_redir *redir)
+int	apply_redir_out(t_redir *redir)
 {
 	int	fd;
 
@@ -20,13 +20,14 @@ void	apply_redir_out(t_redir *redir)
 	if (fd < 0)
 	{
 		perror("open");
-		return ;
+		return (-42);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
 }
 
-void	apply_redir_append(t_redir *redir)
+int	apply_redir_append(t_redir *redir)
 {
 	int	fd;
 
@@ -34,13 +35,14 @@ void	apply_redir_append(t_redir *redir)
 	if (fd < 0)
 	{
 		perror("open");
-		return ;
+		return (-42);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
 }
 
-void	apply_redir_in(t_redir *redir)
+int	apply_redir_in(t_redir *redir)
 {
 	int	fd;
 
@@ -48,13 +50,14 @@ void	apply_redir_in(t_redir *redir)
 	if (fd < 0)
 	{
 		perror("open");
-		return ;
+		return (-42);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	return (0);
 }
 
-void	apply_redir_heredoc(t_redir *redir)
+int	apply_redir_heredoc(t_redir *redir)
 {
 	int	pipefd[2];
 
@@ -62,29 +65,34 @@ void	apply_redir_heredoc(t_redir *redir)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
-		return ;
+		return (-42);
 	}
 	write(pipefd[1], redir->heredoc_content, ft_strlen(redir->heredoc_content));
 	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
+	return (0);
 }
 
 int	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*tmp;
+	int		status;
 
+	status = 0;
 	tmp = cmd->redir;
-	while (tmp)								//TODO error return
+	while (tmp)
 	{
 		if (tmp->type == REDIR_OUT)
-			apply_redir_out(tmp);
+			status = apply_redir_out(tmp);
 		else if (tmp->type == APPEND)
-			apply_redir_append(tmp);
+			status = apply_redir_append(tmp);
 		else if (tmp->type == REDIR_IN)
-			apply_redir_in(tmp);
+			status = apply_redir_in(tmp);
 		else if (tmp->type == HEREDOC)
-			apply_redir_heredoc(tmp);
+			status = apply_redir_heredoc(tmp);
+		if (status == -42)
+			return (-42);
 		tmp = tmp->next;
 	}
 	return (0);

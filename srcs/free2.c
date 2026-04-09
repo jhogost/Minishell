@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:37:21 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/06 14:31:00 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 18:08:01 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,19 @@ void	free_redir(t_redir *redir)
 		tmp = next;
 	}
 	redir = NULL;
+}
+
+void	wait_all(t_cmd *cmds, t_shell *shell)
+{
+	t_cmd	*tmp;
+	int		status;
+
+	tmp = cmds;
+	while (tmp)
+	{
+		waitpid(tmp->pid, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_code = WEXITSTATUS(status);
+		tmp = tmp->next;
+	}
 }

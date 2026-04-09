@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+         #
+#    By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/02/10 10:04:30 by hhervieu          #+#    #+#              #
-#    Updated: 2026/02/18 14:12:10 by hhervieu         ###   ########.fr        #
+#    Created: 2026/04/09 15:17:12 by jbayet            #+#    #+#              #
+#    Updated: 2026/04/09 15:17:12 by jbayet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ SRCS += srcs/path.c
 SRCS += srcs/command.c
 SRCS += srcs/execution.c
 SRCS += srcs/error.c
+SRCS += srcs/expand_token.c
+SRCS += srcs/expand_lexer.c
 
 SRCS += srcs/redir/apply_redir.c
 SRCS += srcs/redir/create_redir.c
@@ -51,6 +53,7 @@ SRCS += utils/ft_putstr_fd.c
 SRCS += utils/ft_strchr.c
 SRCS += utils/ft_itoa.c
 SRCS += utils/ft_atoi.c
+SRCS += utils/ft_isalnum.c
 
 SRCS += lexer/handle_operator.c
 SRCS += lexer/handle_text_and_quote.c

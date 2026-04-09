@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:27:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/23 12:28:41 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 15:17:38 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 t_token	*handle_and(char *s, int *i)
 {
+	t_word	*word;
+
+	word = malloc(sizeof(t_word));
+	if (!word)
+		return (NULL);
+	word->expand = 0;
 	if (s[*i + 1])
 	{
 		if (s[*i] == '&' && s[*i + 1] == '&')
 		{
 			(*i) += 2;
-			return (new_token(AND, ft_strdup("&&")));
+			word->str = ft_strdup("&&");
+			return (new_token(AND, word));
 		}
 	}
 	return (NULL);
@@ -27,54 +34,78 @@ t_token	*handle_and(char *s, int *i)
 
 t_token	*handle_pipe_or(char *s, int *i)
 {
+	t_word	*word;
+
+	word = malloc(sizeof(t_word));
+	if (!word)
+		return (NULL);
+	word->expand = 0;
 	if (s[*i + 1])
 	{
 		if (s[*i] == '|' && s[*i + 1] == '|')
 		{
 			(*i) += 2;
-			return (new_token(OR, ft_strdup("||")));
+			word->str = ft_strdup("||");
+			return (new_token(OR, word));
 		}
 	}
 	if (s[*i] == '|')
 	{
 		(*i)++;
-		return (new_token(PIPE, ft_strdup("|")));
+		word->str = ft_strdup("|");
+		return (new_token(PIPE, word));
 	}
 	return (NULL);
 }
 
 t_token	*handle_redir_in(char *s, int *i)
 {
+	t_word	*word;
+
+	word = malloc(sizeof(t_word));
+	if (!word)
+		return (NULL);
+	word->expand = 0;
 	if (s[*i + 1])
 	{
 		if (s[*i] == '<' && s[*i + 1] == '<')
 		{
 			(*i) += 2;
-			return (new_token(HEREDOC, ft_strdup("<<")));
+			word->str = ft_strdup("<<");
+			return (new_token(HEREDOC, word));
 		}
 	}
 	if (s[*i] == '<')
 	{
 		(*i)++;
-		return (new_token(REDIR_IN, ft_strdup("<")));
+		word->str = ft_strdup("<");
+		return (new_token(REDIR_IN, word));
 	}
 	return (NULL);
 }
 
 t_token	*handle_redir_out(char *s, int *i)
 {
+	t_word	*word;
+
+	word = malloc(sizeof(t_word));
+	if (!word)
+		return (NULL);
+	word->expand = 0;
 	if (s[*i + 1])
 	{
 		if (s[*i] == '>' && s[*i + 1] == '>')
 		{
 			(*i) += 2;
-			return (new_token(APPEND, ft_strdup(">>")));
+			word->str = ft_strdup(">>");
+			return (new_token(APPEND, word));
 		}
 	}
 	if (s[*i] == '>')
 	{
 		(*i)++;
-		return (new_token(REDIR_OUT, ft_strdup(">")));
+		word->str = ft_strdup(">");
+		return (new_token(REDIR_OUT, word));
 	}
 	return (NULL);
 }

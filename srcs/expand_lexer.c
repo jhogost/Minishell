@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchri.c                                       :+:      :+:    :+:   */
+/*   expand_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/18 16:39:58 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/09 17:38:07 by jbayet           ###   ########.fr       */
+/*   Created: 2026/04/09 19:10:49 by jbayet            #+#    #+#             */
+/*   Updated: 2026/04/09 19:11:22 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strchri(const char *s, int c)
+void	expand_lexer(t_shell *shell, t_token *lexer)
 {
-	int		i;
+	t_token	*tmp;
 
-	if (!s)
-		return (-42);
-	i = 0;
-	while (s[i] != '\0')
+	tmp = lexer;
+	while (tmp)
 	{
-		if (s[i] == (char)c)
-			return (i);
-		i++;
+		while (ft_strchr(tmp->word->str, '$') && tmp->word->expand)
+			tmp->word->str = expand_token(shell, tmp->word->str);
+		tmp = tmp->next;
 	}
-	if ((char)c == '\0')
-		return (i);
-	return (-42);
 }

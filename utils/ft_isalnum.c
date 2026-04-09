@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchri.c                                       :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/18 16:39:58 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/09 17:38:07 by jbayet           ###   ########.fr       */
+/*   Created: 2026/04/09 15:15:00 by jbayet            #+#    #+#             */
+/*   Updated: 2026/04/09 15:15:53 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strchri(const char *s, int c)
+int	ft_isalnum(int c)
 {
-	int		i;
-
-	if (!s)
-		return (-42);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return (i);
-		i++;
-	}
-	if ((char)c == '\0')
-		return (i);
-	return (-42);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	else if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }

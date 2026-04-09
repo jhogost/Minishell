@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/03/28 11:29:33 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:36:38 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,19 @@ int	quote_closed(char *s)
 	return (count % 2 == 0);
 }
 
-int	verify_line(char *line)
+int	verify_line(char *line, t_shell *shell)
 {
 	if (!line)
 		return (-1);
 	if (count_tokens(line) == -42)
-		return (printf("Syntax error: too many operators\n"), -42);
+		return (printf("Syntax error: too many operators\n"),
+			shell->exit_code = 2, -42);
 	if (line[0] == '|' || line[0] == '&')
-		return (printf("Syntax error: unexpected token `%c'\n", line[0]), -42);
+		return (printf("Syntax error: unexpected token `%c'\n", line[0]),
+			shell->exit_code = 2, -42);
 	if (quote_closed(line) == 0)
-		return (printf("Syntax error: unclosed quote\n"), -42);
+		return (printf("Syntax error: unclosed quote\n"),
+			shell->exit_code = 2, -42);
 	return (0);
 }
 

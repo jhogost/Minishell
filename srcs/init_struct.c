@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+t_word	*init_word(void)
+{
+	t_word	*word;
+
+	word = malloc(sizeof(t_word));
+	if (!word)
+		return (NULL);
+	word->expand = 1;
+	word->str = ft_strdup("");
+	if (!word->str)
+		return (free(word), NULL);
+	return (word);
+}
+
 t_redir	*init_redir_struct(void)
 {
 	t_redir	*redir;

@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/01 15:58:29 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:02:35 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-int	whatisword(char *word, t_token *prev)
-{
-	if (!word)
-		return (-1);
-	if (ft_strcmp(word, "&&") == 0 || (ft_strcmp(word, "||") == 0
-			&& ft_countchar(word, '|') == 2))
-		return (CONTROL);
-	if (ft_strcmp(word, "|") == 0 && ft_countchar(word, '|') == 1)
-		return (PIPE);
-	if (ft_strcmp(word, ">") == 0 || ft_strcmp(word, ">>") == 0
-		|| ft_strcmp(word, "<") == 0 || ft_strcmp(word, "<<") == 0)
-		return (REDIRECTION);
-	if (!prev)
-		return (COMMAND);
-	else if (prev->type == PIPE || prev->type == CONTROL)
-		return (COMMAND);
-	return (ARGUMENT);
-}
-*/
-
-t_token	*new_token(int type, char *word)
+t_token	*new_token(int type, t_word *word)
 {
 	t_token	*tok;
 
@@ -42,7 +21,7 @@ t_token	*new_token(int type, char *word)
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
-	if (isbuiltin(word) == 0)
+	if (isbuiltin(word->str) == 0)
 		tok->type = BUILTIN;
 	else
 		tok->type = type;
@@ -82,27 +61,31 @@ t_token	*extract_operator(char *s, int *i)
 	return (tok);
 }
 
-char	*extract_word(char *s, int *i)
+t_word	*extract_word(char *s, int *i)
 {
-	char	*res;
+	t_word	*word;
 
-	res = NULL;
+	word = init_word();
+	if (!word)
+		return (NULL);
+	if (s[*i] == '\'')
+		word->expand = 0;
 	while (s[*i] && !is_space(s[*i]) && !is_operator(s[*i]))
 	{
 		if (s[*i] == '\'' || s[*i] == '"')
 		{
-			res = handle_quote(s, i, res);
-			if (!res)
+			word->str = handle_quote(s, i, word->str);
+			if (!word->str)
 				return (NULL);
 		}
 		else
 		{
-			res = handle_plain_text(s, i, res);
-			if (!res)
+			word->str = handle_plain_text(s, i, word->str);
+			if (!word->str)
 				return (NULL);
 		}
 	}
-	return (res);
+	return (word);
 }
 
 t_token	*build_lexer(char *input, t_token *lexer)
@@ -133,12 +116,3 @@ t_token	*build_lexer(char *input, t_token *lexer)
 	}
 	return (lexer);
 }
-
-// TODO put the entire line in the lexer / structure
-// 0 operateur de controle
-// 1 pipe -> |
-// 2 redirection -> > < >> <<
-// 3 argument/flag -> -la test.txt
-// 4 command/builtin -> ls echo cat exit pwd
-// TODO after lexer, detect simple and double quotes ($ for double quotes)
-// and detect them as one word

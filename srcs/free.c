@@ -67,6 +67,7 @@ void	free_interactive(t_shell *shell)
 		while (tmp)
 		{
 			next = tmp->next;
+			free(tmp->word->str);
 			free(tmp->word);
 			free(tmp);
 			tmp = next;

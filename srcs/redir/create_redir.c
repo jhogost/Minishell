@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:19:40 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/07 18:37:55 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/09 14:50:49 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	add_redir_back(t_redir **redirs, t_redir *new)
 
 t_redir	*new_redir(t_token **lexer)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	if (!(*lexer)->next)
 		return (NULL);
@@ -41,15 +41,15 @@ t_redir	*new_redir(t_token **lexer)
 	redir->type = (*lexer)->type;
 	if ((*lexer)->type == HEREDOC)
 	{
-		if ((*lexer)->next->word[0] == '\'')
+		if ((*lexer)->next->word->str[0] == '\'')
 		{
 			redir->quoted = 1;
-			redir->file = ft_strdup_no_quotes((*lexer)->next->word);
+			redir->file = ft_strdup_no_quotes((*lexer)->next->word->str);
 		}
 		else
-			redir->file = ft_strdup((*lexer)->next->word);
+			redir->file = ft_strdup((*lexer)->next->word->str);
 	}
 	else
-		redir->file = ft_strdup((*lexer)->next->word);
+		redir->file = ft_strdup((*lexer)->next->word->str);
 	return (redir);
 }

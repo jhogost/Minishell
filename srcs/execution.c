@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-static void	wait_all(t_cmd *cmds, t_shell *shell)
-{
-	t_cmd	*tmp;
-	int		status;
-
-	tmp = cmds;
-	while (tmp)
-	{
-		waitpid(tmp->pid, &status, 0);
-		if (WIFEXITED(status))
-			shell->exit_code = WEXITSTATUS(status);
-		tmp = tmp->next;
-	}
-}
-
 static void	handle_child_redir(t_cmd *cmd, int prev_fd)
 {
 	if (prev_fd != STDIN_FILENO)
@@ -34,8 +19,6 @@ static void	handle_child_redir(t_cmd *cmd, int prev_fd)
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (cmd->redir)
-
 	if (cmd->next)
 	{
 		dup2(cmd->pipe[1], STDOUT_FILENO);
@@ -61,7 +44,11 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	int		res;
 
 	handle_child_redir(cmd, prev_fd);
-	apply_redirections(cmd);			//TODO return error
+	if (apply_redirections(cmd) == -42)
+	{
+		shell->exit_code = 1;
+		return ;
+	}
 	if (isbuiltin(cmd->argv[0]) == 0)
 	{
 		res = built_in(cmd, shell);
@@ -92,6 +79,7 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 		return (1);
 	}
 	status = built_in(cmd, shell);
+	shell->exit_code = status;
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
