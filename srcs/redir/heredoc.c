@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/09 18:10:36 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/13 15:37:45 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*read_heredoc(t_redir *redir)
 			break ;
 		if (ft_strcmp(line, redir->file) == 0)
 			return (free(line), content);
-		if (redir->quoted)
+		if (redir->expand)
 			content = strjoin_free(content, line);
 		else
 			content = strjoin_free(content, line); //TODO expand var !!!!!!!!!!!

@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/09 19:12:08 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 13:39:42 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*file;
 	char			*heredoc_content;
-	int				quoted;
+	int				expand;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -116,6 +116,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
+int		i_white_char_str(char *line);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
@@ -151,7 +152,9 @@ char	*expand_token(t_shell *shell, char *str);
 char	*get_value(t_shell *shell, char *key);
 
 /* --expand_lexer-- */
-void	expand_lexer(t_shell *shell, t_token *lexer);
+void	split_token(t_token *tok, t_token **new_lexer);
+void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer);
+t_token	*expand_lexer(t_shell *shell, t_token *lexer);
 
 /* --handle_operator-- */
 t_token	*handle_and(char *s, int *i);

@@ -35,7 +35,7 @@ t_redir	*init_redir_struct(void)
 		return (NULL);
 	redir->file = NULL;
 	redir->heredoc_content = NULL;
-	redir->quoted = 0;
+	redir->expand = 0;
 	redir->type = WORD;
 	redir->next = NULL;
 	return (redir);

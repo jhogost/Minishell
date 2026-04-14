@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:19:40 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/09 14:50:49 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/13 15:37:45 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,9 @@ t_redir	*new_redir(t_token **lexer)
 	redir->type = (*lexer)->type;
 	if ((*lexer)->type == HEREDOC)
 	{
-		if ((*lexer)->next->word->str[0] == '\'')
-		{
-			redir->quoted = 1;
-			redir->file = ft_strdup_no_quotes((*lexer)->next->word->str);
-		}
-		else
-			redir->file = ft_strdup((*lexer)->next->word->str);
+		if ((*lexer)->next->word->expand)
+			redir->expand = 1;
+		redir->file = ft_strdup((*lexer)->next->word->str);
 	}
 	else
 		redir->file = ft_strdup((*lexer)->next->word->str);

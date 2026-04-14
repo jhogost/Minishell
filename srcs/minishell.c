@@ -88,7 +88,9 @@ int	run_interactive(t_shell *shell)
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);
-	expand_lexer(shell, shell->lexer);
+	shell->lexer = expand_lexer(shell, shell->lexer);
+	if (!shell->lexer)
+		return (-42);
 	//print_lexer(shell->lexer);
 	if (create_cmds(shell) == -42)
 		return (-42);
