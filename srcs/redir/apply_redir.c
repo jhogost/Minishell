@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:36:31 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/09 18:51:39 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 16:32:47 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	apply_redir_in(t_redir *redir)
 	return (0);
 }
 
-int	apply_redir_heredoc(t_redir *redir)
+int	apply_redir_heredoc(t_redir *redir, t_shell *shell)
 {
 	int	pipefd[2];
 
-	redir->heredoc_content = read_heredoc(redir);
+	redir->heredoc_content = read_heredoc(redir, shell);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
@@ -74,7 +74,7 @@ int	apply_redir_heredoc(t_redir *redir)
 	return (0);
 }
 
-int	apply_redirections(t_cmd *cmd)
+int	apply_redirections(t_cmd *cmd, t_shell *shell)
 {
 	t_redir	*tmp;
 	int		status;
@@ -90,7 +90,7 @@ int	apply_redirections(t_cmd *cmd)
 		else if (tmp->type == REDIR_IN)
 			status = apply_redir_in(tmp);
 		else if (tmp->type == HEREDOC)
-			status = apply_redir_heredoc(tmp);
+			status = apply_redir_heredoc(tmp, shell);
 		if (status == -42)
 			return (-42);
 		tmp = tmp->next;

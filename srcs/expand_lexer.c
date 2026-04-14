@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:10:49 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/14 13:39:03 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 20:15:03 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,40 @@ void	split_token(t_token *tok, t_token **new_lexer)
 	free(words);
 }
 
+int	need_expand(char *str, int expand)
+{
+	int	i;
+
+	i = 0;
+	if (!expand)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1])
+		{
+			if (ft_isalnum(str[i + 1]) || str[i + 1] == '?')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer)
 {
-	if (ft_strchr(tmp->word->str, '$') && tmp->word->expand)
+	int	i;
+
+	if (need_expand(tmp->word->str, tmp->word->expand))
 	{
-		while (ft_strchr(tmp->word->str, '$'))
-			tmp->word->str = expand_token(shell, tmp->word->str);
+		i = 0;
+		while (tmp->word->str[i])
+		{
+			if (tmp->word->str[i] == '$' && tmp->word->str[i + 1]
+				&& (ft_isalnum(tmp->word->str[i + 1])
+					|| tmp->word->str[i + 1] == '?'))
+					tmp->word->str = expand_token(shell, tmp->word->str, i);
+			i++;
+		}
 		if (i_white_char_str(tmp->word->str) != -1)
 		{
 			split_token(tmp, new_lexer);

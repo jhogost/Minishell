@@ -6,13 +6,28 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/13 15:37:45 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 20:27:29 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_heredoc(t_redir *redir)
+static char	*expand_heredoc(char *line, t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$' && line[i + 1]
+			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '?'))
+			line = expand_token(shell, line, i);
+		i++;
+	}
+	return (line);
+}
+
+char	*read_heredoc(t_redir *redir, t_shell *shell)
 {
 	char	*content;
 	char	*line;
@@ -26,10 +41,9 @@ char	*read_heredoc(t_redir *redir)
 			break ;
 		if (ft_strcmp(line, redir->file) == 0)
 			return (free(line), content);
-		if (redir->expand)
-			content = strjoin_free(content, line);
-		else
-			content = strjoin_free(content, line); //TODO expand var !!!!!!!!!!!
+		if (need_expand(line, redir->expand))
+			line = expand_heredoc(line, shell);
+		content = strjoin_free(content, line);
 		content = strjoin_free(content, ft_strdup("\n"));
 	}
 	return (content);

@@ -44,7 +44,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	int		res;
 
 	handle_child_redir(cmd, prev_fd);
-	if (apply_redirections(cmd) == -42)
+	if (apply_redirections(cmd, shell) == -42)
 	{
 		shell->exit_code = 1;
 		return ;
@@ -72,7 +72,7 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdin < 0 || saved_stdout < 0)
 		return (perror("dup"), 1);
-	if (apply_redirections(cmd) == -1)
+	if (apply_redirections(cmd, shell) == -1)
 	{
 		close(saved_stdin);
 		close(saved_stdout);

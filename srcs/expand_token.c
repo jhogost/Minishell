@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 17:58:56 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/13 18:03:21 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 19:47:43 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,13 @@ char	*get_value(t_shell *shell, char *key)
 	return (value);
 }
 
-char	*expand_token(t_shell *shell, char *str)
+char	*expand_token(t_shell *shell, char *str, int i)
 {
-	int		i;
 	int		end;
 	char	*key;
 	char	*value;
 	char	*res;
 
-	i = ft_strchri(str, '$');
-	if (i == -42)
-		return (str);
 	key = extract_key(str, i, &end);
 	if (!key)
 		return (str);

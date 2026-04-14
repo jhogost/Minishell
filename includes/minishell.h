@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/14 13:39:42 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/14 20:19:23 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,12 +148,13 @@ t_token	*build_lexer(char *input, t_token *lexer);
 char	*extract_key(char *str, int i, int *end);
 char	*get_env_value(char **envp, char *key);
 char	*build_expanded(char *str, int i, int end, char *value);
-char	*expand_token(t_shell *shell, char *str);
+char	*expand_token(t_shell *shell, char *str, int i);
 char	*get_value(t_shell *shell, char *key);
 
 /* --expand_lexer-- */
 void	split_token(t_token *tok, t_token **new_lexer);
 void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer);
+int		need_expand(char *str, int expand);
 t_token	*expand_lexer(t_shell *shell, t_token *lexer);
 
 /* --handle_operator-- */
@@ -193,11 +194,11 @@ t_redir	*new_redir(t_token **lexer);
 int		apply_redir_out(t_redir *redir);
 int		apply_redir_append(t_redir *redir);
 int		apply_redir_in(t_redir *redir);
-int		apply_redir_heredoc(t_redir *redir);
-int		apply_redirections(t_cmd *cmd);
+int		apply_redir_heredoc(t_redir *redir, t_shell *shell);
+int		apply_redirections(t_cmd *cmd, t_shell *shell);
 
 /* --heredoc-- */
-char	*read_heredoc(t_redir *redir);
+char	*read_heredoc(t_redir *redir, t_shell *shell);
 
 /* --init struct-- */
 t_word	*init_word(void);
