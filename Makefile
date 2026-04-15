@@ -24,7 +24,6 @@ SRCS += srcs/execution.c
 SRCS += srcs/error.c
 SRCS += srcs/expand_token.c
 SRCS += srcs/expand_lexer.c
-SRCS += srcs/blank_line.c
 SRCS += srcs/verify.c
 
 SRCS += srcs/redir/apply_redir.c
@@ -59,6 +58,7 @@ SRCS += utils/ft_isalnum.c
 SRCS += utils/i_white_char_str.c
 SRCS += utils/ft_strjoin.c
 SRCS += utils/ft_isdigit.c
+SRCS += utils/blank_line.c
 
 SRCS += lexer/handle_operator.c
 SRCS += lexer/handle_text_and_quote.c

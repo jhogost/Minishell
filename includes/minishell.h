@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 15:40:55 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/15 16:41:25 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		ft_isalnum(int c);
 int		i_white_char_str(char *line);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_isdigit(int c);
+int		blank_line(char *line);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
@@ -128,8 +129,6 @@ int		quote_closed(char *s);
 int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 int		count_heredoc(char *line);
-int		blank_line(char *line);
-int		verify_export(char *str);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);
@@ -139,6 +138,7 @@ int		builtin_unset(char **argv, t_shell *shell);
 int		builtin_env(char **envp, char **argv);
 int		builtin_cd(char **argv, t_shell *shell);
 int		builtin_echo(char **argv);
+int		verify_export(char *str);
 int		builtin_export(char **argv, t_shell *shell);
 int		builtin_pwd(void);
 
