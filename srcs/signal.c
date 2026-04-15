@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:25:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/23 17:28:04 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 14:11:51 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	handle_sigint(int sig)
 
 void	setup_signals(void)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint); //ctrl-c
+	signal(SIGQUIT, SIG_IGN); //ctrl-
 }

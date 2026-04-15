@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/14 20:27:29 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 12:31:53 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*read_heredoc(t_redir *redir, t_shell *shell)
 			line = expand_heredoc(line, shell);
 		content = strjoin_free(content, line);
 		content = strjoin_free(content, ft_strdup("\n"));
+		//printf("bash: warning: here-document at line ");
+		//printf("%d delimited by end-of-file (wanted `%s')", count, redir->file);
 	}
 	return (content);
 }

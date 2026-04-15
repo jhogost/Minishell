@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/14 20:19:23 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 14:01:01 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	execute_pipeline(t_shell *shell);
 int		quote_closed(char *s);
 int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
+int		count_heredoc(char *line);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);

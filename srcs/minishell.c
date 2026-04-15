@@ -121,5 +121,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (free_everything(&shell), 0);
 }
-// TODO built in commands | struct for every var | chained list to get the
-// order of what to do for each lines
