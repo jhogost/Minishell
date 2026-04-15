@@ -56,6 +56,8 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 		exit(res);
 	}
 	path = find_path(shell->paths, cmd->argv[0]);
+	if (is_directory(cmd, path))
+		exit (126);
 	if (path && execve(path, cmd->argv, shell->envp) == -1)
 		child_error(shell, cmd->argv[0], path);
 	child_error(shell, cmd->argv[0], path);

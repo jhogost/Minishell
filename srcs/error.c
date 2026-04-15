@@ -21,7 +21,10 @@ void	child_error(t_shell *shell, char *cmd, char *path)
 		ft_putstr_fd(": command not found\n", 2);
 	}
 	else
-		perror("minishell");
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(cmd);
+	}
 	free(path);
 	free_cmds(shell);
 	free_everything(shell);

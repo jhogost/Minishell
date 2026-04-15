@@ -21,6 +21,7 @@ SRCS += srcs/init_struct.c
 SRCS += srcs/path.c
 SRCS += srcs/command.c
 SRCS += srcs/execution.c
+SRCS += srcs/execution_utils.c
 SRCS += srcs/error.c
 SRCS += srcs/expand_token.c
 SRCS += srcs/expand_lexer.c

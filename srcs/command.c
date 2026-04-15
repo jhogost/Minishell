@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 17:45:47 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/14 16:35:38 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 18:11:53 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	count_args(t_token *tok)
 	}
 	return (count);
 }
-//count number of args until pipe or the end
 
 t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd)
 {
@@ -46,7 +45,8 @@ t_cmd	*fill_cmd(t_token **lexer, t_cmd *cmd)
 	i = 0;
 	while (*lexer && (*lexer)->type != PIPE)
 	{
-		if ((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
+		if (((*lexer)->type == WORD || (*lexer)->type == BUILTIN)
+			&& !blank_line((*lexer)->word->str))
 			cmd->argv[i++] = ft_strdup((*lexer)->word->str);
 		else if ((*lexer)->type == REDIR_IN || (*lexer)->type == REDIR_OUT
 			|| (*lexer)->type == APPEND || (*lexer)->type == HEREDOC)
@@ -80,7 +80,6 @@ t_cmd	*new_cmd(t_token **lexer)
 	cmd = fill_cmd(lexer, cmd);
 	return (cmd);
 }
-//create a new command and initialize everything until pipe or the end
 
 void	add_cmd_back(t_cmd **cmds, t_cmd *new)
 {
@@ -96,7 +95,6 @@ void	add_cmd_back(t_cmd **cmds, t_cmd *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
-//add a command to the end of the list of commands
 
 int	create_cmds(t_shell *shell)
 {
