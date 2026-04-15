@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 14:43:12 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/15 14:57:06 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int		quote_closed(char *s);
 int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 int		count_heredoc(char *line);
+int		blank_line(char *line);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);

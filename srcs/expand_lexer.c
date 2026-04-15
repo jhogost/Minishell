@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:10:49 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/14 20:15:03 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 14:52:15 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer)
 			if (tmp->word->str[i] == '$' && tmp->word->str[i + 1]
 				&& (ft_isalnum(tmp->word->str[i + 1])
 					|| tmp->word->str[i + 1] == '?'))
-					tmp->word->str = expand_token(shell, tmp->word->str, i);
+				tmp->word->str = expand_token(shell, tmp->word->str, i);
 			i++;
 		}
 		if (i_white_char_str(tmp->word->str) != -1)

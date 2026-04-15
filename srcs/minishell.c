@@ -77,7 +77,7 @@ int	run_interactive(t_shell *shell)
 	shell->input = (readline("chocolat shell: "));
 	if (!shell->input)
 		return (-42);
-	if (shell->input[0] == '\0')
+	if (shell->input[0] == '\0' || blank_line(shell->input) == 1)
 		return (free_interactive(shell), 1);
 	if (*shell->input)
 		add_history(shell->input);

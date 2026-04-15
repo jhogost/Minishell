@@ -24,6 +24,7 @@ SRCS += srcs/execution.c
 SRCS += srcs/error.c
 SRCS += srcs/expand_token.c
 SRCS += srcs/expand_lexer.c
+SRCS += srcs/blank_line.c
 
 SRCS += srcs/redir/apply_redir.c
 SRCS += srcs/redir/create_redir.c
