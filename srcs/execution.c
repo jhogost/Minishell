@@ -45,10 +45,9 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-	{
-		shell->exit_code = 1;
-		return ;
-	}
+		exit (1);
+	if (blank_line(cmd->argv[0]))
+		exit (0);
 	if (isbuiltin(cmd->argv[0]) == 0)
 	{
 		res = built_in(cmd, shell);

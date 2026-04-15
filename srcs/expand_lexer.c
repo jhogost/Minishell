@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:10:49 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/15 16:21:46 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 17:42:21 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ int	need_expand(char *str, int expand)
 	return (0);
 }
 
+static void	local_free(t_token *tmp)
+{
+	free(tmp->word->str);
+	free(tmp->word);
+	free(tmp);
+}
+
 void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer)
 {
 	int	i;
@@ -72,14 +79,14 @@ void	process_token(t_shell *shell, t_token *tmp, t_token **new_lexer)
 				&& (ft_isalnum(tmp->word->str[i + 1])
 					|| tmp->word->str[i + 1] == '?'))
 				tmp->word->str = expand_token(shell, tmp->word->str, i);
+			if (!tmp->word->str[i])
+				break ;
 			i++;
 		}
 		if (i_white_char_str(tmp->word->str) != -1)
 		{
 			split_token(tmp, new_lexer);
-			free(tmp->word->str);
-			free(tmp->word);
-			free(tmp);
+			local_free(tmp);
 		}
 		else
 			add_token(new_lexer, tmp);
