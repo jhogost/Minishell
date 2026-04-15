@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   line_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/15 15:04:01 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 15:04:01 by hhervieu         ###   ########.fr       */
+/*   Created: 2026/04/15 14:55:51 by hhervieu          #+#    #+#             */
+/*   Updated: 2026/04/15 14:55:51 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+int	blank_line(char *line)
 {
-	char	*join;
-	size_t	i;
-	size_t	j;
+	int	i;
 
-	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (join == NULL)
-		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (line[i])
 	{
-		join[i] = s1[i];
+		if (!is_space(line[i]))
+			return (0);
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		join[i + j] = s2[j];
-		j++;
-	}
-	join[i + j] = '\0';
-	return (join);
+	return (1);
 }
