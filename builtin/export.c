@@ -12,7 +12,32 @@
 
 #include "minishell.h"
 
-static int	get_env_index(char **envp, char *var)
+void	env_but_with_quotes(char **var)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (var && var[i])
+	{
+		j = 0;
+		while (var[i][j] && var[i][j] != '=')
+			write(1, &var[i][j++], 1);
+		if (var[i][j] == '=')
+		{
+			write(1, "=\"", 2);
+			j++;
+			while (var[i][j])
+				write(1, &var[i][j++], 1);
+			write(1, "\"", 1);
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+}
+// Print the env but with quotes around the value of each variable
+
+int	get_env_index(char **envp, char *var)
 {
 	int	i;
 	int	key_len;
@@ -32,7 +57,7 @@ static int	get_env_index(char **envp, char *var)
 }
 //search if the variable already exists in envp
 
-static void	replace_env_var(t_shell *shell, char *var, int index)
+void	replace_env_var(t_shell *shell, char *var, int index)
 {
 	free(shell->envp[index]);
 	shell->envp[index] = ft_strdup(var);
@@ -70,7 +95,8 @@ int	builtin_export(char **argv, t_shell *shell)
 
 	i = 1;
 	if (!argv[i])
-		return (builtin_env(shell->envp));
+		return (env_but_with_quotes(shell->envp), 0);
+	while (argv[i])
 	{
 		if (ft_strchr(argv[i], '=') == NULL)
 		{
