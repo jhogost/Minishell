@@ -39,15 +39,15 @@ int	built_in(t_cmd *cmd, t_shell *shell)
 
 	word = cmd->argv[0];
 	if (ft_strncmp(word, "exit", 5) == 0)
-		exiting_minishell(shell);
+		return (builtin_exit(cmd->argv, shell));
 	if (ft_strncmp(word, "echo", 5) == 0)
 		return (builtin_echo(cmd->argv));
 	if (ft_strncmp(word, "cd", 3) == 0)
-		return (builtin_cd(cmd->argv));
+		return (builtin_cd(cmd->argv, shell));
 	if (ft_strncmp(word, "pwd", 4) == 0)
-		return (builtin_pwd());
+		return (builtin_pwd(cmd->argv));
 	if (ft_strncmp(word, "env", 4) == 0)
-		return (builtin_env(shell->envp));
+		return (builtin_env(shell->envp, cmd->argv));
 	if (ft_strncmp(word, "export", 7) == 0)
 		return (builtin_export(cmd->argv, shell));
 	if (ft_strncmp(word, "unset", 6) == 0)

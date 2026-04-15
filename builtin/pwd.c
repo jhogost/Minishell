@@ -12,12 +12,23 @@
 
 #include "minishell.h"
 
-int	builtin_pwd(void)
+int	builtin_pwd(char **argv)
 {
 	char	str[PATH_MAX];
 
+	if (argv[1])
+	{
+		ft_putstr_fd("pwd: too many arguments\n", 2);
+		return (1);
+	}
 	if (getcwd(str, sizeof(str)) == NULL)
-		return (-42);
-	printf("%s\n", str);
+	{
+		ft_putstr_fd("pwd: error retrieving current directory: getcwd", 2);
+		ft_putstr_fd(": cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
+		return (1);
+	}
+	ft_putstr_fd(str, 1);
+	ft_putchar_fd('\n', 1);
 	return (0);
 }

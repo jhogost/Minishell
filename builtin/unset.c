@@ -12,25 +12,6 @@
 
 #include "minishell.h"
 
-static int	get_env_index(char **envp, char *var)
-{
-	int	i;
-	int	key_len;
-
-	key_len = 0;
-	while (var[key_len] && var[key_len] != '=')
-		key_len++;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], var, key_len) == 0
-			&& envp[i][key_len] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 void	remove_env_var(t_shell *shell, char *var)
 {
 	int	index;
