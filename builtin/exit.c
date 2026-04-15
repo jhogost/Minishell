@@ -16,7 +16,7 @@ int	builtin_exit(char **argv, t_shell *shell)
 {
 	int	exit_code;
 
-	exit_code = shell->last_exit_code;
+	exit_code = shell->exit_code;
 	if (argv[1])
 	{
 		if (argv[2])

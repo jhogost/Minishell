@@ -55,6 +55,7 @@ SRCS += utils/ft_itoa.c
 SRCS += utils/ft_atoi.c
 SRCS += utils/ft_isalnum.c
 SRCS += utils/i_white_char_str.c
+SRCS += utils/ft_strjoin.c
 
 SRCS += lexer/handle_operator.c
 SRCS += lexer/handle_text_and_quote.c

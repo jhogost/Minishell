@@ -21,6 +21,7 @@ void	env_but_with_quotes(char **var)
 	while (var && var[i])
 	{
 		j = 0;
+		write(1, "export ", 7);
 		while (var[i][j] && var[i][j] != '=')
 			write(1, &var[i][j++], 1);
 		if (var[i][j] == '=')

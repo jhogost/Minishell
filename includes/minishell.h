@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 14:01:01 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/15 14:43:12 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ char	*ft_itoa(int n);
 int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
 int		i_white_char_str(char *line);
+char	*ft_strjoin(char *s1, char *s2);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
@@ -130,13 +131,13 @@ int		count_heredoc(char *line);
 /* --Built in commands-- */
 int		isbuiltin(char *word);
 int		built_in(t_cmd *cmd, t_shell *shell);
-void	exiting_minishell(t_shell *shell);
+int		builtin_exit(char **argv, t_shell *shell);
 int		builtin_unset(char **argv, t_shell *shell);
-int		builtin_env(char **envp);
-int		builtin_cd(char **argv);
+int		builtin_env(char **envp, char **argv);
+int		builtin_cd(char **argv, t_shell *shell);
 int		builtin_echo(char **argv);
 int		builtin_export(char **argv, t_shell *shell);
-int		builtin_pwd(void);
+int		builtin_pwd(char **envp);
 
 /* --Lexer-- */
 t_token	*new_token(int type, t_word *word);
@@ -175,6 +176,9 @@ void	setup_signals(void);
 
 /* --env-- */
 int		get_env(char **envp, t_shell *shell);
+int		get_env_index(char **envp, char *var);
+void	replace_env_var(t_shell *shell, char *var, int index);
+void	add_env_var(t_shell *shell, char *var);
 
 /* --path-- */
 char	*join_path(char *dir, char *cmd);
