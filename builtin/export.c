@@ -99,7 +99,7 @@ int	builtin_export(char **argv, t_shell *shell)
 		return (env_but_with_quotes(shell->envp), 0);
 	while (argv[i])
 	{
-		if (ft_strchr(argv[i], '=') == NULL)
+		if (verify_export(argv[i]) == 1)
 		{
 			ft_putstr_fd("minishell: export: not a valid identifier\n", 2);
 			return (1);

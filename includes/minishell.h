@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 15:33:04 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:40:55 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
 int		i_white_char_str(char *line);
 char	*ft_strjoin(char *s1, char *s2);
+int		ft_isdigit(int c);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
@@ -128,6 +129,7 @@ int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 int		count_heredoc(char *line);
 int		blank_line(char *line);
+int		verify_export(char *str);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);
