@@ -6,7 +6,7 @@
 /*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 14:57:06 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:33:04 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		builtin_env(char **envp, char **argv);
 int		builtin_cd(char **argv, t_shell *shell);
 int		builtin_echo(char **argv);
 int		builtin_export(char **argv, t_shell *shell);
-int		builtin_pwd(char **envp);
+int		builtin_pwd(void);
 
 /* --Lexer-- */
 t_token	*new_token(int type, t_word *word);

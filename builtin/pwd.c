@@ -12,15 +12,10 @@
 
 #include "minishell.h"
 
-int	builtin_pwd(char **argv)
+int	builtin_pwd(void)
 {
 	char	str[PATH_MAX];
 
-	if (argv[1])
-	{
-		ft_putstr_fd("pwd: too many arguments\n", 2);
-		return (1);
-	}
 	if (getcwd(str, sizeof(str)) == NULL)
 	{
 		ft_putstr_fd("pwd: error retrieving current directory: getcwd", 2);

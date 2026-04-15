@@ -45,7 +45,7 @@ int	built_in(t_cmd *cmd, t_shell *shell)
 	if (ft_strncmp(word, "cd", 3) == 0)
 		return (builtin_cd(cmd->argv, shell));
 	if (ft_strncmp(word, "pwd", 4) == 0)
-		return (builtin_pwd(cmd->argv));
+		return (builtin_pwd());
 	if (ft_strncmp(word, "env", 4) == 0)
 		return (builtin_env(shell->envp, cmd->argv));
 	if (ft_strncmp(word, "export", 7) == 0)
