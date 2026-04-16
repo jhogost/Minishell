@@ -16,7 +16,8 @@ int	is_directory(t_cmd *cmd, char *path)
 {
 	struct stat	sb;
 
-	stat(path, &sb);
+	if (stat(path, &sb) == -1)
+		return (0);
 	if (S_ISDIR(sb.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);

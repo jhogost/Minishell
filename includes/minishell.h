@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 19:26:05 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/16 14:13:17 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <errno.h>
 
 typedef enum e_token_type
 {
@@ -225,5 +226,6 @@ int		run_interactive(t_shell *shell);
 
 /* --error-- */
 void	child_error(t_shell *shell, char *cmd, char *path);
+void	execve_error(t_cmd *cmd, t_shell *shell, char *path);
 
 #endif
