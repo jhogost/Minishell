@@ -42,6 +42,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 {
 	char	*path;
 
+	exec_signals();
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
 		exit(1);
@@ -111,10 +112,12 @@ void	execute_pipeline(t_shell *shell)
 		if (curr->next)
 			pipe(curr->pipe);
 		curr->pid = fork();
+		ignore_signals();
 		if (curr->pid == 0)
 			execute_child(shell, curr, prev_fd);
 		handle_parent_fds(&prev_fd, curr);
 		curr = curr->next;
 	}
 	wait_all(shell->cmds, shell);
+	general_signals();
 }

@@ -6,23 +6,55 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:25:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/15 14:11:51 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/16 19:59:23 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+volatile sig_atomic_t	g_last_signal = 0;
+
+void	handler_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
+	g_last_signal = 0;
+	g_last_signal = sig;
+	write(2, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	setup_signals(void)
+void	handler_heredoc_sigint(int sig)
 {
-	signal(SIGINT, handle_sigint); //ctrl-c
-	signal(SIGQUIT, SIG_IGN); //ctrl-
+	(void)sig;
+	g_last_signal = 130;
+	write(2, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	rl_done = 1;
+}
+
+void	exec_signals(void)
+{
+	signal(SIGINT, handler_sigint);
+	signal(SIGQUIT, handler_sigint);
+}
+
+void	general_signals(void)
+{
+	signal(SIGINT, handler_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
+void	heredoc_signals(void)
+{
+	signal(SIGINT, handler_heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	print_lexer(t_token *lexer)
+/* void	print_lexer(t_token *lexer)
 {
 	printf("LEXER :\n");
 	while (lexer)
@@ -68,15 +68,29 @@ void	print_cmd(t_cmd *cmd)
 		redir_tmp = redir_tmp->next;
 	}
 	printf("\n");
+} */
+
+static void	set_error_signal(t_shell *shell)
+{
+		shell->exit_code = 128 + g_last_signal;
+		g_last_signal = 0;
 }
 
-int	run_interactive(t_shell *shell)
+static void	new_read_line(t_shell *shell)
 {
 	shell->lexer = NULL;
 	shell->cmds = NULL;
 	shell->input = (readline("chocolat shell: "));
+	shell->count_line++;
+}
+
+int	run_interactive(t_shell *shell)
+{
+	new_read_line(shell);
 	if (!shell->input)
 		return (-42);
+	if (g_last_signal == 130)
+		shell->exit_code = 130;
 	if (shell->input[0] == '\0' || blank_line(shell->input) == 1)
 		return (free_interactive(shell), 1);
 	if (*shell->input)
@@ -91,12 +105,12 @@ int	run_interactive(t_shell *shell)
 	shell->lexer = expand_lexer(shell, shell->lexer);
 	if (!shell->lexer)
 		return (-42);
-	//print_lexer(shell->lexer);
 	if (create_cmds(shell) == -42)
 		return (-42);
 	execute_pipeline(shell);
-	free_interactive(shell);
-	return (1);
+	if (g_last_signal)
+		set_error_signal(shell);
+	return (free_interactive(shell), 1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -108,7 +122,8 @@ int	main(int argc, char **argv, char **envp)
 		return (printf("Usage: ./minishell\n"), argv++, 1);
 	if (init_struct(&shell, envp) == -42)
 		return (free_everything(&shell), 1);
-	setup_signals();
+	g_last_signal = 0;
+	general_signals();
 	while (1)
 	{
 		loop_value = run_interactive(&shell);
