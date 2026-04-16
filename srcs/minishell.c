@@ -119,5 +119,5 @@ int	main(int argc, char **argv, char **envp)
 		else
 			break ;
 	}
-	return (free_everything(&shell), 0);
+	return (free_everything(&shell), shell.exit_code);
 }

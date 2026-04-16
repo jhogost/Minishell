@@ -41,26 +41,27 @@ static void	handle_parent_fds(int *prev_fd, t_cmd *curr)
 static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 {
 	char	*path;
-	int		res;
 
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-		exit (1);
-	if (blank_line(cmd->argv[0]))
-		exit (0);
+		exit(1);
 	if (isbuiltin(cmd->argv[0]) == 0)
+		exit(built_in(cmd, shell));
+	if (ft_strchr(cmd->argv[0], '/'))
 	{
-		res = built_in(cmd, shell);
-		free_cmds(shell);
-		free_everything(shell);
-		exit(res);
+		if (is_directory(cmd, cmd->argv[0]))
+			exit(126);
+		path = ft_strdup(cmd->argv[0]);
 	}
-	path = find_path(shell->paths, cmd->argv[0]);
-	if (is_directory(cmd, path))
-		exit (126);
-	if (path && execve(path, cmd->argv, shell->envp) == -1)
+	else
+		path = find_path(shell->paths, cmd->argv[0]);
+	if (!path || execve(path, cmd->argv, shell->envp) == -1)
+	{
 		child_error(shell, cmd->argv[0], path);
-	child_error(shell, cmd->argv[0], path);
+		if (path)
+			free(path);
+		exit(127);
+	}
 }
 
 int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
@@ -73,10 +74,13 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdin < 0 || saved_stdout < 0)
 		return (perror("dup"), 1);
-	if (apply_redirections(cmd, shell) == -1)
+	if (apply_redirections(cmd, shell) == -42)
 	{
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
 		close(saved_stdout);
+		shell->exit_code = 1;
 		return (1);
 	}
 	status = built_in(cmd, shell);
