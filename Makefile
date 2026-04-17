@@ -16,6 +16,7 @@ SRCS += srcs/minishell.c
 SRCS += srcs/free.c
 SRCS += srcs/free2.c
 SRCS += srcs/signal.c
+SRCS += srcs/set_signals.c
 SRCS += srcs/env.c
 SRCS += srcs/init_struct.c
 SRCS += srcs/path.c

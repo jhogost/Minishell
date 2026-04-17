@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/17 23:04:41 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 00:23:48 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*expand_heredoc(char *line, t_shell *shell)
 	return (line);
 }
 
-int interrupt_hook(void)
+int	interrupt_hook(void)
 {
 	if (g_last_signal == 130)
 	{

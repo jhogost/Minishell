@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/16 14:13:17 by hhervieu         ###   ########.fr       */
-/*   Updated: 2026/04/16 17:24:47 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 00:27:47 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -184,6 +184,8 @@ char	*handle_plain_text(char *s, int *i, char *res);
 /* --signal-- */
 void	handler_sigint(int sig);
 void	handler_heredoc_sigint(int sig);
+
+/* --set_signal-- */
 void	exec_signals(void);
 void	general_signals(void);
 void	ignore_signals(void);

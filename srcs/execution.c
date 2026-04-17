@@ -38,13 +38,6 @@ static void	handle_parent_fds(int *prev_fd, t_cmd *curr)
 	}
 }
 
-void	no_exec(t_shell *shell, t_cmd *cmd, char	*path)
-{
-	child_error(shell, cmd->argv[0], path);
-	if (path)
-		free(path);
-}
-
 static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 {
 	char	*path;
@@ -52,11 +45,11 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	exec_signals();
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-		{
-			if (g_last_signal == 130)
-				exit(130);
-			exit(1);
-		}
+	{
+		if (g_last_signal == 130)
+			exit(130);
+		exit(1);
+	}
 	if (isbuiltin(cmd->argv[0]) == 0)
 		exit(built_in(cmd, shell));
 	if (ft_strchr(cmd->argv[0], '/'))
