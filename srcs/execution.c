@@ -67,11 +67,10 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	}
 	else
 		path = find_path(shell->paths, cmd->argv[0]);
-	if (!path || execve(path, cmd->argv, shell->envp) == -1)
-	{
-		no_exec(shell, cmd, path);
-		exit(127);
-	}
+	if (!path)
+		child_error(shell, cmd->argv[0], path);
+	if (execve(path, cmd->argv, shell->envp) == -1)
+		execve_error(cmd, shell, path);
 }
 
 int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
