@@ -72,7 +72,7 @@ void	print_cmd(t_cmd *cmd)
 
 static void	set_error_signal(t_shell *shell)
 {
-		shell->exit_code = 128 + g_last_signal;
+		shell->exit_code = 130;
 		g_last_signal = 0;
 }
 

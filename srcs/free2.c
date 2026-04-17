@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:37:21 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/09 18:08:01 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/17 20:19:33 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	wait_all(t_cmd *cmds, t_shell *shell)
 		waitpid(tmp->pid, &status, 0);
 		if (WIFEXITED(status))
 			shell->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			shell->exit_code = 128 + WTERMSIG(status);
 		tmp = tmp->next;
 	}
 }
