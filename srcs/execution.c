@@ -38,13 +38,25 @@ static void	handle_parent_fds(int *prev_fd, t_cmd *curr)
 	}
 }
 
+void	no_exec(t_shell *shell, t_cmd *cmd, char	*path)
+{
+	child_error(shell, cmd->argv[0], path);
+	if (path)
+		free(path);
+}
+
 static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 {
 	char	*path;
 
+	exec_signals();
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-		exit(1);
+		{
+			if (g_last_signal == 130)
+				exit(130);
+			exit(1);
+		}
 	if (isbuiltin(cmd->argv[0]) == 0)
 		exit(built_in(cmd, shell));
 	if (ft_strchr(cmd->argv[0], '/'))
@@ -77,16 +89,17 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdin);
 		close(saved_stdout);
-		shell->exit_code = 1;
-		return (1);
+		if (g_last_signal == 130)
+			return (130);
+		else
+			return (1);
 	}
 	status = built_in(cmd, shell);
-	shell->exit_code = status;
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
-	return (status);
+	return (shell->exit_code = status, status);
 }
 
 void	execute_pipeline(t_shell *shell)
@@ -108,10 +121,12 @@ void	execute_pipeline(t_shell *shell)
 		if (curr->next)
 			pipe(curr->pipe);
 		curr->pid = fork();
+		ignore_signals();
 		if (curr->pid == 0)
 			execute_child(shell, curr, prev_fd);
 		handle_parent_fds(&prev_fd, curr);
 		curr = curr->next;
 	}
 	wait_all(shell->cmds, shell);
+	general_signals();
 }

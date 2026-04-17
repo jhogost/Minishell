@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
 /*   Updated: 2026/04/16 14:13:17 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:24:47 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +83,12 @@ typedef struct s_shell
 	char	*input;
 	char	**envp;
 	char	**paths;
+	int		count_line;
 	t_token	*lexer;
 	t_cmd	*cmds;
 }	t_shell;
+
+extern volatile sig_atomic_t	g_last_signal;
 
 /* --Free-- */
 void	free_everything(t_shell *shell);
@@ -178,8 +182,12 @@ char	*handle_quote(char *s, int *i, char *res);
 char	*handle_plain_text(char *s, int *i, char *res);
 
 /* --signal-- */
-void	handle_sigint(int sig);
-void	setup_signals(void);
+void	handler_sigint(int sig);
+void	handler_heredoc_sigint(int sig);
+void	exec_signals(void);
+void	general_signals(void);
+void	ignore_signals(void);
+void	heredoc_signals(void);
 
 /* --env-- */
 int		get_env(char **envp, t_shell *shell);

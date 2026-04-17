@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:36:31 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/14 16:32:47 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/17 23:16:38 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ int	apply_redir_heredoc(t_redir *redir, t_shell *shell)
 	int	pipefd[2];
 
 	redir->heredoc_content = read_heredoc(redir, shell);
-	if (pipe(pipefd) == -1)
+	if (!redir->heredoc_content)
 	{
-		perror("pipe");
+		shell->exit_code = 130;
 		return (-42);
 	}
+	if (pipe(pipefd) == -1)
+		return (perror("pipe"), -42);
 	write(pipefd[1], redir->heredoc_content, ft_strlen(redir->heredoc_content));
 	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
