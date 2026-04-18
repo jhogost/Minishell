@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/18 16:06:20 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 17:15:53 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ void	add_env_var(t_shell *shell, char *var);
 /* --path-- */
 char	*join_path(char *dir, char *cmd);
 char	*find_path(char **paths, char *cmd);
+char	**get_path(t_shell *shell);
 
 /* --command-- */
 int		count_args(t_token *tok);

@@ -126,6 +126,7 @@ int	main(int argc, char **argv, char **envp)
 	general_signals();
 	while (1)
 	{
+		shell.paths = get_path(&shell);
 		loop_value = run_interactive(&shell);
 		if (loop_value == -42)
 			return (free_everything(&shell), 1);
