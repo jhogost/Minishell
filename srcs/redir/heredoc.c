@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/18 00:23:48 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 12:43:45 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,45 +37,55 @@ int	interrupt_hook(void)
 	return (0);
 }
 
-char	*read_heredoc(t_redir *redir, t_shell *shell)
+void	print_heredoc_warning(t_redir *redir, int start_line)
 {
-	char	*content;
-	char	*line;
-	int		start_line;
+	ft_putstr_fd("bash: warning: here-document at line ", 2);
+	ft_putstr_fd(ft_itoa(start_line), 2);
+	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+	ft_putstr_fd(redir->file, 2);
+	ft_putstr_fd("')\n", 2);
+}
 
-	content = NULL;
-	content = ft_strdup("");
-	start_line = shell->count_line;
-	g_last_signal = 0;
-	rl_catch_signals = 0;
-	rl_event_hook = interrupt_hook;
-	heredoc_signals();
+char	*heredoc_loop(t_redir *redir, t_shell *shell, int st, char *content)
+{
+	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
 		if (g_last_signal == 130)
 		{
 			rl_event_hook = NULL;
-			general_signals();
 			return (free(line), free(content), NULL);
 		}
 		if (!line)
 		{
-			ft_putstr_fd("bash: warning: here-document at line ", 2);
-			ft_putstr_fd(ft_itoa(start_line), 2);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(redir->file, 2);
-			ft_putstr_fd("')\n", 2);
+			print_heredoc_warning(redir, st);
 			break ;
 		}
 		shell->count_line++;
 		if (ft_strcmp(line, redir->file) == 0)
-			return (general_signals(), free(line), content);
+			return (free(line), content);
 		if (need_expand(line, redir->expand))
 			line = expand_heredoc(line, shell);
 		content = strjoin_free(content, line);
 		content = strjoin_free(content, ft_strdup("\n"));
 	}
+	return (content);
+}
+
+char	*read_heredoc(t_redir *redir, t_shell *shell)
+{
+	char	*content;
+
+	content = NULL;
+	content = ft_strdup("");
+	g_last_signal = 0;
+	rl_catch_signals = 0;
+	rl_event_hook = interrupt_hook;
+	heredoc_signals();
+	content = heredoc_loop(redir, shell, shell->count_line, content);
 	rl_event_hook = NULL;
-	return (general_signals(), content);
+	general_signals();
+	return (content);
 }

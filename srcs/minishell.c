@@ -80,7 +80,7 @@ static void	new_read_line(t_shell *shell)
 {
 	shell->lexer = NULL;
 	shell->cmds = NULL;
-	shell->input = (readline("chocolat shell: "));
+	shell->input = (readline("☕ chocolat shell: "));
 	shell->count_line++;
 }
 
