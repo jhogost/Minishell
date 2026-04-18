@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/18 14:39:27 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/18 16:06:20 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct s_cmd
 	pid_t			pid;
 	struct s_cmd	*next;
 }	t_cmd;
-// cmd is the logic command extracted from the list of token
 
 typedef struct s_shell
 {
@@ -171,8 +170,7 @@ int		need_expand(char *str, int expand);
 t_token	*expand_lexer(t_shell *shell, t_token *lexer);
 
 /* --handle_operator-- */
-t_token	*handle_and(char *s, int *i);
-t_token	*handle_pipe_or(char *s, int *i);
+t_token	*handle_pipe(char *s, int *i);
 t_token	*handle_redir_in(char *s, int *i);
 t_token	*handle_redir_out(char *s, int *i);
 int		handle_heredoc(char *delimiter);

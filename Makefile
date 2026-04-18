@@ -12,35 +12,55 @@
 
 NAME  = minishell
 
+# srcs
 SRCS += srcs/minishell.c
-SRCS += srcs/free.c
-SRCS += srcs/free2.c
-SRCS += srcs/signal.c
-SRCS += srcs/set_signals.c
 SRCS += srcs/env.c
 SRCS += srcs/init_struct.c
-SRCS += srcs/path.c
-SRCS += srcs/command.c
-SRCS += srcs/execution.c
-SRCS += srcs/execution_utils.c
-SRCS += srcs/error.c
-SRCS += srcs/expand_token.c
-SRCS += srcs/expand_lexer.c
-SRCS += srcs/verify.c
 
+#	->srcs/builtin
+SRCS += srcs/builtin/built_in.c
+SRCS += srcs/builtin/pwd.c
+SRCS += srcs/builtin/exit.c
+SRCS += srcs/builtin/env.c
+SRCS += srcs/builtin/cd.c
+SRCS += srcs/builtin/echo.c
+SRCS += srcs/builtin/export.c
+SRCS += srcs/builtin/verify_export.c
+SRCS += srcs/builtin/unset.c
+
+# 	->srcs/exec
+SRCS += srcs/exec/execution_utils.c
+SRCS += srcs/exec/execution.c
+SRCS += srcs/exec/path.c
+SRCS += srcs/exec/error.c
+
+# 	->srcs/free
+SRCS += srcs/free/free.c
+SRCS += srcs/free/free2.c
+
+# 	->srcs/redir
 SRCS += srcs/redir/apply_redir.c
 SRCS += srcs/redir/create_redir.c
 SRCS += srcs/redir/heredoc.c
 
-SRCS += builtin/built_in.c
-SRCS += builtin/pwd.c
-SRCS += builtin/exit.c
-SRCS += builtin/env.c
-SRCS += builtin/cd.c
-SRCS += builtin/echo.c
-SRCS += builtin/export.c
-SRCS += builtin/unset.c
+# 	->srcs/sig
+SRCS += srcs/sig/set_signals.c
+SRCS += srcs/sig/signal.c
 
+# 	->srcs/structuring
+SRCS += srcs/structuring/command.c
+SRCS += srcs/structuring/parsing.c
+
+# 		->srcs/structuring/expand
+SRCS += srcs/structuring/expand/expand_token.c
+SRCS += srcs/structuring/expand/expand_lexer.c
+
+# 		->srcs/structuring/lexer
+SRCS += srcs/structuring/lexer/handle_operator.c
+SRCS += srcs/structuring/lexer/handle_text_and_quote.c
+SRCS += srcs/structuring/lexer/lexer.c
+
+# utils
 SRCS += utils/ft_split.c
 SRCS += utils/ft_strchri.c
 SRCS += utils/ft_strcmp.c
@@ -61,11 +81,6 @@ SRCS += utils/i_white_char_str.c
 SRCS += utils/ft_strjoin.c
 SRCS += utils/ft_isdigit.c
 SRCS += utils/blank_line.c
-
-SRCS += lexer/handle_operator.c
-SRCS += lexer/handle_text_and_quote.c
-SRCS += lexer/lexer.c
-SRCS += lexer/parsing.c
 
 OBJ = $(SRCS:.c=.o)
 
