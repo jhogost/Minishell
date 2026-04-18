@@ -50,6 +50,8 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 			exit(130);
 		exit(1);
 	}
+	if (!cmd->argv[0] || cmd->argv[0][0] == '\0')
+		exit(0);
 	if (isbuiltin(cmd->argv[0]) == 0)
 		exit(built_in(cmd, shell));
 	if (ft_strchr(cmd->argv[0], '/'))
