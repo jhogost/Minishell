@@ -38,13 +38,6 @@ static void	handle_parent_fds(int *prev_fd, t_cmd *curr)
 	}
 }
 
-void	exit_child_signal(t_shell *shell)
-{
-	if (g_last_signal == 130)
-		exit(130);
-	exit(1);
-}
-
 static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 {
 	char	*path;
@@ -52,7 +45,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	exec_signals();
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-		exit_child_signal(shell);
+		exit_child_signal();
 	if (!cmd->argv[0] || cmd->argv[0][0] == '\0')
 		exit(0);
 	if (isbuiltin(cmd->argv[0]) == 0)
