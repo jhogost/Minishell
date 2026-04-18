@@ -59,7 +59,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	else
 		path = find_path(shell->paths, cmd->argv[0]);
 	if (!path)
-		child_error(shell, cmd->argv[0], path);
+		child_error(shell, cmd->argv[0], path, 127);
 	if (execve(path, cmd->argv, shell->envp) == -1)
 		execve_error(cmd, shell, path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/18 13:59:40 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 14:39:27 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	print_cmd(t_cmd *cmd);
 int		run_interactive(t_shell *shell);
 
 /* --error-- */
-void	child_error(t_shell *shell, char *cmd, char *path);
+void	child_error(t_shell *shell, char *cmd, char *path, int code);
 void	execve_error(t_cmd *cmd, t_shell *shell, char *path);
 
 #endif

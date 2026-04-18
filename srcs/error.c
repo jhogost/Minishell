@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	child_error(t_shell *shell, char *cmd, char *path)
+void	child_error(t_shell *shell, char *cmd, char *path, int code)
 {
-	if (!path)
+	if (code == 127 && !path)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
@@ -25,36 +25,47 @@ void	child_error(t_shell *shell, char *cmd, char *path)
 		ft_putstr_fd("minishell: ", 2);
 		perror(cmd);
 	}
-	free(path);
+	if (path)
+		free(path);
 	free_cmds(shell);
 	free_everything(shell);
-	exit(127);
+	exit(code);
+}
+
+void	not_exec(t_shell *shell, char *path, t_cmd *cmd)
+{
+	int		argc;
+	char	**new_argv;
+	int		i;
+
+	argc = 0;
+	while (cmd->argv[argc])
+		argc++;
+	new_argv = malloc(sizeof(char *) * (argc + 2));
+	if (!new_argv)
+		child_error(shell, cmd->argv[0], path, 127);
+	new_argv[0] = "/bin/bash";
+	i = 0;
+	while (cmd->argv[i])
+	{
+		new_argv[i + 1] = cmd->argv[i];
+		i++;
+	}
+	new_argv[i + 1] = NULL;
+	execve("/bin/bash", new_argv, shell->envp);
+	free(new_argv);
 }
 
 void	execve_error(t_cmd *cmd, t_shell *shell, char *path)
 {
-	char	**new_argv;
-	int		argc;
-	int		i;
+	int		code;
 
 	if (errno == ENOEXEC)
 	{
-		argc = 0;
-		while (cmd->argv[argc])
-			argc++;
-		new_argv = malloc(sizeof(char *) * (argc + 2));
-		if (!new_argv)
-			child_error(shell, cmd->argv[0], path);
-		new_argv[0] = "/bin/bash";
-		i = 0;
-		while (cmd->argv[i])
-		{
-			new_argv[i + 1] = cmd->argv[i];
-			i++;
-		}
-		new_argv[i + 1] = NULL;
-		execve("/bin/bash", new_argv, shell->envp);
-		free(new_argv);
+		not_exec(shell, path, cmd);
 	}
-	child_error(shell, cmd->argv[0], path);
+	code = 127;
+	if (errno == EACCES || errno == EISDIR)
+		code = 126;
+	child_error(shell, cmd->argv[0], path, code);
 }
