@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 20:41:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/18 17:21:43 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 18:03:36 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	**get_path(t_shell *shell)
 
 	i = 0;
 	path = NULL;
+	if (shell->paths)
+		free_paths(shell);
 	while (shell->envp[i])
 	{
 		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)

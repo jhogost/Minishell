@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/18 15:38:31 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 18:34:02 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ t_token	*extract_operator(char *s, int *i)
 {
 	t_token	*tok;
 
-	tok = handle_pipe(s, i);
-	if (!tok)
+	tok = (NULL);
+	if (s[*i] == '|')
+		tok = handle_pipe(s, i);
+	else if (s[*i] == '<')
 		tok = handle_redir_in(s, i);
-	if (!tok)
+	if (s[*i] == '>')
 		tok = handle_redir_out(s, i);
 	return (tok);
 }

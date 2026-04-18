@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/18 12:43:45 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 18:00:29 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,15 @@ int	interrupt_hook(void)
 
 void	print_heredoc_warning(t_redir *redir, int start_line)
 {
+	char	*strt_line;
+
+	strt_line = ft_itoa(start_line);
 	ft_putstr_fd("bash: warning: here-document at line ", 2);
-	ft_putstr_fd(ft_itoa(start_line), 2);
+	ft_putstr_fd(strt_line, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(redir->file, 2);
 	ft_putstr_fd("')\n", 2);
+	free(strt_line);
 }
 
 char	*heredoc_loop(t_redir *redir, t_shell *shell, int st, char *content)
@@ -61,6 +65,7 @@ char	*heredoc_loop(t_redir *redir, t_shell *shell, int st, char *content)
 		if (!line)
 		{
 			print_heredoc_warning(redir, st);
+			free (line);
 			break ;
 		}
 		shell->count_line++;
