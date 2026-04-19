@@ -90,7 +90,7 @@ int	run_interactive(t_shell *shell)
 	if (!shell->input)
 		return (-42);
 	if (g_last_signal == 130)
-		shell->exit_code = 130;
+		set_error_signal(shell);
 	if (shell->input[0] == '\0' || blank_line(shell->input) == 1)
 		return (free_interactive(shell), 1);
 	if (*shell->input)
@@ -108,8 +108,6 @@ int	run_interactive(t_shell *shell)
 	if (create_cmds(shell) == -42)
 		return (-42);
 	execute_pipeline(shell);
-	if (g_last_signal)
-		set_error_signal(shell);
 	return (free_interactive(shell), 1);
 }
 
