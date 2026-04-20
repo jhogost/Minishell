@@ -12,31 +12,35 @@
 
 #include "minishell.h"
 
-void	remove_env_var(t_shell *shell, char *var)
+void	remove_env_var(char **array, int index)
 {
-	int	index;
-
-	index = get_env_index(shell->envp, var);
-	if (index != -1)
+	if (index == -1 || !array)
+		return ;
+	free(array[index]);
+	while (array[index + 1])
 	{
-		free(shell->envp[index]);
-		while (shell->envp[index + 1])
-		{
-			shell->envp[index] = shell->envp[index + 1];
-			index++;
-		}
-		shell->envp[index] = NULL;
+		array[index] = array[index + 1];
+		index++;
 	}
+	array[index] = NULL;
 }
 
 int	builtin_unset(char **argv, t_shell *shell)
 {
 	int	i;
+	int	index;
 
 	i = 1;
+	if (!argv[i])
+		return (0);
 	while (argv[i])
 	{
-		remove_env_var(shell, argv[i]);
+		index = get_env_index(shell->export, argv[i]);
+		if (index >= 0)
+			remove_env_var(shell->export, index);
+		index = get_env_index(shell->envp, argv[i]);
+		if (index >= 0)
+			remove_env_var(shell->envp, index);
 		i++;
 	}
 	return (0);
