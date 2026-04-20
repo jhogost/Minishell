@@ -81,6 +81,7 @@ SRCS += utils/i_white_char_str.c
 SRCS += utils/ft_strjoin.c
 SRCS += utils/ft_isdigit.c
 SRCS += utils/blank_line.c
+SRCS += utils/ft_isalpha.c
 
 OBJ = $(SRCS:.c=.o)
 

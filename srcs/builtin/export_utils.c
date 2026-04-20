@@ -89,20 +89,44 @@ int	get_export(char **envp, t_shell *shell)
 	return (0);
 }
 
-int	verify_export(char *str)
+int	verify_export(char *s)
 {
 	int	i;
 
-	if (ft_isdigit(str[0]) || str[0] == '=')
-		return (-42);
 	i = 0;
-	while (str[i] && str[i] != '=')
+	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
+		return (-1);
+	while (s[i] && s[i] != '=')
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (-42);
+		if (!ft_isalnum(s[i]) && s[i] != '_')
+			return (-1);
 		i++;
 	}
-	if (i == ft_strlen(str))
-		return (1);
 	return (0);
 }
+
+void	env_but_with_quotes(char **var)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (var && var[i])
+	{
+		j = 0;
+		write(1, "export ", 7);
+		while (var[i][j] && var[i][j] != '=')
+			write(1, &var[i][j++], 1);
+		if (var[i][j] == '=')
+		{
+			write(1, "=\"", 2);
+			j++;
+			while (var[i][j])
+				write(1, &var[i][j++], 1);
+			write(1, "\"", 1);
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+}
+// Print the env but with quotes around the value of each variable
