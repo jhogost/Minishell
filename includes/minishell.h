@@ -201,6 +201,7 @@ int		get_export(char **envp, t_shell *shell);
 /* --path-- */
 char	*join_path(char *dir, char *cmd);
 char	*find_path(char **paths, char *cmd);
+char	**get_path(t_shell *shell);
 
 /* --command-- */
 int		count_args(t_token *tok);

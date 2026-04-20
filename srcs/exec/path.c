@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 20:41:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/16 14:09:03 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:03:36 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,27 @@ char	*find_path(char **paths, char *cmd)
 		i++;
 	}
 	return (NULL);
+}
+
+char	**get_path(t_shell *shell)
+{
+	int		i;
+	char	**path;
+
+	i = 0;
+	path = NULL;
+	if (shell->paths)
+		free_paths(shell);
+	while (shell->envp[i])
+	{
+		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
+		{
+			path = ft_split(shell->envp[i], ":");
+			if (!path)
+				return (NULL);
+			return (path);
+		}
+		i++;
+	}
+	return (path);
 }
