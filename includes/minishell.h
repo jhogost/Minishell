@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/20 11:22:27 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 11:25:30 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int		i_white_char_str(char *line);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_isdigit(int c);
 int		blank_line(char *line);
+int		ft_isalpha(int c);
 
 /* --execution-- */
 void	execute_pipeline(t_shell *shell);
@@ -151,6 +152,7 @@ int		verify_export(char *str);
 int		builtin_export(char **argv, t_shell *shell);
 int		builtin_pwd(void);
 void	add_export_var(t_shell *shell, char *var);
+void	env_but_with_quotes(char **var);
 
 /* --Lexer-- */
 t_token	*new_token(int type, t_word *word);

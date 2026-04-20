@@ -12,32 +12,6 @@
 
 #include "minishell.h"
 
-void	env_but_with_quotes(char **var)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (var && var[i])
-	{
-		j = 0;
-		write(1, "export ", 7);
-		while (var[i][j] && var[i][j] != '=')
-			write(1, &var[i][j++], 1);
-		if (var[i][j] == '=')
-		{
-			write(1, "=\"", 2);
-			j++;
-			while (var[i][j])
-				write(1, &var[i][j++], 1);
-			write(1, "\"", 1);
-		}
-		write(1, "\n", 1);
-		i++;
-	}
-}
-// Print the env but with quotes around the value of each variable
-
 int	get_env_index(char **envp, char *var)
 {
 	int	i;
@@ -97,31 +71,43 @@ void	add_env_var(t_shell *shell, char *var)
 }
 //add a new variable to envp
 
-int	builtin_export(char **argv, t_shell *shell)
+void	check_loop(char **av, t_shell *shell, int i, int *err)
+{
+	int	ex;
+	int	en;
+
+	if (verify_export(av[i]) == -1)
+	{
+		ft_putstr_fd("minishell: export: not a valid identifier\n", 2);
+		*err = 1;
+		return ;
+	}
+	ex = get_env_index(shell->export, av[i]);
+	en = get_env_index(shell->envp, av[i]);
+	if (ex >= 0)
+		replace_env_var(shell, av[i], ex, 1);
+	else
+		add_export_var(shell, av[i]);
+	if (ft_strchr(av[i], '='))
+	{
+		if (en >= 0)
+			replace_env_var(shell, av[i], en, 0);
+		else
+			add_env_var(shell, av[i]);
+	}
+	return ;
+}
+
+int	builtin_export(char **av, t_shell *shell)
 {
 	int	i;
-	int	idx_export;
-	int	idx_env;
+	int	err;
 
-	i = 1;
-	if (!argv[i])
+	i = 0;
+	err = 0;
+	if (!av[1])
 		return (env_but_with_quotes(shell->export), 0);
-	while (argv[i])
-	{
-		idx_export = get_env_index(shell->export, argv[i]);
-		idx_env = get_env_index(shell->envp, argv[i]);
-		if (idx_export >= 0)
-			replace_env_var(shell, argv[i], idx_export, 1);
-		else
-			add_export_var(shell, argv[i]);
-		if (ft_strchr(argv[i], '='))
-		{
-			if (idx_env >= 0)
-				replace_env_var(shell, argv[i], idx_env, 0);
-			else
-				add_env_var(shell, argv[i]);
-		}
-		i++;
-	}
-	return (0);
+	while (av[++i])
+		check_loop(av, shell, i, &err);
+	return (err);
 }
