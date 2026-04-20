@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/15 14:11:30 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 11:19:20 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	verify_line(char *line, t_shell *shell)
 			shell->exit_code = 2, -42);
 	if (count_heredoc(line) > 16)
 	{
-		printf("bash: maximum here-document count exceeded\n");
+		printf("maximum here-document count exceeded\n");
 		free_interactive(shell);
 		exit(2);
 	}
@@ -57,6 +57,9 @@ int	verify_line(char *line, t_shell *shell)
 			shell->exit_code = 2, -42);
 	if (quote_closed(line) == 0)
 		return (printf("Syntax error: unclosed quote\n"),
+			shell->exit_code = 2, -42);
+	if (wrong_last_token(line))
+		return (printf("syntax error near unexpected token `newline'\n"),
 			shell->exit_code = 2, -42);
 	return (0);
 }
