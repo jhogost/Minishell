@@ -35,6 +35,17 @@ void	free_env(t_shell *shell)
 		free(shell->envp);
 		shell->envp = NULL;
 	}
+	if (shell->export)
+	{
+		i = 0;
+		while (shell->export[i])
+		{
+			free(shell->export[i]);
+			i++;
+		}
+		free(shell->export);
+		shell->export = NULL;
+	}
 }
 
 void	free_paths(t_shell *shell)

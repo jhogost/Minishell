@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 14:37:34 by hhervieu          #+#    #+#             */
 /*   Updated: 2026/04/18 18:34:02 by jbayet           ###   ########.fr       */
