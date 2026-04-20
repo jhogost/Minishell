@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:24:57 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/18 13:59:13 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 16:47:32 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,20 @@ int	is_directory(t_cmd *cmd, char *path)
 	return (0);
 }
 
-void	exit_child_signal(void)
+void	exit_child_signal(t_shell *shell)
 {
+
 	if (g_last_signal == 130)
+	{
+		free_everything(shell);
 		exit(130);
+	}
+	free_everything(shell);
 	exit(1);
+}
+
+void	exit_child(t_shell *shell, t_cmd *cmd, int code)
+{
+	free_everything(shell);
+	exit(code);
 }

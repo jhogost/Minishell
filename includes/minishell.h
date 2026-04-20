@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/20 11:25:30 by hhervieu         ###   ########.fr       */
+/*   Updated: 2026/04/20 15:49:41 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ void	execute_pipeline(t_shell *shell);
 
 /* --execution_utils-- */
 int		is_directory(t_cmd *cmd, char *path);
-void	exit_child_signal(void);
+void	exit_child_signal(t_shell *shell);
+void	exit_child(t_shell *shell, t_cmd *cmd, int code);
 
 /* --parsing-- */
 int		quote_closed(char *s);

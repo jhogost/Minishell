@@ -27,7 +27,6 @@ void	child_error(t_shell *shell, char *cmd, char *path, int code)
 	}
 	if (path)
 		free(path);
-	free_cmds(shell);
 	free_everything(shell);
 	exit(code);
 }

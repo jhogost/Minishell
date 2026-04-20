@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/18 18:00:29 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 14:58:10 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	*read_heredoc(t_redir *redir, t_shell *shell)
 	rl_event_hook = interrupt_hook;
 	heredoc_signals();
 	content = heredoc_loop(redir, shell, shell->count_line, content);
+	if (!content)
+		return (NULL);
 	rl_event_hook = NULL;
 	general_signals();
 	return (content);

@@ -45,15 +45,15 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	exec_signals();
 	handle_child_redir(cmd, prev_fd);
 	if (apply_redirections(cmd, shell) == -42)
-		exit_child_signal();
+		exit_child_signal(shell);
 	if (!cmd->argv[0] || cmd->argv[0][0] == '\0')
-		exit(0);
+		exit_child(shell, cmd, 0);
 	if (isbuiltin(cmd->argv[0]) == 0)
-		exit(built_in(cmd, shell));
+		exit_child(shell, cmd, built_in(cmd, shell));
 	if (ft_strchr(cmd->argv[0], '/'))
 	{
 		if (is_directory(cmd, cmd->argv[0]))
-			exit(126);
+			exit_child(shell, cmd, 126);
 		path = ft_strdup(cmd->argv[0]);
 	}
 	else
