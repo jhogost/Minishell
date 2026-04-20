@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
 /*   Updated: 2026/04/20 11:25:30 by hhervieu         ###   ########.fr       */
@@ -138,6 +138,7 @@ int		quote_closed(char *s);
 int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 int		count_heredoc(char *line);
+int		wrong_last_token(char	*line);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);

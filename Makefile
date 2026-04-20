@@ -50,6 +50,7 @@ SRCS += srcs/sig/signal.c
 # 	->srcs/structuring
 SRCS += srcs/structuring/command.c
 SRCS += srcs/structuring/parsing.c
+SRCS += srcs/structuring/parsing2.c
 
 # 		->srcs/structuring/expand
 SRCS += srcs/structuring/expand/expand_token.c
