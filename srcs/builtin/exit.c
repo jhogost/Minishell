@@ -47,7 +47,7 @@ int	builtin_exit(char **argv, t_shell *shell)
 		{
 			ft_putstr_fd("exit: ", 2);
 			ft_putstr_fd(argv[1], 2);
-			ft_putstr_fd(": numeric argument required", 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			exit_code = 2;
 		}
 	}

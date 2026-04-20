@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/20 15:49:41 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 18:48:41 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ char	*handle_plain_text(char *s, int *i, char *res);
 
 /* --signal-- */
 void	handler_sigint(int sig);
+void	handler_ignor(int sig);
 void	handler_heredoc_sigint(int sig);
 
 /* --set_signal-- */

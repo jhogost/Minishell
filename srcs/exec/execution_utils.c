@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:24:57 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/20 16:47:32 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/20 17:39:08 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	exit_child_signal(t_shell *shell)
 
 void	exit_child(t_shell *shell, t_cmd *cmd, int code)
 {
+	(void)cmd;
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	free_everything(shell);
 	exit(code);
 }
