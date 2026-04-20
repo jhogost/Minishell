@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/18 16:06:20 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/18 17:55:49 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_shell
 	int		exit_code;
 	char	*input;
 	char	**envp;
+	char	**export;
 	char	**paths;
 	int		count_line;
 	t_token	*lexer;
@@ -148,6 +149,7 @@ int		builtin_echo(char **argv);
 int		verify_export(char *str);
 int		builtin_export(char **argv, t_shell *shell);
 int		builtin_pwd(void);
+void	add_export_var(t_shell *shell, char *var);
 
 /* --Lexer-- */
 t_token	*new_token(int type, t_word *word);
@@ -192,8 +194,9 @@ void	heredoc_signals(void);
 /* --env-- */
 int		get_env(char **envp, t_shell *shell);
 int		get_env_index(char **envp, char *var);
-void	replace_env_var(t_shell *shell, char *var, int index);
+void	replace_env_var(t_shell *shell, char *var, int index, int whichone);
 void	add_env_var(t_shell *shell, char *var);
+int		get_export(char **envp, t_shell *shell);
 
 /* --path-- */
 char	*join_path(char *dir, char *cmd);

@@ -84,6 +84,8 @@ int	init_struct(t_shell *shell, char **envp)
 	shell->count_line = 0;
 	if (get_env(envp, shell) == -42)
 		return (-42);
+	if (get_export(envp, shell) == -42)
+		return (-42);
 	path = getenv("PATH");
 	if (!path)
 		return (-42);

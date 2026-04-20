@@ -47,9 +47,15 @@ static void	set_env_var(t_shell *shell, char *key, char *value)
 		return ;
 	idx = get_env_index(shell->envp, key);
 	if (idx >= 0)
-		replace_env_var(shell, new, idx);
+	{
+		replace_env_var(shell, new, idx, 0);
+		replace_env_var(shell, new, idx, 1);
+	}
 	else
+	{
+		add_export_var(shell, new);
 		add_env_var(shell, new);
+	}
 	free(new);
 }
 

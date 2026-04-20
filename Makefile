@@ -25,7 +25,7 @@ SRCS += srcs/builtin/env.c
 SRCS += srcs/builtin/cd.c
 SRCS += srcs/builtin/echo.c
 SRCS += srcs/builtin/export.c
-SRCS += srcs/builtin/verify_export.c
+SRCS += srcs/builtin/export_utils.c
 SRCS += srcs/builtin/unset.c
 
 # 	->srcs/exec

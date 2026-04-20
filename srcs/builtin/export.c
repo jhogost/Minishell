@@ -47,10 +47,10 @@ int	get_env_index(char **envp, char *var)
 	while (var[key_len] && var[key_len] != '=')
 		key_len++;
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		if (ft_strncmp(envp[i], var, key_len) == 0
-			&& envp[i][key_len] == '=')
+			&& (envp[i][key_len] == '=' || envp[i][key_len] == '\0'))
 			return (i);
 		i++;
 	}
@@ -58,10 +58,18 @@ int	get_env_index(char **envp, char *var)
 }
 //search if the variable already exists in envp
 
-void	replace_env_var(t_shell *shell, char *var, int index)
+void	replace_env_var(t_shell *shell, char *var, int index, int whichone)
 {
-	free(shell->envp[index]);
-	shell->envp[index] = ft_strdup(var);
+	if (whichone == 0)
+	{
+		free(shell->envp[index]);
+		shell->envp[index] = ft_strdup(var);
+	}
+	if (whichone == 1)
+	{
+		free(shell->export[index]);
+		shell->export[index] = ft_strdup(var);
+	}
 }
 //free the old variable and replace it with the new one
 
@@ -92,23 +100,27 @@ void	add_env_var(t_shell *shell, char *var)
 int	builtin_export(char **argv, t_shell *shell)
 {
 	int	i;
-	int	index;
+	int	idx_export;
+	int	idx_env;
 
 	i = 1;
 	if (!argv[i])
-		return (env_but_with_quotes(shell->envp), 0);
+		return (env_but_with_quotes(shell->export), 0);
 	while (argv[i])
 	{
-		if (verify_export(argv[i]) == 1)
-		{
-			ft_putstr_fd("minishell: export: not a valid identifier\n", 2);
-			return (1);
-		}
-		index = get_env_index(shell->envp, argv[i]);
-		if (index >= 0)
-			replace_env_var(shell, argv[i], index);
+		idx_export = get_env_index(shell->export, argv[i]);
+		idx_env = get_env_index(shell->envp, argv[i]);
+		if (idx_export >= 0)
+			replace_env_var(shell, argv[i], idx_export, 1);
 		else
-			add_env_var(shell, argv[i]);
+			add_export_var(shell, argv[i]);
+		if (ft_strchr(argv[i], '='))
+		{
+			if (idx_env >= 0)
+				replace_env_var(shell, argv[i], idx_env, 0);
+			else
+				add_env_var(shell, argv[i]);
+		}
 		i++;
 	}
 	return (0);
