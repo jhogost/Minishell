@@ -112,7 +112,7 @@ void	execute_pipeline(t_shell *shell)
 		if (curr->next)
 			pipe(curr->pipe);
 		curr->pid = fork();
-		ignore_signals();
+		set_signals_parent(curr);
 		if (curr->pid == 0)
 			execute_child(shell, curr, prev_fd);
 		handle_parent_fds(&prev_fd, curr);

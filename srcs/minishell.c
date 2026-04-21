@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-/*valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s --track-fds=yes ./minishell*/
+/*valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+--suppressions=ignore_readline.supp -s --track-fds=yes ./minishell*/
 
 /* void	print_lexer(t_token *lexer)
 {

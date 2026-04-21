@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 00:25:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/20 19:09:13 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 14:19:06 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	ignore_signals(void)
 {
 	signal(SIGINT, handler_ignor);
 	signal(SIGQUIT, handler_ignor);
+}
+
+void	ignore_signals_heredoc(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	heredoc_signals(void)

@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/20 18:48:41 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 14:32:40 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	execute_pipeline(t_shell *shell);
 
 /* --execution_utils-- */
 int		is_directory(t_cmd *cmd, char *path);
+void	set_signals_parent(t_cmd *curr);
 void	exit_child_signal(t_shell *shell);
 void	exit_child(t_shell *shell, t_cmd *cmd, int code);
 
@@ -194,6 +195,7 @@ void	handler_heredoc_sigint(int sig);
 void	exec_signals(void);
 void	general_signals(void);
 void	ignore_signals(void);
+void	ignore_signals_heredoc(void);
 void	heredoc_signals(void);
 
 /* --env-- */

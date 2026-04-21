@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:24:57 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/20 17:39:08 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 14:32:11 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,19 @@ int	is_directory(t_cmd *cmd, char *path)
 	return (0);
 }
 
+void	set_signals_parent(t_cmd *curr)
+{
+	if (curr->pid != 0)
+	{
+		if (curr->redir && curr->redir->type == HEREDOC)
+			ignore_signals_heredoc();
+		else
+			ignore_signals();
+	}
+}
+
 void	exit_child_signal(t_shell *shell)
 {
-
 	if (g_last_signal == 130)
 	{
 		free_everything(shell);
