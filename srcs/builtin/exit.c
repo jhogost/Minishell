@@ -29,7 +29,15 @@ int	valide_exit_inpute(char *str)
 	return (1);
 }
 
-int	builtin_exit(char **argv, t_shell *shell)
+static void	close_fd_exit(int saved_stdin, int saved_stdout)
+{
+	close(saved_stdin);
+	close(saved_stdout);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+}
+
+int	builtin_exit(char **argv, t_shell *shell, int s_stdin, int s_stdout)
 {
 	int	exit_code;
 
@@ -52,6 +60,7 @@ int	builtin_exit(char **argv, t_shell *shell)
 		}
 	}
 	free_everything(shell);
+	close_fd_exit(s_stdin, s_stdout);
 	exit(exit_code);
 	return (0);
 }

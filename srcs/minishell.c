@@ -100,8 +100,6 @@ int	run_interactive(t_shell *shell)
 		add_history(shell->input);
 	if (verify_line(shell->input, shell) == -42)
 		return (free_interactive(shell), 1);
-	if ((ft_strcmp(shell->input, "exit") == 0 && ft_strlen(shell->input) == 4))
-		return (0);
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);

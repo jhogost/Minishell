@@ -49,7 +49,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 	if (!cmd->argv[0] || cmd->argv[0][0] == '\0')
 		exit_child(shell, cmd, 0);
 	if (isbuiltin(cmd->argv[0]) == 0)
-		exit_child(shell, cmd, built_in(cmd, shell));
+		exit_child(shell, cmd, built_in(cmd, shell, -1, -1));
 	if (ft_strchr(cmd->argv[0], '/'))
 	{
 		if (is_directory(cmd, cmd->argv[0]))
@@ -85,7 +85,7 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 		else
 			return (1);
 	}
-	status = built_in(cmd, shell);
+	status = built_in(cmd, shell, saved_stdin, saved_stdout);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);

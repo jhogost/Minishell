@@ -33,13 +33,13 @@ int	isbuiltin(char *word)
 	return (-42);
 }
 
-int	built_in(t_cmd *cmd, t_shell *shell)
+int	built_in(t_cmd *cmd, t_shell *shell, int saved_stdin, int saved_stdout)
 {
 	char	*word;
 
 	word = cmd->argv[0];
 	if (ft_strncmp(word, "exit", 5) == 0)
-		return (builtin_exit(cmd->argv, shell));
+		return (builtin_exit(cmd->argv, shell, saved_stdin, saved_stdout));
 	if (ft_strncmp(word, "echo", 5) == 0)
 		return (builtin_echo(cmd->argv));
 	if (ft_strncmp(word, "cd", 3) == 0)
