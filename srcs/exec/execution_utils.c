@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:24:57 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/21 14:32:11 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 19:20:29 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	set_signals_parent(t_cmd *curr)
 
 void	exit_child_signal(t_shell *shell)
 {
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (g_last_signal == 130)
 	{
 		free_everything(shell);

@@ -29,7 +29,7 @@ int	valide_exit_inpute(char *str)
 	return (1);
 }
 
-static void	close_fd_exit(int saved_stdin, int saved_stdout)
+void	close_fd_exit(int saved_stdin, int saved_stdout)
 {
 	close(saved_stdin);
 	close(saved_stdout);

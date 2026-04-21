@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/21 15:45:35 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 19:40:11 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int		wrong_last_token(char	*line);
 /* --Built in commands-- */
 int		isbuiltin(char *word);
 int		built_in(t_cmd *cmd, t_shell *shell, int saved_stdin, int saved_stdout);
+void	close_fd_exit(int saved_stdin, int saved_stdout);
 int		builtin_exit(char **argv, t_shell *shell, int s_stdin, int s_stdout);
 int		builtin_unset(char **argv, t_shell *shell);
 int		builtin_env(char **envp, char **argv);

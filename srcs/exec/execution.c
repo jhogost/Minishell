@@ -78,8 +78,7 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 	{
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdin);
-		close(saved_stdout);
+		close_fd_exit(saved_stdin, saved_stdout);
 		if (g_last_signal == 130)
 			return (130);
 		else

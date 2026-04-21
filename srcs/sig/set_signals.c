@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 00:25:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/21 14:19:06 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/21 17:33:01 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	exec_signals(void)
 {
 	signal(SIGINT, handler_sigint);
 	signal(SIGQUIT, handler_sigint);
+	signal(SIGPIPE, SIG_DFL);
 }
 
 void	general_signals(void)
