@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 17:25:01 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/20 18:47:59 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/22 13:04:59 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,14 @@ void	handler_heredoc_sigint(int sig)
 {
 	(void)sig;
 	g_last_signal = 130;
+}
+
+int	interrupt_hook(void)
+{
+	if (g_last_signal == 130)
+	{
+		rl_done = 1;
+		return (1);
+	}
+	return (0);
 }

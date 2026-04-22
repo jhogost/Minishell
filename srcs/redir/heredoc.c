@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/20 14:58:10 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/22 13:04:42 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,23 @@ static char	*expand_heredoc(char *line, t_shell *shell)
 	return (line);
 }
 
-int	interrupt_hook(void)
+int	built_heredoc_cmds(t_shell *shell)
 {
-	if (g_last_signal == 130)
+	t_cmd	*curr;
+
+	curr = shell->cmds;
+	while (curr)
 	{
-		rl_done = 1;
-		return (1);
+		if (curr->redir && curr->redir->type == HEREDOC)
+		{
+			curr->redir->heredoc_content = read_heredoc(curr->redir, shell);
+			if (!curr->redir->heredoc_content)
+			{
+				shell->exit_code = 130;
+				return (-42);
+			}
+		}
+		curr = curr->next;
 	}
 	return (0);
 }

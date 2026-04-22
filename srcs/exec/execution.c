@@ -44,7 +44,7 @@ static void	execute_child(t_shell *shell, t_cmd *cmd, int prev_fd)
 
 	exec_signals();
 	handle_child_redir(cmd, prev_fd);
-	if (apply_redirections(cmd, shell) == -42)
+	if (apply_redirections(cmd) == -42)
 		exit_child_signal(shell);
 	if (!cmd->argv[0] || cmd->argv[0][0] == '\0')
 		exit_child(shell, cmd, 0);
@@ -74,7 +74,7 @@ int	run_builtin_parent(t_cmd *cmd, t_shell *shell)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdin < 0 || saved_stdout < 0)
 		return (perror("dup"), 1);
-	if (apply_redirections(cmd, shell) == -42)
+	if (apply_redirections(cmd) == -42)
 	{
 		dup2(saved_stdin, STDIN_FILENO);
 		dup2(saved_stdout, STDOUT_FILENO);
@@ -100,6 +100,8 @@ void	execute_pipeline(t_shell *shell)
 	curr = shell->cmds;
 	if (!curr)
 		return ;
+	if (built_heredoc_cmds(shell) == -42)
+		return ;
 	if (!curr->next && isbuiltin(curr->argv[0]) == 0)
 	{
 		shell->exit_code = run_builtin_parent(curr, shell);
@@ -110,8 +112,8 @@ void	execute_pipeline(t_shell *shell)
 	{
 		if (curr->next)
 			pipe(curr->pipe);
-		curr->pid = fork();
 		set_signals_parent(curr);
+		curr->pid = fork();
 		if (curr->pid == 0)
 			execute_child(shell, curr, prev_fd);
 		handle_parent_fds(&prev_fd, curr);

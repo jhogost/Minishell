@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/21 19:40:11 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/22 13:05:21 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ char	*handle_plain_text(char *s, int *i, char *res);
 void	handler_sigint(int sig);
 void	handler_ignor(int sig);
 void	handler_heredoc_sigint(int sig);
+int		interrupt_hook(void);
 
 /* --set_signal-- */
 void	exec_signals(void);
@@ -226,10 +227,13 @@ t_redir	*new_redir(t_token **lexer);
 int		apply_redir_out(t_redir *redir);
 int		apply_redir_append(t_redir *redir);
 int		apply_redir_in(t_redir *redir);
-int		apply_redir_heredoc(t_redir *redir, t_shell *shell);
-int		apply_redirections(t_cmd *cmd, t_shell *shell);
+int		apply_redir_heredoc(t_redir *redir);
+int		apply_redirections(t_cmd *cmd);
 
 /* --heredoc-- */
+int		built_heredoc_cmds(t_shell *shell);
+void	print_heredoc_warning(t_redir *redir, int start_line);
+char	*heredoc_loop(t_redir *redir, t_shell *shell, int st, char *content);
 char	*read_heredoc(t_redir *redir, t_shell *shell);
 
 /* --init struct-- */
