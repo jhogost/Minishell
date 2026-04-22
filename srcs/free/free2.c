@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:37:21 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/22 12:02:21 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:43:59 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void	wait_all(t_cmd *cmds, t_shell *shell)
 			shell->exit_code = 128 + WTERMSIG(status);
 		tmp = tmp->next;
 	}
+	general_signals();
 }

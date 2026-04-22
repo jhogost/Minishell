@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/20 11:19:20 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/22 14:55:03 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	verify_line(char *line, t_shell *shell)
 	if (count_heredoc(line) > 16)
 	{
 		printf("maximum here-document count exceeded\n");
-		free_interactive(shell);
-		exit(2);
+		return (shell->exit_code = 2, -42);
 	}
 	if (line[0] == '|' || line[0] == '&')
 		return (printf("Syntax error: unexpected token `%c'\n", line[0]),

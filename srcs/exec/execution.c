@@ -98,9 +98,7 @@ void	execute_pipeline(t_shell *shell)
 	int		prev_fd;
 
 	curr = shell->cmds;
-	if (!curr)
-		return ;
-	if (built_heredoc_cmds(shell) == -42)
+	if (!curr || built_heredoc_cmds(shell) == -42)
 		return ;
 	if (!curr->next && isbuiltin(curr->argv[0]) == 0)
 	{
@@ -120,5 +118,4 @@ void	execute_pipeline(t_shell *shell)
 		curr = curr->next;
 	}
 	wait_all(shell->cmds, shell);
-	general_signals();
 }

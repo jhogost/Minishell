@@ -15,6 +15,8 @@
 void	free_everything(t_shell *shell)
 {
 	rl_clear_history();
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	free_interactive(shell);
 	free_env(shell);
 	free_paths(shell);

@@ -33,8 +33,6 @@ void	close_fd_exit(int saved_stdin, int saved_stdout)
 {
 	close(saved_stdin);
 	close(saved_stdout);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 }
 
 int	builtin_exit(char **argv, t_shell *shell, int s_stdin, int s_stdout)
