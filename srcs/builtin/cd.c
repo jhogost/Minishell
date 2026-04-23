@@ -95,7 +95,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 	if (getcwd(cwd, sizeof(cwd)) == NULL && argv[1]
 		&& ft_strcmp(argv[1], "..") == 0)
 		return (print_error_cd(), 1);
-	if (!argv[1])
+	if (!argv[1] || ft_strncmp(argv[1], "~", 1) == 0)
 	{
 		path = ft_getenv("HOME", shell->envp);
 		if (!path)
