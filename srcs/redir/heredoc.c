@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/23 14:38:15 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 16:01:07 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	built_heredoc_cmds(t_shell *shell)
 	curr_cmd = shell->cmds;
 	while (curr_cmd)
 	{
-		if (shell->cmds->redir)
+		if (curr_cmd->redir)
 			curr_redir = shell->cmds->redir;
 		else
 			curr_redir = NULL;
