@@ -100,6 +100,8 @@ int	run_interactive(t_shell *shell)
 		add_history(shell->input);
 	if (verify_line(shell->input, shell) == -42)
 		return (free_interactive(shell), 1);
+	if (count_heredoc(shell->input) > 16)
+		return (write (2, "maximum here-document count exceeded\n", 37), -42);
 	shell->lexer = build_lexer(shell->input, shell->lexer);
 	if (!shell->lexer)
 		return (-42);

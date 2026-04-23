@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:14:29 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/23 12:47:13 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 13:06:46 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	two_pipe_in_a_row(char *line)
 		if (line[i] == '|')
 		{
 			i++;
-			while(line[i] && is_space(line[i]))
+			while (line[i] && is_space(line[i]))
 				i++;
 			if (line[i] == '|')
 				return (1);
