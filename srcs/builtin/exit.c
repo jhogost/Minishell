@@ -57,6 +57,7 @@ int	builtin_exit(char **argv, t_shell *shell, int s_stdin, int s_stdout)
 			exit_code = 2;
 		}
 	}
+	printf("exit\n");
 	free_everything(shell);
 	close_fd_exit(s_stdin, s_stdout);
 	exit(exit_code);
