@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 16:13:35 by jbayet            #+#    #+#             */
-/*   Updated: 2026/03/26 13:26:44 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 12:04:59 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,29 +95,3 @@ char	**ft_split(char *str, char *charset)
 	result[j] = NULL;
 	return (result);
 }
-
-/*
-int	main(int argc, char **argv)
-{
-	int	i = 0;
-	if (argc != 3)
-	{
-		printf("Error argument");
-		return (1);
-	}
-	char	**result = ft_split(argv[1], argv[2]);
-	while (result[i])
-	{
-		printf("%d : %s\n", i, result[i]);
-		i++;
-	}
-	i = 0;
-	while (result[i])
-	{
-		free(result[i]);
-		i++;
-	}
-	free(result);
-	return (0);
-}
-*/
