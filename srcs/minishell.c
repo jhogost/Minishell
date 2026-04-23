@@ -91,7 +91,7 @@ int	run_interactive(t_shell *shell)
 {
 	new_read_line(shell);
 	if (!shell->input)
-		return (printf("exit\n"), -42);
+		return (printf("exit\n"), 42);
 	if (g_last_signal == 130)
 		set_error_signal(shell);
 	if (shell->input[0] == '\0' || blank_line(shell->input) == 1)
@@ -131,6 +131,8 @@ int	main(int argc, char **argv, char **envp)
 			return (free_everything(&shell), 1);
 		if (loop_value == 1)
 			continue ;
+		if (loop_value == 42)
+			return (free_everything(&shell), 0);
 		else
 			break ;
 	}
