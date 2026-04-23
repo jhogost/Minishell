@@ -90,10 +90,10 @@ static void	new_read_line(t_shell *shell)
 int	run_interactive(t_shell *shell)
 {
 	new_read_line(shell);
-	if (!shell->input)
-		return (printf("exit\n"), 42);
 	if (g_last_signal == 130)
 		set_error_signal(shell);
+	if (!shell->input)
+		handling_ctrd(shell);
 	if (shell->input[0] == '\0' || blank_line(shell->input) == 1)
 		return (free_interactive(shell), 1);
 	if (*shell->input)

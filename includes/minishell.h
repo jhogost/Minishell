@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hhervieu <hhervieu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/23 12:47:47 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 13:13:41 by hhervieu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ void	handler_sigint(int sig);
 void	handler_ignor(int sig);
 void	handler_heredoc_sigint(int sig);
 int		interrupt_hook(void);
+void	handling_ctrd(t_shell *shell);
 
 /* --set_signal-- */
 void	exec_signals(void);
