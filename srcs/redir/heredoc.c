@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:33:06 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/22 14:24:03 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 14:38:15 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,27 @@ static char	*expand_heredoc(char *line, t_shell *shell)
 
 int	built_heredoc_cmds(t_shell *shell)
 {
-	t_cmd	*curr;
+	t_cmd	*curr_cmd;
+	t_redir	*curr_redir;
 
-	curr = shell->cmds;
-	while (curr)
+	curr_cmd = shell->cmds;
+	while (curr_cmd)
 	{
-		if (curr->redir && curr->redir->type == HEREDOC)
+		if (shell->cmds->redir)
+			curr_redir = shell->cmds->redir;
+		else
+			curr_redir = NULL;
+		while (curr_redir)
 		{
-			curr->redir->heredoc_content = read_heredoc(curr->redir, shell);
-			if (!curr->redir->heredoc_content)
+			if (curr_redir && curr_redir->type == HEREDOC)
 			{
-				shell->exit_code = 130;
-				return (-42);
+				curr_redir->heredoc_content = read_heredoc(curr_redir, shell);
+				if (!curr_redir->heredoc_content)
+					return (shell->exit_code = 130, -42);
 			}
+			curr_redir = curr_redir->next;
 		}
-		curr = curr->next;
+		curr_cmd = curr_cmd->next;
 	}
 	return (0);
 }
