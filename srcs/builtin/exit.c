@@ -59,7 +59,16 @@ int	builtin_exit(char **argv, t_shell *shell, int s_stdin, int s_stdout)
 	}
 	printf("exit\n");
 	free_everything(shell);
-	close_fd_exit(s_stdin, s_stdout);
-	exit(exit_code);
-	return (0);
+	if (s_stdin != -1 || s_stdout != -1)
+		close_fd_exit(s_stdin, s_stdout);
+	return (exit(exit_code), 0);
+}
+
+void	handling_ctrd(t_shell *shell)
+{
+	char	*exit_argv[2];
+
+	exit_argv[0] = "exit";
+	exit_argv[1] = NULL;
+	builtin_exit(exit_argv, shell, -1, -1);
 }
