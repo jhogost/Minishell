@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:51:27 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/22 13:05:21 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 12:47:47 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int		verify_line(char *line, t_shell *shell);
 int		count_tokens(char *word);
 int		count_heredoc(char *line);
 int		wrong_last_token(char	*line);
+int		two_pipe_in_a_row(char *line);
 
 /* --Built in commands-- */
 int		isbuiltin(char *word);

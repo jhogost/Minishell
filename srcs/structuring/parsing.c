@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:19:34 by hhervieu          #+#    #+#             */
-/*   Updated: 2026/04/23 12:24:46 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 12:55:35 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,22 @@ int	verify_line(char *line, t_shell *shell)
 		return (ft_putstr_fd("Syntax error: too many operators\n", 2),
 			shell->exit_code = 2, -42);
 	if (count_heredoc(line) > 16)
-	{
-		ft_putstr_fd("maximum here-document count exceeded\n", 2);
-		return (shell->exit_code = 2, -42);
-	}
+		return (ft_putstr_fd("maximum here-document count exceeded\n", 2),
+			shell->exit_code = 2, -42);
 	if (line[0] == '|' || line[0] == '&')
 	{
 		ft_putstr_fd("Syntax error: unexpected token `", 2);
 		write (2, &line[0], 1);
-		ft_putstr_fd("'\n", 2);
-		return (shell->exit_code = 2, -42);
+		return (ft_putstr_fd("'\n", 2), shell->exit_code = 2, -42);
 	}
 	if (quote_closed(line) == 0)
 		return (ft_putstr_fd("Syntax error: unclosed quote\n", 2),
 			shell->exit_code = 2, -42);
 	if (wrong_last_token(line))
 		return (write(2, "syntax error near unexpected token `newline'\n", 45),
+			shell->exit_code = 2, -42);
+	if (two_pipe_in_a_row(line))
+		return (write(2, "syntax error near unexpected token `|'\n", 39),
 			shell->exit_code = 2, -42);
 	return (0);
 }
