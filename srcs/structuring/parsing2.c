@@ -6,7 +6,7 @@
 /*   By: jbayet <jbayet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:14:29 by jbayet            #+#    #+#             */
-/*   Updated: 2026/04/23 14:53:10 by jbayet           ###   ########.fr       */
+/*   Updated: 2026/04/23 15:01:41 by jbayet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	in_quote(char *line, int i, int state)
 	char	quote;
 
 	j = 0;
-	while(j < i)
+	while (j < i)
 	{
 		if (line[j] == '"' || line[j] == '\'')
 		{
